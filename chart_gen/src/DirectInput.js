@@ -17,6 +17,7 @@ ChartJS.register(
 
 function DirectInput({ onBack }) {
     const [activeChart, setActiveChart] = useState(''); // 선택된 차트 타입
+    const [savedCode, setSavedCode] = useState(''); // 생성된 HTML 코드
 
     // 차트 데이터
     const chartData = {
@@ -60,13 +61,39 @@ function DirectInput({ onBack }) {
         }
     };
 
+    // HTML 코드 생성 및 저장
+    const handleSaveChartCode = () => {
+        if (!activeChart) {
+            alert('차트 타입을 선택해주세요.');
+            return;
+        }
+
+        const chartCode = `
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <canvas id="myChart" width="400" height="400"></canvas>
+            <script>
+            const ctx = document.getElementById('myChart').getContext('2d');
+            new Chart(ctx, {
+                type: '${activeChart.toLowerCase()}',
+                data: ${JSON.stringify(chartData)},
+                options: {
+                responsive: true,
+                },
+            });
+            </script>
+        `.trim();
+
+        setSavedCode(chartCode);
+        alert('HTML 코드가 생성되었습니다.');
+    };
+
     return (
         <div>
             <h2>직접 입력 화면</h2>
             <div className="chart_wrap">
                 <div className="input_wrap">
                     <h3>차트 옵션</h3>
-                    <div className='select_type'>
+                    <div className="select_type">
                         <p>차트 타입을 선택해주세요.</p>
                 
                         {/* 차트 타입 버튼 */}
@@ -101,11 +128,32 @@ function DirectInput({ onBack }) {
                                 Pie Chart
                             </button>
                         </div>
+                        <button
+                            onClick={handleSaveChartCode}
+                            style={{ padding: '10px', backgroundColor: 'lightgreen' }}
+                        >
+                            HTML 코드 생성
+                        </button>
                     </div>
                 </div>
                 <div className="result_wrap">
-                    {/* 선택된 차트 렌더링 */}
+                    <h3>현재 차트</h3>
+                    {/* 차트 렌더링 */}
                     <div style={{ marginTop: '20px' }}>{renderChart()}</div>
+
+                    <h3>생성된 HTML 코드</h3>
+                    {savedCode && (
+                        <pre
+                            style={{
+                                backgroundColor: '#f4f4f4',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                whiteSpace: 'pre-wrap',
+                            }}
+                        >
+                            {savedCode}
+                        </pre>
+                    )}
                 </div>
             </div>
 
