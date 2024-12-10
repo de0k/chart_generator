@@ -1,5 +1,7 @@
 .App {
   text-align: center;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .App-logo {
@@ -36,3 +38,7 @@
     transform: rotate(360deg);
   }
 }
+
+
+.chart_wrap {display: flex;}
+.chart_wrap > * {border: 1px solid #000;flex:1;}

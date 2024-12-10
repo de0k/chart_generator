@@ -1,11 +1,24 @@
-import React from 'react';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import React, { useState } from 'react';
+import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
 
-// Chart.js에서 필요한 구성 요소 등록
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+// Chart.js 구성 요소 등록
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend,
+    ArcElement,
+    PointElement,
+    LineElement
+);
 
 function DirectInput({ onBack }) {
+    const [activeChart, setActiveChart] = useState(''); // 선택된 차트 타입
+
+    // 차트 데이터
     const chartData = {
         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
         datasets: [
@@ -33,20 +46,70 @@ function DirectInput({ onBack }) {
         ],
     };
 
-    const options = {
-        responsive: true,
-        plugins: {
-            legend: {
-                display: true,
-                position: 'top',
-            },
-        },
+    // 차트 타입별 렌더링 함수
+    const renderChart = () => {
+        switch (activeChart) {
+            case 'Bar':
+                return <Bar data={chartData} options={{ responsive: true }} />;
+            case 'Line':
+                return <Line data={chartData} options={{ responsive: true }} />;
+            case 'Pie':
+                return <Pie data={chartData} options={{ responsive: true }} />;
+            default:
+                return <p>차트 옵션을 설정 후 저장을 클릭하세요</p>;
+        }
     };
 
     return (
         <div>
-            <h2>기본 차트</h2>
-            <Bar data={chartData} options={options} />
+            <h2>직접 입력 화면</h2>
+            <div className="chart_wrap">
+                <div className="input_wrap">
+                    <h3>차트 옵션</h3>
+                    <div className='select_type'>
+                        <p>차트 타입을 선택해주세요.</p>
+                
+                        {/* 차트 타입 버튼 */}
+                        <div style={{ marginBottom: '20px' }}>
+                            <button
+                                style={{
+                                    marginRight: '10px',
+                                    padding: '10px',
+                                    backgroundColor: activeChart === 'Bar' ? 'lightblue' : 'white',
+                                }}
+                                onClick={() => setActiveChart('Bar')}
+                            >
+                                Bar Chart
+                            </button>
+                            <button
+                                style={{
+                                    marginRight: '10px',
+                                    padding: '10px',
+                                    backgroundColor: activeChart === 'Line' ? 'lightblue' : 'white',
+                                }}
+                                onClick={() => setActiveChart('Line')}
+                            >
+                                Line Chart
+                            </button>
+                            <button
+                                style={{
+                                    padding: '10px',
+                                    backgroundColor: activeChart === 'Pie' ? 'lightblue' : 'white',
+                                }}
+                                onClick={() => setActiveChart('Pie')}
+                            >
+                                Pie Chart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="result_wrap">
+                    {/* 선택된 차트 렌더링 */}
+                    <div style={{ marginTop: '20px' }}>{renderChart()}</div>
+                </div>
+            </div>
+
+            {/* 뒤로가기 버튼 */}
             <button onClick={onBack} style={{ marginTop: '20px' }}>
                 뒤로가기
             </button>
