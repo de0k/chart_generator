@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(
@@ -18,6 +19,7 @@ ChartJS.register(
 function DirectInput({ onBack }) {
     const [activeChart, setActiveChart] = useState(''); // 선택된 차트 타입
     const [savedCode, setSavedCode] = useState(''); // 생성된 HTML 코드
+    const [showModal, setShowModal] = useState(false); // 모달 상태
 
     // 차트 데이터
     const chartData = {
@@ -84,7 +86,7 @@ function DirectInput({ onBack }) {
         `.trim();
 
         setSavedCode(chartCode);
-        alert('HTML 코드가 생성되었습니다.');
+        setShowModal(true); // 모달 열기
     };
 
     return (
@@ -95,64 +97,62 @@ function DirectInput({ onBack }) {
                     <h3>차트 옵션</h3>
                     <div className="select_type">
                         <p>차트 타입을 선택해주세요.</p>
-                
+
                         {/* 차트 타입 버튼 */}
-                        <div style={{ marginBottom: '20px' }}>
-                            <button
-                                style={{
-                                    marginRight: '10px',
-                                    padding: '10px',
-                                    backgroundColor: activeChart === 'Bar' ? 'lightblue' : 'white',
-                                }}
-                                onClick={() => setActiveChart('Bar')}
-                            >
-                                Bar Chart
-                            </button>
-                            <button
-                                style={{
-                                    marginRight: '10px',
-                                    padding: '10px',
-                                    backgroundColor: activeChart === 'Line' ? 'lightblue' : 'white',
-                                }}
-                                onClick={() => setActiveChart('Line')}
-                            >
-                                Line Chart
-                            </button>
-                            <button
-                                style={{
-                                    padding: '10px',
-                                    backgroundColor: activeChart === 'Pie' ? 'lightblue' : 'white',
-                                }}
-                                onClick={() => setActiveChart('Pie')}
-                            >
-                                Pie Chart
-                            </button>
+                        <div>
+                            <button onClick={() => setActiveChart('Bar')}>Bar Chart</button>
+                            <button onClick={() => setActiveChart('Line')}>Line Chart</button>
+                            <button onClick={() => setActiveChart('Pie')}>Pie Chart</button>
                         </div>
-                        <button
-                            onClick={handleSaveChartCode}
-                            style={{ padding: '10px', backgroundColor: 'lightgreen' }}
-                        >
-                            HTML 코드 생성
-                        </button>
+                        <button onClick={handleSaveChartCode}>코드 확인</button>
                     </div>
                 </div>
                 <div className="result_wrap">
-                    <h3>현재 차트</h3>
                     {/* 차트 렌더링 */}
-                    <div style={{ marginTop: '20px' }}>{renderChart()}</div>
+                    <div>{renderChart()}</div>
 
-                    <h3>생성된 HTML 코드</h3>
-                    {savedCode && (
-                        <pre
-                            style={{
-                                backgroundColor: '#f4f4f4',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                whiteSpace: 'pre-wrap',
-                            }}
+                    {/* 모달 */}
+                    {showModal && (
+                        <div
+                            className="modal show"
+                            style={{ display: 'block' }}
+                            tabIndex="-1"
+                            role="dialog"
                         >
-                            {savedCode}
-                        </pre>
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">생성된 코드</h5>
+                                        <button
+                                            type="button"
+                                            className="btn-close"
+                                            onClick={() => setShowModal(false)}
+                                        ></button>
+                                    </div>
+                                    <div className="modal-body">
+                                        <pre
+                                            style={{
+                                                backgroundColor: '#f4f4f4',
+                                                padding: '10px',
+                                                borderRadius: '5px',
+                                                whiteSpace: 'pre-wrap',
+                                            }}
+                                        >
+                                            {savedCode}
+                                        </pre>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button
+                                            type="button"
+                                            className="btn btn-secondary"
+                                            onClick={() => setShowModal(false)}
+                                        >
+                                            닫기
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>
