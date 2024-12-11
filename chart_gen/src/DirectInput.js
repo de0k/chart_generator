@@ -104,8 +104,19 @@ function DirectInput({ onBack }) {
                             <button onClick={() => setActiveChart('Line')}>Line Chart</button>
                             <button onClick={() => setActiveChart('Pie')}>Pie Chart</button>
                         </div>
-                        <button onClick={handleSaveChartCode}>코드 확인</button>
                     </div>
+                    <div className='set_chartData'>
+                        <p>차트 라벨, 데이터셋, 데이터를 설정해주세요</p>
+                        <div className="inner_box">
+                            <div className="label_box">
+                                
+                            </div>
+                            <div className="dataset_wrap">
+
+                            </div>
+                        </div>
+                    </div>
+                    <button onClick={handleSaveChartCode}>코드 확인</button>
                 </div>
                 <div className="result_wrap">
                     {/* 차트 렌더링 */}
