@@ -4,50 +4,32 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Chart.js 구성 요소 등록
-ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    PointElement,
-    LineElement
-);
+ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend,ArcElement,PointElement,LineElement);
 
 function DirectInput({ onBack }) {
-    const [activeChart, setActiveChart] = useState(''); // 선택된 차트 타입
-    const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번', '라벨 5번', '라벨 6번']); // 라벨 상태
-    const [data, setData] = useState([12, 19, 3, 5, 2, 3]); // 데이터 상태
-    const [backgroundColors, setBackgroundColors] = useState([
-        'rgba(255, 99, 132, 0.6)',
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 206, 86, 0.6)',
-        'rgba(75, 192, 192, 0.6)',
-        'rgba(153, 102, 255, 0.6)',
-        'rgba(255, 159, 64, 0.6)',
-    ]); // 배경색 상태
-    const [borderColors, setBorderColors] = useState([
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-    ]); // 테두리색 상태
+    // 차트 설정 상태 관리
+    const [activeChart, setActiveChart] = useState('');
+    const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번']);
+    const [innerdata, setInnerdata] = useState([12, 19, 3, 5]);
+    const [backgroundColors, setBackgroundColors] = useState(['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)','rgba(255, 206, 86, 0.6)','rgba(75, 192, 192, 0.6)']);
+    const [borderColors, setBorderColors] = useState(['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)']);
     const [borderWidth, setBorderWidth] = useState(1);
-    const [savedCode, setSavedCode] = useState(''); // 생성된 HTML 코드
-    const [showModal, setShowModal] = useState(false); // 모달 상태
-    const [activeTab, setActiveTab] = useState('data'); // 현재 활성화된 탭 상태
+    const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']); 
+
+    // 생성된 HTML 코드
+    const [savedCode, setSavedCode] = useState(''); 
+    // 모달 상태
+    const [showModal, setShowModal] = useState(false); 
+    // 현재 활성화된 탭 상태
+    const [activeTab, setActiveTab] = useState('data'); 
 
     // 차트 데이터 초기화
     const chartData = {
         labels: labels,
         datasets: [
             {
-                label: '데이터셋 1번',
-                data: data,
+                label: datasetLabels,
+                data: innerdata,
                 backgroundColor: backgroundColors,
                 borderColor: borderColors,
                 borderWidth: borderWidth,
@@ -69,25 +51,11 @@ function DirectInput({ onBack }) {
         }
     };
 
-    // 라벨 변경 핸들러
-    const handleLabelChange = (index, value) => {
-        const updatedLabels = [...labels];
-        updatedLabels[index] = value;
-        setLabels(updatedLabels);
-    };
-
-    // 데이터 변경 핸들러
-    const handleDataChange = (index, value) => {
-        const updatedData = [...data];
-        updatedData[index] = value;
-        setData(updatedData);
-    };
-
-    // 배경색 변경 핸들러
-    const handleColorChange = (index, value) => {
-        const updatedColors = [...backgroundColors];
-        updatedColors[index] = value;
-        setBackgroundColors(updatedColors);
+    // 차트 설정 변경 핸들러
+    const handleChartDataChange = (chartData,setChartData,index,value) => {
+        const updatedChartData = [...chartData];
+        updatedChartData[index] = value;
+        setChartData(updatedChartData);
     };
 
     // rgba -> hex 변환
@@ -163,7 +131,7 @@ function DirectInput({ onBack }) {
                                             <input
                                                 type="text"
                                                 value={label}
-                                                onChange={(e) => handleDataChange(index, e.target.value)}
+                                                onChange={(e) => handleChartDataChange(labels, setLabels, index, e.target.value)}
                                             />
                                             <button>X</button>
                                         </div>
@@ -203,23 +171,32 @@ function DirectInput({ onBack }) {
                                             {activeTab === 'data' && (
                                                 <div className="container tab-pane active">
                                                     <>
-                                                        {data.map((data, index) => (
+                                                        {innerdata.map((data, index) => (
                                                             <div key={index}>
                                                                 <input
                                                                     type="text"
                                                                     value={data}
-                                                                    onChange={(e) => handleLabelChange(index, e.target.value)}
+                                                                    onChange={(e) => handleChartDataChange(innerdata, setInnerdata, index, e.target.value)}
                                                                 />
                                                                 <button>X</button>
                                                             </div>
                                                         ))}
-                                                        <button>라벨 추가</button>
+                                                        <button>데이터 추가</button>
                                                     </>
                                                 </div>
                                             )}
                                             {activeTab === 'option' && (
                                                 <div className="container tab-pane active">
-                                                    <>
+                                                    <div>
+                                                        <div className="label_text">데이터셋명</div>
+                                                        <input
+                                                            type="text"
+                                                            value={datasetLabels}
+                                                            onChange={(e) => handleChartDataChange(datasetLabels, setDatasetLabels, 0, e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div>
+                                                        <div className="label_text">backgroundColors</div>
                                                         {labels.map((label, index) => (
                                                             <div key={index}>
                                                                 {label}:
@@ -228,12 +205,41 @@ function DirectInput({ onBack }) {
                                                                     value={rgbaToHex(backgroundColors[index])}
                                                                     onChange={(e) => {
                                                                         const updatedColor = hexToRgba(e.target.value);
-                                                                        handleColorChange(index, updatedColor);
+                                                                        handleChartDataChange(backgroundColors, setBackgroundColors, index, updatedColor);
                                                                     }}
                                                                 />
                                                             </div>
                                                         ))}
-                                                    </>
+                                                    </div>
+                                                    <div>
+                                                        <div className="label_text">borderColors</div>
+                                                        {labels.map((label, index) => (
+                                                            <div key={index}>
+                                                                {label}:
+                                                                <input
+                                                                    type="color"
+                                                                    value={rgbaToHex(borderColors[index])}
+                                                                    onChange={(e) => {
+                                                                        const updatedColor = hexToRgba(e.target.value);
+                                                                        handleChartDataChange(borderColors, setBorderColors, index, updatedColor);
+                                                                    }}
+                                                                />
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                    <div>
+                                                        <div className="label_text">borderWidth</div>
+                                                        <select
+                                                            value={borderWidth}
+                                                            onChange={(e) => setBorderWidth(Number(e.target.value))} // 상태 업데이트
+                                                        >
+                                                            {[1, 2, 3, 4, 5].map((value) => (
+                                                                <option key={value} value={value}>
+                                                                    {value}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
