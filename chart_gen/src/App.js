@@ -18,8 +18,10 @@ function App() {
                         <div className="top_title_box n1">
                             <strong className='title'>차트 생성기</strong>
                         </div>
-                        <button onClick={() => setScreen('fileUpload')}>파일 첨부</button>
-                        <button onClick={() => setScreen('directInput')}>직접 입력</button>
+                        <div className='item_box_v1'>
+                            <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
+                            <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
+                        </div>
                     </div>
                 );
         }
