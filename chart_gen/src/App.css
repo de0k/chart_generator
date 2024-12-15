@@ -13,8 +13,9 @@
 .chart_wrap {display: flex;gap:30px; align-items: start;}
 .chart_wrap > * {flex:1;gap:15px;}
 .chart_wrap .input_wrap .title {font-size: 20px;color: #444;margin-bottom: 0.8em;display: block;}
-.chart_wrap .input_box {border-bottom: 1px solid #ddd;}
-.chart_wrap .input_item {border: 1px solid #ddd;border-bottom: none;}
+/* .chart_wrap .input_box {border-bottom: 1px solid #ddd;} */
+.chart_wrap .input_item {margin-bottom: 15px;}
+.chart_wrap .input_item:last-child {margin-bottom: 0;}
 .chart_wrap .result_wrap{border: 1px solid #eee;min-height: 400px;display: flex;}
 .chart_rendering{width: 100%;padding: 15px;display: flex;align-items: center;}
 .chart_rendering > * {width: 100%;}

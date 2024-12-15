@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
+import { Collapse, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Chart.js 구성 요소 등록
@@ -22,6 +23,9 @@ function DirectInput({ onBack }) {
     const [showModal, setShowModal] = useState(false); 
     // 현재 활성화된 탭 상태
     const [activeTab, setActiveTab] = useState('data'); 
+
+    // 현재 열린 섹션 상태
+    const [activeSection, setActiveSection] = useState('chart'); 
 
     // 차트 데이터 초기화
     const chartData = {
@@ -102,158 +106,200 @@ function DirectInput({ onBack }) {
         setShowModal(true); // 모달 열기
     };
 
+    // 섹션을 변경하는 함수
+    const toggleSection = (section) => {
+        setActiveSection((prev) => (prev === section ? '' : section));
+    };
+
     return (
         <div className='main'>
             <div className="top_title_box n2">
                 <button className='custom-btn custom-back btn btn-secondary' onClick={onBack}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
-                <div></div>
+                <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
             </div>
             <div className="chart_wrap">
-                <div className="input_wrap">
-                    <strong className='title'>차트 설정</strong>
-                    <div className='input_box'>
-                        <div className="input_item select_type">
-                            <div className="label_text">종류</div>
-                            <div className='set_box'>
-                                <button onClick={() => setActiveChart('Bar')}>Bar Chart</button>
-                                <button onClick={() => setActiveChart('Line')}>Line Chart</button>
-                                <button onClick={() => setActiveChart('Pie')}>Pie Chart</button>
-                            </div>
-                        </div>
-                        <div className='input_item set_label'>
-                            <div className="label_text">라벨</div>
-                            <div className="set_box">
-                                {activeChart === '' ? (
-                                    <p>차트 타입을 선택해주세요.</p>
-                                ) : (
-                                    <>
-                                        {labels.map((label, index) => (
-                                            <div key={index}>
-                                                <input
-                                                    type="text"
-                                                    value={label}
-                                                    onChange={(e) => handleChartDataChange(labels, setLabels, index, e.target.value)}
-                                                />
-                                                <button>X</button>
-                                            </div>
-                                        ))}
-                                        <button>라벨 추가</button>
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                        <div className='input_item set_dataset'>
-                            <div className="label_text">데이터셋</div>
-                            <div className="set_box">
-                                {activeChart === '' ? (
-                                    <p>차트 타입을 선택해주세요.</p>
-                                ) : (
-                                    <>
-                                        <div>
-                                            <ul className="nav nav-tabs" role="tablist">
-                                                <li className="nav-item">
-                                                    <button
-                                                        className={`nav-link ${activeTab === 'data' ? 'active' : ''}`}
-                                                        onClick={() => setActiveTab('data')}
-                                                    >
-                                                        데이터 설정
-                                                    </button>
-                                                </li>
-                                                <li className="nav-item">
-                                                    <button
-                                                        className={`nav-link ${activeTab === 'option' ? 'active' : ''}`}
-                                                        onClick={() => setActiveTab('option')}
-                                                    >
-                                                        옵션 설정
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                            <div className="tab-content">
-                                                {activeTab === 'data' && (
-                                                    <div className="container tab-pane active">
-                                                        <>
-                                                            {innerdata.map((data, index) => (
-                                                                <div key={index}>
+                <div className="input_wrap" id="chart_setting">
+                    <div className='card'>
+                        <div className='card-header'>
+                            <a
+                                href="#"
+                                className="title"
+                                onClick={(e) => {
+                                    e.preventDefault(); // 링크 기본 동작 방지
+                                    toggleSection('chart');
+                                }}
+                                aria-controls="chart-setting-default"
+                                aria-expanded={activeSection === 'chart'}
+                            >
+                                차트 설정
+                            </a>
+                        </div> 
+                        <Collapse in={activeSection === 'chart'}>
+                            <div id="chart-setting-default" className="card-body">
+                                <div className="input_item select_type input-group row">
+                                    <div className="label_text input-group-text col-lg-2">종류</div>
+                                    <div className='set_box form-control col-lg-10'>
+                                        <button onClick={() => setActiveChart('Bar')}>Bar Chart</button>
+                                        <button onClick={() => setActiveChart('Line')}>Line Chart</button>
+                                        <button onClick={() => setActiveChart('Pie')}>Pie Chart</button>
+                                    </div>
+                                </div>
+                                <div className='input_item set_label input-group row'>
+                                    <div className="label_text input-group-text col-lg-2">라벨</div>
+                                    <div className="set_box form-control col-lg-10">
+                                        {activeChart === '' ? (
+                                            <p>차트 타입을 선택해주세요.</p>
+                                        ) : (
+                                            <>
+                                                {labels.map((label, index) => (
+                                                    <div key={index}>
+                                                        <input
+                                                            type="text"
+                                                            value={label}
+                                                            onChange={(e) => handleChartDataChange(labels, setLabels, index, e.target.value)}
+                                                        />
+                                                        <button>X</button>
+                                                    </div>
+                                                ))}
+                                                <button>라벨 추가</button>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className='input_item set_dataset input-group row'>
+                                    <div className="label_text input-group-text col-lg-2">데이터셋</div>
+                                    <div className="set_box form-control col-lg-10">
+                                        {activeChart === '' ? (
+                                            <p>차트 타입을 선택해주세요.</p>
+                                        ) : (
+                                            <>
+                                                <div>
+                                                    <ul className="nav nav-tabs" role="tablist">
+                                                        <li className="nav-item">
+                                                            <button
+                                                                className={`nav-link ${activeTab === 'data' ? 'active' : ''}`}
+                                                                onClick={() => setActiveTab('data')}
+                                                            >
+                                                                데이터 설정
+                                                            </button>
+                                                        </li>
+                                                        <li className="nav-item">
+                                                            <button
+                                                                className={`nav-link ${activeTab === 'option' ? 'active' : ''}`}
+                                                                onClick={() => setActiveTab('option')}
+                                                            >
+                                                                옵션 설정
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                    <div className="tab-content">
+                                                        {activeTab === 'data' && (
+                                                            <div className="container tab-pane active">
+                                                                <>
+                                                                    {innerdata.map((data, index) => (
+                                                                        <div key={index}>
+                                                                            <input
+                                                                                type="text"
+                                                                                value={data}
+                                                                                onChange={(e) => handleChartDataChange(innerdata, setInnerdata, index, e.target.value)}
+                                                                            />
+                                                                            <button>X</button>
+                                                                        </div>
+                                                                    ))}
+                                                                    <button>데이터 추가</button>
+                                                                </>
+                                                            </div>
+                                                        )}
+                                                        {activeTab === 'option' && (
+                                                            <div className="container tab-pane active">
+                                                                <div>
+                                                                    <div className="label_text">데이터셋명</div>
                                                                     <input
                                                                         type="text"
-                                                                        value={data}
-                                                                        onChange={(e) => handleChartDataChange(innerdata, setInnerdata, index, e.target.value)}
+                                                                        value={datasetLabels}
+                                                                        onChange={(e) => handleChartDataChange(datasetLabels, setDatasetLabels, 0, e.target.value)}
                                                                     />
-                                                                    <button>X</button>
                                                                 </div>
-                                                            ))}
-                                                            <button>데이터 추가</button>
-                                                        </>
+                                                                <div>
+                                                                    <div className="label_text">backgroundColors</div>
+                                                                    {labels.map((label, index) => (
+                                                                        <div key={index}>
+                                                                            {label}:
+                                                                            <input
+                                                                                type="color"
+                                                                                value={rgbaToHex(backgroundColors[index])}
+                                                                                onChange={(e) => {
+                                                                                    const updatedColor = hexToRgba(e.target.value);
+                                                                                    handleChartDataChange(backgroundColors, setBackgroundColors, index, updatedColor);
+                                                                                }}
+                                                                            />
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <div>
+                                                                    <div className="label_text">borderColors</div>
+                                                                    {labels.map((label, index) => (
+                                                                        <div key={index}>
+                                                                            {label}:
+                                                                            <input
+                                                                                type="color"
+                                                                                value={rgbaToHex(borderColors[index])}
+                                                                                onChange={(e) => {
+                                                                                    const updatedColor = hexToRgba(e.target.value);
+                                                                                    handleChartDataChange(borderColors, setBorderColors, index, updatedColor);
+                                                                                }}
+                                                                            />
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <div>
+                                                                    <div className="label_text">borderWidth</div>
+                                                                    <select
+                                                                        value={borderWidth}
+                                                                        onChange={(e) => setBorderWidth(Number(e.target.value))} // 상태 업데이트
+                                                                    >
+                                                                        {[1, 2, 3, 4, 5].map((value) => (
+                                                                            <option key={value} value={value}>
+                                                                                {value}
+                                                                            </option>
+                                                                        ))}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                )}
-                                                {activeTab === 'option' && (
-                                                    <div className="container tab-pane active">
-                                                        <div>
-                                                            <div className="label_text">데이터셋명</div>
-                                                            <input
-                                                                type="text"
-                                                                value={datasetLabels}
-                                                                onChange={(e) => handleChartDataChange(datasetLabels, setDatasetLabels, 0, e.target.value)}
-                                                            />
-                                                        </div>
-                                                        <div>
-                                                            <div className="label_text">backgroundColors</div>
-                                                            {labels.map((label, index) => (
-                                                                <div key={index}>
-                                                                    {label}:
-                                                                    <input
-                                                                        type="color"
-                                                                        value={rgbaToHex(backgroundColors[index])}
-                                                                        onChange={(e) => {
-                                                                            const updatedColor = hexToRgba(e.target.value);
-                                                                            handleChartDataChange(backgroundColors, setBackgroundColors, index, updatedColor);
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                        <div>
-                                                            <div className="label_text">borderColors</div>
-                                                            {labels.map((label, index) => (
-                                                                <div key={index}>
-                                                                    {label}:
-                                                                    <input
-                                                                        type="color"
-                                                                        value={rgbaToHex(borderColors[index])}
-                                                                        onChange={(e) => {
-                                                                            const updatedColor = hexToRgba(e.target.value);
-                                                                            handleChartDataChange(borderColors, setBorderColors, index, updatedColor);
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                        <div>
-                                                            <div className="label_text">borderWidth</div>
-                                                            <select
-                                                                value={borderWidth}
-                                                                onChange={(e) => setBorderWidth(Number(e.target.value))} // 상태 업데이트
-                                                            >
-                                                                {[1, 2, 3, 4, 5].map((value) => (
-                                                                    <option key={value} value={value}>
-                                                                        {value}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                            <button>X</button>
-                                        </div>
-                                        <button>데이터셋 추가</button>
-                                    </>
-                                )}
+                                                    <button>X</button>
+                                                </div>
+                                                <button>데이터셋 추가</button>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </Collapse>
                     </div>
-                    <button onClick={handleSaveChartCode}>코드 확인</button>
+                    <div className="card">
+                        <div className="card-header">
+                            <a
+                                href="#"
+                                className="title"
+                                onClick={(e) => {
+                                e.preventDefault(); // 링크 기본 동작 방지
+                                toggleSection('more');
+                                }}
+                                aria-controls="chart-setting-more"
+                                aria-expanded={activeSection === 'more'}
+                            >
+                                추가 설정
+                            </a>
+                        </div>
+                        <Collapse in={activeSection === 'more'}>
+                            <div id="chart-setting-more" className="card-body">
+                                <p>여기에 추가 설정 내용을 추가하세요.</p>
+                            </div>
+                        </Collapse>
+                    </div>
                 </div>
                 <div className="result_wrap">
                     <div className='chart_rendering'>{renderChart()}</div>
