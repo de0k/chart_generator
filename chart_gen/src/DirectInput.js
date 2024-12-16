@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Bar, Line, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
-import { Collapse, Button } from 'react-bootstrap';
+import { Collapse } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Chart.js 구성 요소 등록
@@ -24,7 +24,7 @@ function DirectInput({ onBack }) {
     // 현재 활성화된 탭 상태
     const [activeTab, setActiveTab] = useState('data'); 
 
-    // 현재 열린 섹션 상태
+    // 현재 열린 섹션 상태(Collapse)
     const [activeSection, setActiveSection] = useState('chart'); 
 
     // 차트 데이터 초기화
