@@ -29,7 +29,10 @@ function FileUpload({ onBack, onDataParsed }) {
                 <strong className='title'>파일 첨부</strong>
                 <div></div>
             </div>
-            <input type="file" accept=".json, .xlsx" onChange={handleFileUpload} />
+            <label for="file" className='item_box_v1'>
+                <div className="btn-upload">파일 업로드하기</div>
+            </label>
+            <input type="file" name="file" id="file" accept=".json, .xlsx" onChange={handleFileUpload} />
             {fileError && <p className="error-text">{fileError}</p>}
         </div>
     );

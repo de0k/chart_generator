@@ -21,3 +21,9 @@
 .chart_rendering > * {width: 100%;}
 .chart_option_none{font-size: 18px; font-weight: bold;width: calc(100% + 30px);height: calc(100% + 30px);margin: -15px;background-color: #f4f4f4;display: flex;align-items: center;justify-content: center;}
 /* DirectInput : e */
+
+
+/* FileUpload : s */
+.btn-upload {font-size: 24px; font-weight: bold;}
+#file {display: none;}
+/* FileUpload : e */
