@@ -13,10 +13,40 @@ function ChartSettings({
     activeTab, setActiveTab, 
     activeSection, toggleSection 
 }) {
+    // 차트 데이터 핸들링
     const handleChartDataChange = (chartData, setChartData, index, value) => {
         const updatedChartData = [...chartData];
         updatedChartData[index] = value;
         setChartData(updatedChartData);
+    };
+
+    // 라벨 추가
+    const handleAddLabel = () => {
+        if (labels.length >= 30) {
+            alert('라벨은 최대 30개까지 추가할 수 있습니다.');
+            return;
+        }
+        setLabels([...labels, `라벨 ${labels.length + 1}`]);
+        setInnerdata([...innerdata, 0]);
+        setBackgroundColors([...backgroundColors, 'rgba(0, 0, 0, 0.1)']);
+        setBorderColors([...borderColors, 'rgba(0, 0, 0, 1)']);
+    };
+
+    // 라벨 제거
+    const handleRemoveLabel = (index) => {
+        if (labels.length <= 1) {
+            alert('라벨은 최소 1개 이상이어야 합니다.');
+            return;
+        }
+        const updatedLabels = labels.filter((_, i) => i !== index);
+        const updatedInnerdata = innerdata.filter((_, i) => i !== index);
+        const updatedBackgroundColors = backgroundColors.filter((_, i) => i !== index);
+        const updatedBorderColors = borderColors.filter((_, i) => i !== index);
+
+        setLabels(updatedLabels);
+        setInnerdata(updatedInnerdata);
+        setBackgroundColors(updatedBackgroundColors);
+        setBorderColors(updatedBorderColors);
     };
 
     return (
@@ -59,10 +89,10 @@ function ChartSettings({
                                                 value={label}
                                                 onChange={(e) => handleChartDataChange(labels, setLabels, index, e.target.value)}
                                             />
-                                            <button>X</button>
+                                            <button onClick={() => handleRemoveLabel(index)}>X</button>
                                         </div>
                                     ))}
-                                    <button>라벨 추가</button>
+                                    <button onClick={handleAddLabel}>라벨 추가</button>
                                 </>
                             )}
                         </div>
