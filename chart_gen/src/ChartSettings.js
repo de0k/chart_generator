@@ -42,11 +42,28 @@ function ChartSettings({
 
     // 데이터셋 추가
     const handleAddDataset = () => {
+        if (datasetLabels.length >= 10) {
+            alert('데이터셋은 최대 10개까지 추가할 수 있습니다.');
+            return;
+        }
         setDatasetLabels([...datasetLabels, `데이터셋 ${datasetLabels.length + 1}번`]);
         setInnerdata([...innerdata, new Array(labels.length).fill(10)]);
         setBackgroundColors([...backgroundColors, 'rgba(255, 99, 132, 0.6)']);
         setBorderColors([...borderColors, 'rgba(54, 162, 235, 1)']);
         setBorderWidth([...borderWidth, 1]);
+    };
+
+    // 데이터셋 제거
+    const handleRemoveDataset = (index) => {
+        if (datasetLabels.length <= 1) {
+            alert('데이터셋은 최소 1개 이상이어야 합니다.');
+            return;
+        }
+        setDatasetLabels(datasetLabels.filter((_, i) => i !== index));
+        setInnerdata(innerdata.filter((_, i) => i !== index));
+        setBackgroundColors(backgroundColors.filter((_, i) => i !== index));
+        setBorderColors(borderColors.filter((_, i) => i !== index));
+        setBorderWidth(borderWidth.filter((_, i) => i !== index));
     };
 
     return (
@@ -127,22 +144,25 @@ function ChartSettings({
                                             {activeTab === 'data' && (
                                                 <div className="container tab-pane active">
                                                     {innerdata.map((dataSet, datasetIndex) => (
-                                                        <div key={datasetIndex}>
-                                                            <strong>{datasetLabels[datasetIndex]}</strong>
-                                                            {dataSet.map((data, index) => (
-                                                                <div key={index}>
-                                                                    {labels[index]}: 
-                                                                    <input
-                                                                        type="text"
-                                                                        value={data}
-                                                                        onChange={(e) => handleChartDataChange(innerdata[datasetIndex], (updatedData) => {
-                                                                            const newInnerData = [...innerdata];
-                                                                            newInnerData[datasetIndex] = updatedData;
-                                                                            setInnerdata(newInnerData);
-                                                                        }, index, e.target.value)}
-                                                                    />
-                                                                </div>
-                                                            ))}
+                                                        <div className='data_box' key={datasetIndex}>
+                                                            <div className='data_inner'>
+                                                                <strong>{datasetLabels[datasetIndex]}</strong>
+                                                                {dataSet.map((data, index) => (
+                                                                    <div key={index}>
+                                                                        {labels[index]}: 
+                                                                        <input
+                                                                            type="text"
+                                                                            value={data}
+                                                                            onChange={(e) => handleChartDataChange(innerdata[datasetIndex], (updatedData) => {
+                                                                                const newInnerData = [...innerdata];
+                                                                                newInnerData[datasetIndex] = updatedData;
+                                                                                setInnerdata(newInnerData);
+                                                                            }, index, e.target.value)}
+                                                                        />
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                            <button onClick={() => handleRemoveDataset(datasetIndex)}>데이터셋 제거</button>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -150,35 +170,38 @@ function ChartSettings({
                                             {activeTab === 'option' && (
                                                 <div className="container tab-pane active">
                                                     {datasetLabels.map((label, datasetIndex) => (
-                                                        <div key={datasetIndex}>
-                                                            <div className="label_text">{label}</div>
-                                                            <div>
-                                                                <label>Background Color: </label>
-                                                                <input
-                                                                    type="color"
-                                                                    value={rgbaToHex(backgroundColors[datasetIndex])}
-                                                                    onChange={(e) => handleChartDataChange(backgroundColors, setBackgroundColors, datasetIndex, hexToRgba(e.target.value))}
-                                                                />
+                                                        <div className='option_box'>
+                                                            <div className='option_inner' key={datasetIndex}>
+                                                                <div className="label_text">{label}</div>
+                                                                <div>
+                                                                    <label>Background Color: </label>
+                                                                    <input
+                                                                        type="color"
+                                                                        value={rgbaToHex(backgroundColors[datasetIndex])}
+                                                                        onChange={(e) => handleChartDataChange(backgroundColors, setBackgroundColors, datasetIndex, hexToRgba(e.target.value))}
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <label>Border Color: </label>
+                                                                    <input
+                                                                        type="color"
+                                                                        value={rgbaToHex(borderColors[datasetIndex])}
+                                                                        onChange={(e) => handleChartDataChange(borderColors, setBorderColors, datasetIndex, hexToRgba(e.target.value))}
+                                                                    />
+                                                                </div>
+                                                                <div>
+                                                                    <label>Border Width: </label>
+                                                                    <select
+                                                                        value={borderWidth[datasetIndex]}
+                                                                        onChange={(e) => handleChartDataChange(borderWidth, setBorderWidth, datasetIndex, parseInt(e.target.value))}
+                                                                    >
+                                                                        {[1, 2, 3, 4, 5].map((width) => (
+                                                                            <option key={width} value={width}>{width}</option>
+                                                                        ))}
+                                                                    </select>
+                                                                </div>
                                                             </div>
-                                                            <div>
-                                                                <label>Border Color: </label>
-                                                                <input
-                                                                    type="color"
-                                                                    value={rgbaToHex(borderColors[datasetIndex])}
-                                                                    onChange={(e) => handleChartDataChange(borderColors, setBorderColors, datasetIndex, hexToRgba(e.target.value))}
-                                                                />
-                                                            </div>
-                                                            <div>
-                                                                <label>Border Width: </label>
-                                                                <select
-                                                                    value={borderWidth[datasetIndex]}
-                                                                    onChange={(e) => handleChartDataChange(borderWidth, setBorderWidth, datasetIndex, parseInt(e.target.value))}
-                                                                >
-                                                                    {[1, 2, 3, 4, 5].map((width) => (
-                                                                        <option key={width} value={width}>{width}</option>
-                                                                    ))}
-                                                                </select>
-                                                            </div>
+                                                            <button onClick={() => handleRemoveDataset(datasetIndex)}>데이터셋 제거</button>
                                                         </div>
                                                     ))}
                                                 </div>
