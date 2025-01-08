@@ -13,34 +13,26 @@ function DirectInput({ onBack }) {
     // 차트 설정 상태 관리
     const [activeChart, setActiveChart] = useState('');
     const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번']);
-    const [innerdata, setInnerdata] = useState([12, 19, 3, 5]);
-    const [backgroundColors, setBackgroundColors] = useState(['rgba(255, 99, 132, 0.6)','rgba(54, 162, 235, 0.6)','rgba(255, 206, 86, 0.6)','rgba(75, 192, 192, 0.6)']);
-    const [borderColors, setBorderColors] = useState(['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)']);
-    const [borderWidth, setBorderWidth] = useState(1);
-    const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']); 
-
-    // 생성된 HTML 코드
+    const [innerdata, setInnerdata] = useState([[12, 19, 3, 5]]);
+    const [backgroundColors, setBackgroundColors] = useState(['rgba(255, 99, 132, 0.6)']);
+    const [borderColors, setBorderColors] = useState(['rgba(54, 162, 235, 1)']);
+    const [borderWidth, setBorderWidth] = useState([1]);
+    const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']);
     const [savedCode, setSavedCode] = useState(''); 
-    // 모달 상태
     const [showModal, setShowModal] = useState(false); 
-    // 현재 활성화된 탭 상태
     const [activeTab, setActiveTab] = useState('data'); 
-
-    // 현재 열린 섹션 상태(Collapse)
     const [activeSection, setActiveSection] = useState('chart'); 
 
     // 차트 데이터 초기화
     const chartData = {
         labels: labels,
-        datasets: [
-            {
-                label: datasetLabels,
-                data: innerdata,
-                backgroundColor: backgroundColors,
-                borderColor: borderColors,
-                borderWidth: borderWidth,
-            },
-        ],
+        datasets: datasetLabels.map((label, index) => ({
+            label: label,
+            data: innerdata[index],
+            backgroundColor: backgroundColors[index],
+            borderColor: borderColors[index],
+            borderWidth: borderWidth[index],
+        })),
     };
 
     // HTML 코드 생성 및 저장

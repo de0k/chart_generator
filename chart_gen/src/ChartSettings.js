@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Collapse } from 'react-bootstrap';
 import { rgbaToHex, hexToRgba } from './utils';
 
@@ -13,7 +13,7 @@ function ChartSettings({
     activeTab, setActiveTab, 
     activeSection, toggleSection 
 }) {
-    // 차트 데이터 핸들링
+    // 데이터 업데이트 함수
     const handleChartDataChange = (chartData, setChartData, index, value) => {
         const updatedChartData = [...chartData];
         updatedChartData[index] = value;
@@ -26,10 +26,8 @@ function ChartSettings({
             alert('라벨은 최대 30개까지 추가할 수 있습니다.');
             return;
         }
-        setLabels([...labels, `라벨 ${labels.length + 1}`]);
-        setInnerdata([...innerdata, 0]);
-        setBackgroundColors([...backgroundColors, 'rgba(0, 0, 0, 0.1)']);
-        setBorderColors([...borderColors, 'rgba(0, 0, 0, 1)']);
+        setLabels([...labels, `라벨 ${labels.length + 1}번`]);
+        setInnerdata(innerdata.map((data) => [...data, 10]));
     };
 
     // 라벨 제거
@@ -38,15 +36,17 @@ function ChartSettings({
             alert('라벨은 최소 1개 이상이어야 합니다.');
             return;
         }
-        const updatedLabels = labels.filter((_, i) => i !== index);
-        const updatedInnerdata = innerdata.filter((_, i) => i !== index);
-        const updatedBackgroundColors = backgroundColors.filter((_, i) => i !== index);
-        const updatedBorderColors = borderColors.filter((_, i) => i !== index);
+        setLabels(labels.filter((_, i) => i !== index));
+        setInnerdata(innerdata.map((data) => data.filter((_, i) => i !== index)));
+    };
 
-        setLabels(updatedLabels);
-        setInnerdata(updatedInnerdata);
-        setBackgroundColors(updatedBackgroundColors);
-        setBorderColors(updatedBorderColors);
+    // 데이터셋 추가
+    const handleAddDataset = () => {
+        setDatasetLabels([...datasetLabels, `데이터셋 ${datasetLabels.length + 1}번`]);
+        setInnerdata([...innerdata, new Array(labels.length).fill(10)]);
+        setBackgroundColors([...backgroundColors, 'rgba(255, 99, 132, 0.6)']);
+        setBorderColors([...borderColors, 'rgba(54, 162, 235, 1)']);
+        setBorderWidth([...borderWidth, 1]);
     };
 
     return (
@@ -104,7 +104,7 @@ function ChartSettings({
                                 <p>차트 타입을 선택해주세요.</p>
                             ) : (
                                 <>
-                                    <div>
+                                    <div className='tab_wrap'>
                                         <ul className="nav nav-tabs" role="tablist">
                                             <li className="nav-item">
                                                 <button
@@ -126,81 +126,66 @@ function ChartSettings({
                                         <div className="tab-content">
                                             {activeTab === 'data' && (
                                                 <div className="container tab-pane active">
-                                                    <>
-                                                        {innerdata.map((data, index) => (
-                                                            <div key={index}>
-                                                                <input
-                                                                    type="text"
-                                                                    value={data}
-                                                                    onChange={(e) => handleChartDataChange(innerdata, setInnerdata, index, e.target.value)}
-                                                                />
-                                                                <button>X</button>
-                                                            </div>
-                                                        ))}
-                                                        <button>데이터 추가</button>
-                                                    </>
+                                                    {innerdata.map((dataSet, datasetIndex) => (
+                                                        <div key={datasetIndex}>
+                                                            <strong>{datasetLabels[datasetIndex]}</strong>
+                                                            {dataSet.map((data, index) => (
+                                                                <div key={index}>
+                                                                    {labels[index]}: 
+                                                                    <input
+                                                                        type="text"
+                                                                        value={data}
+                                                                        onChange={(e) => handleChartDataChange(innerdata[datasetIndex], (updatedData) => {
+                                                                            const newInnerData = [...innerdata];
+                                                                            newInnerData[datasetIndex] = updatedData;
+                                                                            setInnerdata(newInnerData);
+                                                                        }, index, e.target.value)}
+                                                                    />
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                             {activeTab === 'option' && (
                                                 <div className="container tab-pane active">
-                                                    <div>
-                                                        <div className="label_text">데이터셋명</div>
-                                                        <input
-                                                            type="text"
-                                                            value={datasetLabels}
-                                                            onChange={(e) => handleChartDataChange(datasetLabels, setDatasetLabels, 0, e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div>
-                                                        <div className="label_text">backgroundColors</div>
-                                                        {labels.map((label, index) => (
-                                                            <div key={index}>
-                                                                {label}:
+                                                    {datasetLabels.map((label, datasetIndex) => (
+                                                        <div key={datasetIndex}>
+                                                            <div className="label_text">{label}</div>
+                                                            <div>
+                                                                <label>Background Color: </label>
                                                                 <input
                                                                     type="color"
-                                                                    value={rgbaToHex(backgroundColors[index])}
-                                                                    onChange={(e) => {
-                                                                        const updatedColor = hexToRgba(e.target.value);
-                                                                        handleChartDataChange(backgroundColors, setBackgroundColors, index, updatedColor);
-                                                                    }}
+                                                                    value={rgbaToHex(backgroundColors[datasetIndex])}
+                                                                    onChange={(e) => handleChartDataChange(backgroundColors, setBackgroundColors, datasetIndex, hexToRgba(e.target.value))}
                                                                 />
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                    <div>
-                                                        <div className="label_text">borderColors</div>
-                                                        {labels.map((label, index) => (
-                                                            <div key={index}>
-                                                                {label}:
+                                                            <div>
+                                                                <label>Border Color: </label>
                                                                 <input
                                                                     type="color"
-                                                                    value={rgbaToHex(borderColors[index])}
-                                                                    onChange={(e) => {
-                                                                        const updatedColor = hexToRgba(e.target.value);
-                                                                        handleChartDataChange(borderColors, setBorderColors, index, updatedColor);
-                                                                    }}
+                                                                    value={rgbaToHex(borderColors[datasetIndex])}
+                                                                    onChange={(e) => handleChartDataChange(borderColors, setBorderColors, datasetIndex, hexToRgba(e.target.value))}
                                                                 />
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                    <div>
-                                                        <div className="label_text">borderWidth</div>
-                                                        <select
-                                                            value={borderWidth}
-                                                            onChange={(e) => setBorderWidth(Number(e.target.value))}
-                                                        >
-                                                            {[1, 2, 3, 4, 5].map((value) => (
-                                                                <option key={value} value={value}>
-                                                                    {value}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
+                                                            <div>
+                                                                <label>Border Width: </label>
+                                                                <select
+                                                                    value={borderWidth[datasetIndex]}
+                                                                    onChange={(e) => handleChartDataChange(borderWidth, setBorderWidth, datasetIndex, parseInt(e.target.value))}
+                                                                >
+                                                                    {[1, 2, 3, 4, 5].map((width) => (
+                                                                        <option key={width} value={width}>{width}</option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    ))}
                                                 </div>
                                             )}
                                         </div>
                                     </div>
-                                    <button>데이터셋 추가</button>
+                                    <button onClick={handleAddDataset}>데이터셋 추가</button>
                                 </>
                             )}
                         </div>
