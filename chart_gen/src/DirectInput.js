@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Collapse } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChartRenderer from './ChartRenderer';
@@ -9,9 +9,9 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend,ArcElement,PointElement,LineElement);
 
-function DirectInput({ onBack }) {
+function DirectInput({ onBack, initialData, defaultChartType }) {
     // 차트 설정 상태 관리
-    const [activeChart, setActiveChart] = useState('');
+    const [activeChart, setActiveChart] = useState(defaultChartType || '');
     const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번']);
     const [innerdata, setInnerdata] = useState([[12, 19, 3, 5]]);
     const [backgroundColors, setBackgroundColors] = useState(['rgba(255, 99, 132, 0.6)']);
@@ -22,6 +22,19 @@ function DirectInput({ onBack }) {
     const [showModal, setShowModal] = useState(false); 
     const [activeTab, setActiveTab] = useState('data'); 
     const [activeSection, setActiveSection] = useState('chart'); 
+
+    // 초기 데이터 로드
+    useEffect(() => {
+        if (initialData) {
+            const { labels: initialLabels, datasets } = initialData;
+            setLabels(initialLabels);
+            setInnerdata(datasets.map((dataset) => dataset.data));
+            setDatasetLabels(datasets.map((dataset) => dataset.label));
+            setBackgroundColors(datasets.map(() => 'rgba(255, 99, 132, 0.6)'));
+            setBorderColors(datasets.map(() => 'rgba(54, 162, 235, 1)'));
+            setBorderWidth(datasets.map(() => 1));
+        }
+    }, [initialData]);
 
     // 차트 데이터 초기화
     const chartData = {

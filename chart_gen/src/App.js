@@ -5,13 +5,17 @@ import DirectInput from './DirectInput';
 
 function App() {
     const [screen, setScreen] = useState('main'); // 화면 상태 관리
+    const [uploadedData, setUploadedData] = useState(null); // 업로드된 데이터 상태 관리
 
     const renderScreen = () => {
         switch (screen) {
             case 'fileUpload':
-                return <FileUpload onBack={() => setScreen('main')} />;
+                return <FileUpload onBack={() => setScreen('main')} onDataParsed={(data) => {
+                    setUploadedData(data);
+                    setScreen('directInput');
+                }} />;
             case 'directInput':
-                return <DirectInput onBack={() => setScreen('main')} />;
+                return <DirectInput onBack={() => setScreen('main')} initialData={uploadedData} defaultChartType="Bar" />;
             default:
                 return (
                     <div className='main'>
