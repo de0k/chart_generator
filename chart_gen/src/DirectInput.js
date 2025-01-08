@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Collapse } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ChartRenderer from './ChartRenderer';
 import CodeModal from './CodeModal';
