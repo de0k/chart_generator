@@ -59,10 +59,11 @@ function formatJsonData(data) {
 }
 
 function formatXlsxData(data) {
-    const labels = data[0];
-    const datasets = data.slice(1).map((row, index) => ({
-        label: `데이터셋 ${index + 1}번`,
-        data: row,
+    // First column is labels, first row contains dataset labels
+    const labels = data.slice(1).map(row => row[0]); // Exclude header and use first column as labels
+    const datasets = data[0].slice(1).map((datasetLabel, colIndex) => ({
+        label: datasetLabel || `데이터셋 ${colIndex + 1}`,
+        data: data.slice(1).map(row => row[colIndex + 1] || 0), // Skip header row
     }));
 
     return { labels, datasets };
