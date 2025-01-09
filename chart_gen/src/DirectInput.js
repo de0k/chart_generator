@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import ChartRenderer from './ChartRenderer';
 import CodeModal from './CodeModal';
+import FileConvertModal from './FileConvertModal';
 import ChartSettings from './ChartSettings';
 import AdditionalSettings from './AdditionalSettings';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
+import * as XLSX from 'xlsx';
+
 // Chart.js 구성 요소 등록
-ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend,ArcElement,PointElement,LineElement,Filler,Decimation,SubTitle);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
 
 function DirectInput({ onBack, initialData, defaultChartType }) {
-    // 차트 설정 상태 관리
+    // 상태 관리
     const [activeChart, setActiveChart] = useState(defaultChartType || '');
     const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번']);
     const [innerdata, setInnerdata] = useState([[12, 19, 3, 5]]);
@@ -16,10 +19,11 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
     const [borderColors, setBorderColors] = useState(['rgba(54, 162, 235, 1)']);
     const [borderWidth, setBorderWidth] = useState([1]);
     const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']);
-    const [savedCode, setSavedCode] = useState(''); 
-    const [showModal, setShowModal] = useState(false); 
-    const [activeTab, setActiveTab] = useState('data'); 
-    const [activeSection, setActiveSection] = useState('chart'); 
+    const [savedCode, setSavedCode] = useState('');
+    const [showCodeModal, setShowCodeModal] = useState(false);
+    const [showFileConvertModal, setShowFileConvertModal] = useState(false);
+    const [activeTab, setActiveTab] = useState('data');
+    const [activeSection, setActiveSection] = useState('chart');
 
     // 초기 데이터 로드
     useEffect(() => {
@@ -69,7 +73,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
         `.trim();
 
         setSavedCode(chartCode);
-        setShowModal(true); // 모달 열기
+        setShowCodeModal(true); // 모달 열기
     };
 
     // 섹션을 변경하는 함수
@@ -77,12 +81,66 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
         setActiveSection((prev) => (prev === section ? '' : section));
     };
 
+    // JSON 다운로드
+    const downloadAsJson = () => {
+        const dataOnly = {
+            labels: labels,
+            datasets: datasetLabels.map((label, index) => ({
+                label: label,
+                data: innerdata[index],
+            })),
+        };
+
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataOnly));
+        const anchor = document.createElement('a');
+        anchor.href = dataStr;
+        anchor.download = 'chart_data.json';
+        anchor.click();
+    };
+
+    // CSV 다운로드
+    const downloadAsCsv = () => {
+        const rows = [
+            ["Label", ...datasetLabels],
+            ...labels.map((label, index) => [
+                label,
+                ...innerdata.map((dataset) => dataset[index] || 0),
+            ]),
+        ];
+
+        const csvContent = rows.map((e) => e.join(",")).join("\n");
+        const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent);
+        const anchor = document.createElement('a');
+        anchor.href = dataStr;
+        anchor.download = 'chart_data.csv';
+        anchor.click();
+    };
+
+    // XLSX 다운로드
+    const downloadAsXlsx = () => {
+        const rows = [
+            ["Label", ...datasetLabels],
+            ...labels.map((label, index) => [
+                label,
+                ...innerdata.map((dataset) => dataset[index] || 0),
+            ]),
+        ];
+
+        const worksheet = XLSX.utils.aoa_to_sheet(rows);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
+        XLSX.writeFile(workbook, 'chart_data.xlsx');
+    };
+
     return (
         <div className='main'>
             <div className="top_title_box n2">
                 <button className='custom-btn custom-back btn btn-secondary' onClick={onBack}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
-                <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
+                <div className='right_item d-flex gap-1'>
+                    <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
+                    <button className='btn btn-success' onClick={() => setShowFileConvertModal(true)}>파일 변환</button>
+                </div>
             </div>
             <div className="chart_wrap">
                 <div className="input_wrap" id="chart_setting">
@@ -113,14 +171,24 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                 </div>
                 <div className="result_wrap">
                     <ChartRenderer activeChart={activeChart} chartData={chartData} />
-                    {showModal && (
-                        <CodeModal
-                            savedCode={savedCode}
-                            closeModal={() => setShowModal(false)}
-                        />
-                    )}
                 </div>
             </div>
+            {showCodeModal && (
+                <CodeModal
+                    savedCode={savedCode}
+                    closeModal={() => setShowCodeModal(false)}
+                />
+            )}
+            {showFileConvertModal && (
+                <FileConvertModal
+                    closeModal={() => setShowFileConvertModal(false)}
+                    onDownload={{
+                        downloadAsJson,
+                        downloadAsCsv,
+                        downloadAsXlsx,
+                    }}
+                />
+            )}
         </div>
     );
 }
