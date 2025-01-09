@@ -24,6 +24,7 @@
 
 
 /* FileUpload : s */
+.btn_download {display: flex;justify-content: center;align-items: center;}
 .btn-upload {font-size: 24px; font-weight: bold;}
 #file {display: none;}
 /* FileUpload : e */
