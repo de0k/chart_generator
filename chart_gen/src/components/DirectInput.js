@@ -77,11 +77,6 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
         setShowCodeModal(true); // 모달 열기
     };
 
-    // 섹션을 변경하는 함수
-    const toggleSection = (section) => {
-        setActiveSection((prev) => (prev === section ? '' : section));
-    };
-
     // JSON 다운로드
     const downloadAsJson = () => {
         const dataOnly = {
@@ -168,11 +163,11 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                         activeSection={activeSection}
-                        toggleSection={toggleSection}
+                        toggleSection={(section) => setActiveSection((prev) => (prev === section ? '' : section))}
                     />
                     <AdditionalSettings
                         activeSection={activeSection}
-                        toggleSection={toggleSection}
+                        toggleSection={(section) => setActiveSection((prev) => (prev === section ? '' : section))}
                     />
                 </div>
                 <div

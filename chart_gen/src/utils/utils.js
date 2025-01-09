@@ -68,3 +68,49 @@ function formatXlsxData(data) {
 
     return { labels, datasets };
 }
+
+// export function getDefaultChartOptions(chartType, datasetCount = 1, labelCount = 1) {
+//     switch (chartType) {
+//         case 'Bar':
+//             return {
+//                 backgroundColors: Array(datasetCount).fill().map(() => 'rgba(255, 99, 132, 0.6)'),
+//                 borderColors: Array(datasetCount).fill().map(() => 'rgba(54, 162, 235, 1)'),
+//                 borderWidth: Array(datasetCount).fill(1),
+//             };
+//         case 'Line':
+//             return {
+//                 backgroundColors: Array(datasetCount).fill().map(() => 'rgba(255, 99, 132, 0.6)'),
+//                 borderColors: Array(datasetCount).fill().map(() => 'rgba(54, 162, 235, 1)'),
+//                 borderWidth: Array(datasetCount).fill(1),
+//                 fill: Array(datasetCount).fill(false),
+//             };
+//         case 'Pie':
+//         case 'Doughnut':
+//             return {
+//                 backgroundColors: Array(datasetCount).fill().map(() =>
+//                     Array(labelCount).fill().map(() =>
+//                         `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`
+//                     )
+//                 ),
+//             };
+//         default:
+//             return {
+//                 backgroundColors: [],
+//                 borderColors: [],
+//                 borderWidth: [],
+//             };
+//     }
+// }
+
+// export function updateChartOptionsForLabels(chartType, labels, existingOptions) {
+//     if (chartType === 'Pie' || chartType === 'Doughnut') {
+//         const updatedBackgroundColors = labels.map((_, index) =>
+//             existingOptions.backgroundColors[index] || `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.6)`
+//         );
+//         return {
+//             ...existingOptions,
+//             backgroundColors: updatedBackgroundColors,
+//         };
+//     }
+//     return existingOptions;
+// }
