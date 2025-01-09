@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { parseFileData } from './utils';
+import { parseFileData } from '../utils/utils';
 
 function FileUpload({ onBack, onDataParsed }) {
     const [fileError, setFileError] = useState('');

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ChartRenderer from './ChartRenderer';
-import CodeModal from './CodeModal';
-import FileConvertModal from './FileConvertModal';
-import ChartSettings from './ChartSettings';
-import AdditionalSettings from './AdditionalSettings';
+import ChartRenderer from '../components/ChartRenderer';
+import CodeModal from '../components/CodeModal';
+import FileConvertModal from '../components/FileConvertModal';
+import ChartSettings from '../components/ChartSettings';
+import AdditionalSettings from '../components/AdditionalSettings';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import * as XLSX from 'xlsx';
 

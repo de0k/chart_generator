@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import FileUpload from './FileUpload';
-import DirectInput from './DirectInput';
+import FileUpload from './components/FileUpload';
+import DirectInput from './components/DirectInput';
 
 function App() {
     const [screen, setScreen] = useState('main'); // 화면 상태 관리

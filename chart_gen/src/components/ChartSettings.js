@@ -1,6 +1,6 @@
 import React from 'react';
 import { Collapse } from 'react-bootstrap';
-import { rgbaToHex, hexToRgba } from './utils';
+import { rgbaToHex, hexToRgba } from '../utils/utils';
 
 function ChartSettings({ 
     activeChart, setActiveChart, 
