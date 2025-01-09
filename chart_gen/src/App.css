@@ -13,7 +13,6 @@
 
 /* DirectInput : s */
 .chart_wrap {display: flex;gap:30px; align-items: start;}
-.chart_wrap > * {flex:1;}
 .chart_wrap .card:not(:last-child){margin-bottom: 15px;}
 .chart_wrap .input_wrap .card-header{padding: 0;border-bottom: none;}
 .chart_wrap .input_wrap .title {font-size: 20px;color: #444;display: block;width: 100%;border: none;background: none;text-align: left; padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);font-weight: bold;}
@@ -36,10 +35,10 @@
     --bs-card-border-color: var(--bs-border-color-translucent);
     --bs-card-border-radius: var(--bs-border-radius);
     border: 1px solid var(--bs-card-border-color);min-height: 400px;display: flex;
-    border-radius: var(--bs-card-border-radius);
-    top: 30px;
+    border-radius: var(--bs-card-border-radius);flex-wrap: wrap;
+    top: 30px;flex:1;
 }
-
+.chart_wrap .result_wrap .btn_wrap {margin-left: auto;padding-top: 15px;padding-right: 15px;}
 .chart_rendering{width: 100%;padding: 15px;display: flex;align-items: center;}
 .chart_rendering > * {width: 100%;}
 .chart_option_none{font-size: 18px; font-weight: bold;width: calc(100% + 30px);height: calc(100% + 30px);margin: -15px;background-color: #f4f4f4;display: flex;align-items: center;justify-content: center;}

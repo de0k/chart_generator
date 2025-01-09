@@ -24,6 +24,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
     const [showFileConvertModal, setShowFileConvertModal] = useState(false);
     const [activeTab, setActiveTab] = useState('data');
     const [activeSection, setActiveSection] = useState('chart');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
     // 초기 데이터 로드
     useEffect(() => {
@@ -143,7 +144,12 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                 </div>
             </div>
             <div className="chart_wrap">
-                <div className="input_wrap" id="chart_setting">
+                <div id="chart_setting"
+                    className={`input_wrap w3-sidebar w3-bar-block w3-card w3-animate-left`}
+                    style={{
+                        display: isSidebarOpen ? "block" : "none",
+                        width: isSidebarOpen ? "50%" : "0"
+                    }}>
                     <ChartSettings
                         activeChart={activeChart}
                         setActiveChart={setActiveChart}
@@ -169,8 +175,24 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                         toggleSection={toggleSection}
                     />
                 </div>
-                <div className="result_wrap sticky-top">
-                    <ChartRenderer activeChart={activeChart} chartData={chartData} />
+                <div
+                    className="result_wrap sticky-top"
+                    style={{
+                        flex: isSidebarOpen ? "1" : "auto"
+                    }}
+                >
+                    {!isSidebarOpen ? (
+                        <div className='btn_wrap'>
+                            <button className="btn btn-primary" onClick={() => setIsSidebarOpen(true)}>
+                                축소
+                            </button>
+                        </div>
+                    ) : (
+                        <div className='btn_wrap'>
+                            <button className="btn btn-primary" onClick={() => setIsSidebarOpen(false)}>확대</button>
+                        </div>
+                    )}
+                    <ChartRenderer activeChart={activeChart} chartData={chartData} isSidebarOpen={isSidebarOpen}/>
                 </div>
             </div>
             {showCodeModal && (
