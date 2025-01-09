@@ -13,12 +13,15 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend,
 function DirectInput({ onBack, initialData, defaultChartType }) {
     // 상태 관리
     const [activeChart, setActiveChart] = useState(defaultChartType || '');
+
     const [labels, setLabels] = useState(['라벨 1번', '라벨 2번', '라벨 3번', '라벨 4번']);
     const [innerdata, setInnerdata] = useState([[12, 19, 3, 5]]);
+    const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']);
+
     const [backgroundColors, setBackgroundColors] = useState(['rgba(255, 99, 132, 0.6)']);
     const [borderColors, setBorderColors] = useState(['rgba(54, 162, 235, 1)']);
     const [borderWidth, setBorderWidth] = useState([1]);
-    const [datasetLabels, setDatasetLabels] = useState(['데이터셋 1번']);
+
     const [savedCode, setSavedCode] = useState('');
     const [showCodeModal, setShowCodeModal] = useState(false);
     const [showFileConvertModal, setShowFileConvertModal] = useState(false);
@@ -33,6 +36,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
             setLabels(initialLabels);
             setInnerdata(datasets.map((dataset) => dataset.data));
             setDatasetLabels(datasets.map((dataset) => dataset.label));
+
             setBackgroundColors(datasets.map(() => 'rgba(255, 99, 132, 0.6)'));
             setBorderColors(datasets.map(() => 'rgba(54, 162, 235, 1)'));
             setBorderWidth(datasets.map(() => 1));
@@ -148,18 +152,21 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                     <ChartSettings
                         activeChart={activeChart}
                         setActiveChart={setActiveChart}
+                        
                         labels={labels}
                         setLabels={setLabels}
                         innerdata={innerdata}
                         setInnerdata={setInnerdata}
+                        datasetLabels={datasetLabels}
+                        setDatasetLabels={setDatasetLabels}
+
                         backgroundColors={backgroundColors}
                         setBackgroundColors={setBackgroundColors}
                         borderColors={borderColors}
                         setBorderColors={setBorderColors}
                         borderWidth={borderWidth}
                         setBorderWidth={setBorderWidth}
-                        datasetLabels={datasetLabels}
-                        setDatasetLabels={setDatasetLabels}
+                        
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                         activeSection={activeSection}
