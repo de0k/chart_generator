@@ -90,6 +90,7 @@ function ChartSettings({
                             <button onClick={() => setActiveChart('Bar')}>Bar Chart</button>
                             <button onClick={() => setActiveChart('Line')}>Line Chart</button>
                             <button onClick={() => setActiveChart('Pie')}>Pie Chart</button>
+                            <button onClick={() => setActiveChart('Doughnut')}>Doughnut Chart</button>
                         </div>
                     </div>
                     <div className='input_item set_label input-group row'>

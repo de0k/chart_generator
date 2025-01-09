@@ -3,9 +3,9 @@ import ChartRenderer from './ChartRenderer';
 import CodeModal from './CodeModal';
 import ChartSettings from './ChartSettings';
 import AdditionalSettings from './AdditionalSettings';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 // Chart.js 구성 요소 등록
-ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend,ArcElement,PointElement,LineElement);
+ChartJS.register(CategoryScale,LinearScale,BarElement,Title,Tooltip,Legend,ArcElement,PointElement,LineElement,Filler,Decimation,SubTitle);
 
 function DirectInput({ onBack, initialData, defaultChartType }) {
     // 차트 설정 상태 관리
