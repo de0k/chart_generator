@@ -2,7 +2,7 @@ import React from 'react';
 
 function FileConvertModal({ closeModal, onDownload }) {
     return (
-        <div className="modal show" style={{ display: 'block' }} tabIndex="-1" role="dialog">
+        <div className="modal show FileConvertModal" style={{ display: 'block' }} tabIndex="-1" role="dialog">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -10,8 +10,8 @@ function FileConvertModal({ closeModal, onDownload }) {
                         <button type="button" className="btn-close" onClick={closeModal}></button>
                     </div>
                     <div className="modal-body">
-                    <p>원하는 형식으로 차트 데이터를 다운로드하세요:</p>
-                        <div className="btn-group d-flex justify-content-around">
+                        <p>원하는 형식으로 차트 데이터를 다운로드하세요:</p>
+                        <div className="btn_group">
                             <button className="btn btn-primary" onClick={onDownload.downloadAsJson}>JSON 다운로드</button>
                             <button className="btn btn-secondary" onClick={onDownload.downloadAsCsv}>CSV 다운로드</button>
                             <button className="btn btn-success" onClick={onDownload.downloadAsXlsx}>XLSX 다운로드</button>

@@ -1,4 +1,4 @@
-.main{max-width: 1400px;margin: 0 auto;padding: 30px 0;}
+.main{max-width: 1600px;margin: 0 auto;padding: 30px 0;}
 .main p {margin-bottom: 0;}
 
 /* 상단 제목 바 */
@@ -9,14 +9,37 @@
 
 .item_box_v1 {background-color: #f1f1f1;min-height: 400px;display: flex; justify-content: center; align-items: center;gap:10px;}
 
+.modal-title{font-weight: bold;}
+
 /* DirectInput : s */
 .chart_wrap {display: flex;gap:30px; align-items: start;}
-.chart_wrap > * {flex:1;gap:15px;}
-.chart_wrap .input_wrap .title {font-size: 20px;color: #444;margin-bottom: 0.8em;display: block;}
-/* .chart_wrap .input_box {border-bottom: 1px solid #ddd;} */
+.chart_wrap > * {flex:1;}
+.chart_wrap .card:not(:last-child){margin-bottom: 15px;}
+.chart_wrap .input_wrap .card-header{padding: 0;border-bottom: none;}
+.chart_wrap .input_wrap .title {font-size: 20px;color: #444;display: block;width: 100%;border: none;background: none;text-align: left; padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);font-weight: bold;}
 .chart_wrap .input_item {margin-bottom: 15px;}
 .chart_wrap .input_item:last-child {margin-bottom: 0;}
-.chart_wrap .result_wrap{border: 1px solid #eee;min-height: 400px;display: flex;}
+.chart_wrap .select_type .set_box * {margin: 2px;}
+.chart_wrap .set_dataset .set_box {display: flex;gap:15px;}
+.chart_wrap .set_dataset .set_box .btn_add {margin-bottom: 15px;width: 100%;}
+.chart_wrap .set_dataset .label_box {width: 40%;}
+.chart_wrap .set_dataset .label_box .sticky-top {top:30px;}
+.chart_wrap .set_dataset .label_box .input-group:not(:last-child){margin-bottom: 5px;}
+.chart_wrap .set_dataset .datasets_box {flex:1;}
+.chart_wrap .set_dataset .datasets_box .tab_wrap .nav{margin-bottom: 5px;}
+.chart_wrap .set_dataset .datasets_box .tab_wrap .nav-link{font-size: 15px;padding:0.4rem 0.8rem;}
+.chart_wrap .set_dataset .datasets_box .tab_wrap .inner_box{border: var(--bs-card-border-width) solid var(--bs-card-border-color);border-radius: var(--bs-card-border-radius);margin: 5px 0;padding: 10px;position: relative;}
+.chart_wrap .set_dataset .datasets_box .data_inner .form-floating{margin: 5px 0;}
+.chart_wrap .set_dataset .datasets_box .option_inner > * {margin-top: 5px;}
+.chart_wrap .set_dataset .datasets_box .option_inner .input-group-text {cursor: pointer;width: 50%;}
+.chart_wrap .result_wrap{
+    --bs-card-border-color: var(--bs-border-color-translucent);
+    --bs-card-border-radius: var(--bs-border-radius);
+    border: 1px solid var(--bs-card-border-color);min-height: 400px;display: flex;
+    border-radius: var(--bs-card-border-radius);
+    top: 30px;
+}
+
 .chart_rendering{width: 100%;padding: 15px;display: flex;align-items: center;}
 .chart_rendering > * {width: 100%;}
 .chart_option_none{font-size: 18px; font-weight: bold;width: calc(100% + 30px);height: calc(100% + 30px);margin: -15px;background-color: #f4f4f4;display: flex;align-items: center;justify-content: center;}
@@ -28,3 +51,7 @@
 .btn-upload {font-size: 24px; font-weight: bold;}
 #file {display: none;}
 /* FileUpload : e */
+
+/* FileConvertModal : s */
+.FileConvertModal .modal-body .btn_group > * {display: block;width: 100%;margin: 5px 0;}
+/* FileConvertModal : e */

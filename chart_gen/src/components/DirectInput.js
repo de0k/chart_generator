@@ -169,7 +169,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                         toggleSection={toggleSection}
                     />
                 </div>
-                <div className="result_wrap">
+                <div className="result_wrap sticky-top">
                     <ChartRenderer activeChart={activeChart} chartData={chartData} />
                 </div>
             </div>

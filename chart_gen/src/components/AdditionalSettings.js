@@ -5,8 +5,8 @@ function AdditionalSettings({ activeSection, toggleSection }) {
     return (
         <div className="card">
             <div className="card-header">
-                <a
-                    href="#"
+                <button
+                    type='button'
                     className="title"
                     onClick={(e) => {
                         e.preventDefault();
@@ -16,7 +16,7 @@ function AdditionalSettings({ activeSection, toggleSection }) {
                     aria-expanded={activeSection === 'more'}
                 >
                     추가 설정
-                </a>
+                </button>
             </div>
             <Collapse in={activeSection === 'more'}>
                 <div id="chart-setting-more" className="card-body">

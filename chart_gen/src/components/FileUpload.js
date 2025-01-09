@@ -30,7 +30,10 @@ function FileUpload({ onBack, onDataParsed }) {
                 <a href={`${process.env.PUBLIC_URL}/file/sample_data.zip`} download="sample_data.zip" className="btn btn-success btn_download">샘플 다운로드</a>
             </div>
             <label for="file" className='item_box_v1'>
-                <div className="btn-upload">파일 업로드하기</div>
+                <div className="btn-upload text-center">
+                    <p>파일 업로드하기</p>
+                    <p>(JSON, XLSX)</p>
+                </div>
             </label>
             <input type="file" name="file" id="file" accept=".json, .xlsx" onChange={handleFileUpload} />
             {fileError && <p className="error-text">{fileError}</p>}
