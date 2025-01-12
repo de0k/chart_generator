@@ -68,3 +68,33 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+## 기본 작업 순서 (myhome 브랜치)
+
+### `git checkout main`
+### `git pull origin main`
+
+### `git checkout myhome`
+
+### `git add .`
+### `git commit -m "myhome 작업 내용"`
+
+### `git checkout main`
+### `git merge myhome`
+
+### `git push origin main`
+
+## gonet 브랜치
+
+### `git checkout main`
+### `git pull origin main`
+
+### `git checkout gonet`
+
+### `git add .`
+### `git commit -m "gonet 작업 내용"`
+
+### `git checkout main`
+### `git merge gonet`
+
+### `git push origin main`
