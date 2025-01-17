@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { parseFileData } from '../utils/utils';
+import { processFileUpload } from '../utils/utils';
 
 function FileUpload({ onBack, onDataParsed }) {
     const [fileError, setFileError] = useState('');
@@ -7,18 +7,12 @@ function FileUpload({ onBack, onDataParsed }) {
     const handleFileUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return;
-
-        const fileExtension = file.name.split('.').pop().toLowerCase();
-        if (!['json', 'xlsx'].includes(fileExtension)) {
-            setFileError('지원하지 않는 파일 형식입니다. JSON 또는 XLSX 파일만 업로드하세요.');
-            return;
-        }
-
+    
         try {
-            const parsedData = await parseFileData(file, fileExtension);
-            onDataParsed(parsedData);
+            const parsedData = await processFileUpload(file);
+            onDataParsed(parsedData); // 처리된 데이터를 부모 컴포넌트로 전달
         } catch (error) {
-            setFileError('파일을 처리하는 동안 오류가 발생했습니다. 다시 시도해주세요.');
+            setFileError(error.message); // 오류 메시지 설정
         }
     };
 

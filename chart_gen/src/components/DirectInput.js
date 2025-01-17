@@ -4,8 +4,8 @@ import CodeModal from '../components/CodeModal';
 import FileConvertModal from '../components/FileConvertModal';
 import ChartSettings from '../components/ChartSettings';
 import AdditionalSettings from '../components/AdditionalSettings';
+import { generateChartCode, prepareJsonData, downloadJson, prepareCsvData, downloadCsv, prepareXlsxData, downloadXlsx } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
-import * as XLSX from 'xlsx';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
@@ -57,79 +57,31 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
 
     // HTML 코드 생성 및 저장
     const handleSaveChartCode = () => {
-        if (!activeChart) {
-            alert('차트 타입을 선택해주세요.');
-            return;
+        try {
+            const chartCode = generateChartCode(activeChart, chartData);
+            setSavedCode(chartCode);
+            setShowCodeModal(true); // 모달 열기
+        } catch (error) {
+            alert(error.message);
         }
-
-        const chartCode = `
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <canvas id="myChart" width="400" height="400"></canvas>
-            <script>
-            const ctx = document.getElementById('myChart').getContext('2d');
-            new Chart(ctx, {
-                type: '${activeChart.toLowerCase()}',
-                data: ${JSON.stringify(chartData)},
-                options: {
-                responsive: true,
-                },
-            });
-            </script>
-        `.trim();
-
-        setSavedCode(chartCode);
-        setShowCodeModal(true); // 모달 열기
     };
 
     // JSON 다운로드
     const downloadAsJson = () => {
-        const dataOnly = {
-            labels: labels,
-            datasets: datasetLabels.map((label, index) => ({
-                label: label,
-                data: innerdata[index],
-            })),
-        };
-
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dataOnly));
-        const anchor = document.createElement('a');
-        anchor.href = dataStr;
-        anchor.download = 'chart_data.json';
-        anchor.click();
+        const data = prepareJsonData(labels, datasetLabels, innerdata);
+        downloadJson(data);
     };
 
     // CSV 다운로드
     const downloadAsCsv = () => {
-        const rows = [
-            ["Label", ...datasetLabels],
-            ...labels.map((label, index) => [
-                label,
-                ...innerdata.map((dataset) => dataset[index] || 0),
-            ]),
-        ];
-
-        const csvContent = rows.map((e) => e.join(",")).join("\n");
-        const dataStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent);
-        const anchor = document.createElement('a');
-        anchor.href = dataStr;
-        anchor.download = 'chart_data.csv';
-        anchor.click();
+        const csvContent = prepareCsvData(labels, datasetLabels, innerdata);
+        downloadCsv(csvContent);
     };
 
     // XLSX 다운로드
     const downloadAsXlsx = () => {
-        const rows = [
-            ["Label", ...datasetLabels],
-            ...labels.map((label, index) => [
-                label,
-                ...innerdata.map((dataset) => dataset[index] || 0),
-            ]),
-        ];
-
-        const worksheet = XLSX.utils.aoa_to_sheet(rows);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Chart Data');
-        XLSX.writeFile(workbook, 'chart_data.xlsx');
+        const workbook = prepareXlsxData(labels, datasetLabels, innerdata);
+        downloadXlsx(workbook);
     };
 
     return (
