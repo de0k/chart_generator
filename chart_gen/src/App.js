@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import FileUpload from './components/FileUpload';
 import DirectInput from './components/DirectInput';
+import DirectInputt from './components/DirectInputt';
 
 function App() {
     const [screen, setScreen] = useState('main'); // 화면 상태 관리
@@ -17,6 +18,8 @@ function App() {
                 }} />;
             case 'directInput':
                 return <DirectInput onBack={() => setScreen('main')} initialData={uploadedData} defaultChartType="Bar" />;
+            case 'directInput_t':
+                    return <DirectInputt onBack={() => setScreen('main')} initialData={uploadedData} defaultChartType="Bar" />;
             default:
                 return (
                     <div className='main'>
@@ -26,6 +29,7 @@ function App() {
                         <div className='item_box_v1'>
                             <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
                             <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
+                            <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput_t')}>직접 입력_t</button>
                         </div>
                     </div>
                 );
