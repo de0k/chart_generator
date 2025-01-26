@@ -68,3 +68,26 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+=============
+
+node_modules : npm install을 하여 설치된 모듈들이 위치하는 폴더
+public : static 자원 폴더, 정적 파일들을 위한 폴더
+src : 리액트를 작업할 폴더
+
+==============
+
+자바스크립트 변수값을 사용할 때는 {} 안에 넣어야 한다
+
+const hello = 'Hello React';
+
+function App() {
+    return (
+        <>
+            <Hello />
+            <div>{hello}</div>
+        </>
+    );
+}
+
+==============

@@ -11,3 +11,5 @@ const reportWebVitals = onPerfEntry => {
 };
 
 export default reportWebVitals;
+
+// 애플리케이션의 성능 측정을 위한 함수
