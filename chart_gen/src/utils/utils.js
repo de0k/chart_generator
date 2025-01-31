@@ -93,8 +93,16 @@ export const generateChartCode = (activeChart, chartData) => {
         throw new Error('차트 타입이 필요합니다.');
     }
 
+    // 로컬 개발 환경인지 확인
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+
+    // 환경에 따라 Chart.js 경로 선택
+    const chartJsSrc = isLocal 
+        ? "https://cdn.jsdelivr.net/npm/chart.js" 
+        : "/pcms/common/plugins/Chartjs/Chartjs.js";
+
     return `
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="${chartJsSrc}"></script>
         <canvas id="myChart" width="400" height="400"></canvas>
         <script>
         const ctx = document.getElementById('myChart').getContext('2d');
