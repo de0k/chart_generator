@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import { Bar, Line, Pie, Doughnut } from 'react-chartjs-2';
 
-function ChartRenderer({ isSidebarOpen, activeChart, chartData }) {
+const ChartRenderer = forwardRef(({ isSidebarOpen, activeChart, chartData }, ref) => {
     const [key, setKey] = useState(0);
 
     // Re-render chart when sidebar state changes
@@ -33,7 +33,7 @@ function ChartRenderer({ isSidebarOpen, activeChart, chartData }) {
         }
     };
 
-    return <div className='chart_rendering'>{renderChart()}</div>;
-}
+    return <div ref={ref} className='chart_rendering'>{renderChart()}</div>;
+});
 
 export default ChartRenderer;

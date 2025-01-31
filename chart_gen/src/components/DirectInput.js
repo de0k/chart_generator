@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ChartRenderer from '../components/ChartRenderer';
 import CodeModal from '../components/CodeModal';
 import FileConvertModal from '../components/FileConvertModal';
@@ -6,6 +6,8 @@ import ChartSettings from '../components/ChartSettings';
 import AdditionalSettings from '../components/AdditionalSettings';
 import { generateChartCode, prepareJsonData, downloadJson, prepareCsvData, downloadCsv, prepareXlsxData, downloadXlsx } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
@@ -84,6 +86,24 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
         downloadXlsx(workbook);
     };
 
+    // 차트 이미지 저장
+    const chartRef = useRef(null);
+    const handleChartImgDownload = async () => {
+        if (!chartRef.current) return;
+
+        try {
+            const div = chartRef.current;
+            const canvas = await html2canvas(div, { scale: 2 });
+            canvas.toBlob((blob) => {
+                if (blob !== null) {
+                    saveAs(blob, "result.png");
+                }
+            });
+        } catch (error) {
+            console.error("Error converting div to image:", error);
+        }
+    };
+
     return (
         <div className='main'>
             <div className="top_title_box n2">
@@ -92,6 +112,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                 <div className='right_item d-flex gap-1'>
                     <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
                     <button className='btn btn-success' onClick={() => setShowFileConvertModal(true)}>파일 변환</button>
+                    <button className='btn btn-success' onClick={handleChartImgDownload}>이미지 변환</button>
                 </div>
             </div>
             <div className="chart_wrap">
@@ -104,7 +125,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                     <ChartSettings
                         activeChart={activeChart}
                         setActiveChart={setActiveChart}
-                        
+
                         labels={labels}
                         setLabels={setLabels}
                         innerdata={innerdata}
@@ -118,7 +139,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                         setBorderColors={setBorderColors}
                         borderWidth={borderWidth}
                         setBorderWidth={setBorderWidth}
-                        
+
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
                         activeSection={activeSection}
@@ -146,7 +167,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
                             <button className="btn btn-primary" onClick={() => setIsSidebarOpen(false)}>확대</button>
                         </div>
                     )}
-                    <ChartRenderer activeChart={activeChart} chartData={chartData} isSidebarOpen={isSidebarOpen}/>
+                    <ChartRenderer ref={chartRef} activeChart={activeChart} chartData={chartData} isSidebarOpen={isSidebarOpen} />
                 </div>
             </div>
             {showCodeModal && (
