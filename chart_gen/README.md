@@ -2,6 +2,16 @@
 
 이 프로젝트는 [Create React App](https://github.com/facebook/create-react-app)을 사용하여 초기화되었습니다.
 
+## 시작하기전에
+
+현재 나의 경로를 `chart_gen` 폴더로 맞추기.
+
+### `git pull origin main` or `git fetch`
+최신 코드 가져오기
+
+### `npm install`
+새로 추가된 종속성 설치
+
 ## 사용 가능한 스크립트
 
 프로젝트 디렉터리에서 다음 명령을 실행할 수 있습니다.:
