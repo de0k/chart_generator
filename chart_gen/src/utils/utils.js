@@ -182,9 +182,9 @@ export const downloadXlsx = (workbook, fileName = 'chart_data.xlsx') => {
 };
 
 
-// 차트 옵션 초기값 정의 함수
-export const getDefaultChartOptions = (chartType) => {
-    const defaultOptions = {
+// 차트 초기값 정의 함수
+export const initChart = (chartType) => {
+    const chartConfig = {
         bar: {
             type: 'bar',
             data: {
@@ -281,7 +281,7 @@ export const getDefaultChartOptions = (chartType) => {
         },
     };
 
-    return defaultOptions[chartType] || {
+    return chartConfig[chartType] || {
         type: 'bar',
         data: {
             labels: [],
