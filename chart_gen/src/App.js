@@ -30,7 +30,7 @@ function App() {
                             <a href={`${process.env.PUBLIC_URL}/file/sample_data.zip`} download="sample_data.zip" className="btn btn-primary btn-lg btn_download">샘플 다운로드</a>
                             <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
                             <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
-                            {/* <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput_t')}>직접 입력_t</button> */}
+                            <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput_t')}>직접 입력_t</button>
                         </div>
                     </div>
                 );

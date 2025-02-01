@@ -104,8 +104,6 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
         }
     };
 
-    // 깃 테스트
-
     return (
         <div className='main'>
             <div className="top_title_box n2">
