@@ -8,11 +8,14 @@ import { generateChartCode, prepareJsonData, downloadJson, prepareCsvData, downl
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
+import { useSetRecoilState } from 'recoil';
+import { screenState } from '../recoil/atoms';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
 
-function DirectInput({ onBack, initialData, defaultChartType }) {
+function DirectInput({ initialData, defaultChartType }) {
+    const setScreen = useSetRecoilState(screenState);
     // 상태 관리
     const [activeChart, setActiveChart] = useState(defaultChartType || '');
 
@@ -107,7 +110,7 @@ function DirectInput({ onBack, initialData, defaultChartType }) {
     return (
         <div className='main'>
             <div className="top_title_box n2">
-                <button className='custom-btn custom-back btn btn-secondary' onClick={onBack}>뒤로가기</button>
+                <button className='custom-btn custom-back btn btn-secondary' onClick={() => setScreen('main')}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
                 <div className='right_item d-flex gap-1'>
                     <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>

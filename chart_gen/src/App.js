@@ -1,25 +1,26 @@
 import React, { useState } from 'react';
+import { RecoilRoot, useRecoilState } from 'recoil';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import FileUpload from './components/FileUpload';
 import DirectInput from './components/DirectInput';
 import DirectInputt from './components/DirectInputt';
+import { screenState } from './recoil/atoms';
 
-function App() {
-    const [screen, setScreen] = useState('main'); // 화면 상태 관리
+function AppContent() {
+    const [screen, setScreen] = useRecoilState(screenState);
     const [uploadedData, setUploadedData] = useState(null); // 업로드된 데이터 상태 관리
 
     const renderScreen = () => {
         switch (screen) {
             case 'fileUpload':
-                return <FileUpload onBack={() => setScreen('main')} onDataParsed={(data) => {
+                return <FileUpload onDataParsed={(data) => {
                     setUploadedData(data);
-                    setScreen('directInput');
                 }} />;
             case 'directInput':
-                return <DirectInput onBack={() => setScreen('main')} initialData={uploadedData} defaultChartType="Bar" />;
+                return <DirectInput initialData={uploadedData} defaultChartType="Bar" />;
             case 'directInput_t':
-                    return <DirectInputt onBack={() => setScreen('main')} initialData={uploadedData} defaultChartType="Bar" />;
+                    return <DirectInputt initialData={uploadedData} defaultChartType="Bar" />;
             default:
                 return (
                     <div className='main'>
@@ -41,6 +42,14 @@ function App() {
         <div className="App">
             {renderScreen()}
         </div>
+    );
+}
+
+function App() {
+    return (
+        <RecoilRoot>
+            <AppContent />
+        </RecoilRoot>
     );
 }
 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { screenState } from '../recoil/atoms';
 
 import { initChart } from '../utils/utils';
 
@@ -12,7 +14,8 @@ import { Collapse } from 'react-bootstrap';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
 
 
-function DirectInputt({ onBack }) {
+function DirectInputt() {
+    const setScreen = useSetRecoilState(screenState);
     const [chartInstance, setChartInstance] = useState(null);
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -47,7 +50,7 @@ function DirectInputt({ onBack }) {
     return (
         <div className='main'>
             <div className="top_title_box n2">
-                <button className='custom-btn custom-back btn btn-secondary' onClick={onBack}>뒤로가기</button>
+                <button className='custom-btn custom-back btn btn-secondary' onClick={() => setScreen('main')}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
                 <div className='right_item d-flex gap-1'>
                 </div>
