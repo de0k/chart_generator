@@ -8,14 +8,15 @@ import { generateChartCode, prepareJsonData, downloadJson, prepareCsvData, downl
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import html2canvas from "html2canvas";
 import { saveAs } from "file-saver";
-import { useSetRecoilState } from 'recoil';
-import { screenState } from '../recoil/atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { screenState, uploadedDataState } from '../recoil/atoms';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
 
-function DirectInput({ initialData, defaultChartType }) {
+function DirectInput({ defaultChartType }) {
     const setScreen = useSetRecoilState(screenState);
+    const uploadedData = useRecoilValue(uploadedDataState);
     // 상태 관리
     const [activeChart, setActiveChart] = useState(defaultChartType || '');
 
@@ -36,8 +37,8 @@ function DirectInput({ initialData, defaultChartType }) {
 
     // 초기 데이터 로드
     useEffect(() => {
-        if (initialData) {
-            const { labels: initialLabels, datasets } = initialData;
+        if (uploadedData) {
+            const { labels: initialLabels, datasets } = uploadedData;
             setLabels(initialLabels);
             setInnerdata(datasets.map((dataset) => dataset.data));
             setDatasetLabels(datasets.map((dataset) => dataset.label));
@@ -46,7 +47,7 @@ function DirectInput({ initialData, defaultChartType }) {
             setBorderColors(datasets.map(() => 'rgba(54, 162, 235, 1)'));
             setBorderWidth(datasets.map(() => 1));
         }
-    }, [initialData]);
+    }, [uploadedData]);
 
     // 차트 데이터 초기화
     const chartData = {

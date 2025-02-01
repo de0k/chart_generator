@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { screenState } from '../recoil/atoms';
+import { screenState, uploadedDataState } from '../recoil/atoms';
 import { processFileUpload } from '../utils/utils';
 
-function FileUpload({ onDataParsed }) {
+function FileUpload() {
     const setScreen = useSetRecoilState(screenState);
+    const setUploadedData = useSetRecoilState(uploadedDataState);
     const [fileError, setFileError] = useState('');
 
     const handleFileUpload = async (event) => {
@@ -13,7 +14,7 @@ function FileUpload({ onDataParsed }) {
     
         try {
             const parsedData = await processFileUpload(file);
-            onDataParsed(parsedData); // 처리된 데이터를 부모 컴포넌트로 전달
+            setUploadedData(parsedData);
             setScreen('directInput');
         } catch (error) {
             setFileError(error.message); // 오류 메시지 설정
