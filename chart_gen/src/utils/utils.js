@@ -291,3 +291,51 @@ export const initChart = (chartType) => {
     };
 };
 
+export const handleDataChange = (setChartInstance, property, datasetIndex, valueIndex, newValue) => {
+    setChartInstance(prevState => {
+        const updatedData = { ...prevState.data };
+
+        if (property === 'labels') {
+            updatedData.labels = [...updatedData.labels];
+            updatedData.labels[valueIndex] = newValue;
+        } else if (property === 'datasetsLabel') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = { 
+                ...updatedData.datasets[datasetIndex], 
+                label: newValue 
+            };
+        } else if (property === 'data') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = { 
+                ...updatedData.datasets[datasetIndex], 
+                data: [...updatedData.datasets[datasetIndex].data]
+            };
+            updatedData.datasets[datasetIndex].data[valueIndex] = newValue;
+        } else if (property === 'backgroundColor') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = { 
+                ...updatedData.datasets[datasetIndex], 
+                backgroundColor: [...updatedData.datasets[datasetIndex].backgroundColor]
+            };
+            updatedData.datasets[datasetIndex].backgroundColor[valueIndex] = newValue;
+        } else if (property === 'borderColor') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = { 
+                ...updatedData.datasets[datasetIndex], 
+                borderColor: [...updatedData.datasets[datasetIndex].borderColor]
+            };
+            updatedData.datasets[datasetIndex].borderColor[valueIndex] = newValue;
+        } else if (property === 'borderWidth') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = { 
+                ...updatedData.datasets[datasetIndex], 
+                borderWidth: newValue 
+            };
+        }
+
+        return {
+            ...prevState,
+            data: updatedData
+        };
+    });
+};
