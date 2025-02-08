@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { screenState } from '../recoil/atoms';
 
-import { initChart } from '../utils/utils';
+import { initChart, rgbaToHex, hexToRgba } from '../utils/utils';
 
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 
@@ -19,6 +19,7 @@ function DirectInputt() {
     const [chartInstance, setChartInstance] = useState(null);
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [activeTab, setActiveTab] = useState('data');
     
 
     // useEffect(() => {
@@ -46,6 +47,7 @@ function DirectInputt() {
             };
         });
     };
+
 
     return (
         <div className='main'>
@@ -105,6 +107,122 @@ function DirectInputt() {
                                                                 <button className="btn btn-success" type="button">X</button>
                                                             </div>
                                                         ))}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <p>차트 타입을 선택해주세요.</p>
+                                            )}
+                                        </div>
+                                        <div className='datasets_box'>
+                                            {chartInstance ? (
+                                                <>
+                                                    <button className='btn btn-primary btn_add'>데이터셋 추가</button>
+                                                    <div className='tab_wrap'>
+                                                        <ul className="nav nav-tabs" role="tablist">
+                                                            <li className="nav-item">
+                                                                <button
+                                                                    className={`nav-link ${activeTab === 'data' ? 'active' : ''}`}
+                                                                    onClick={() => setActiveTab('data')}
+                                                                >
+                                                                    데이터 설정
+                                                                </button>
+                                                            </li>
+                                                            <li className="nav-item">
+                                                                <button
+                                                                    className={`nav-link ${activeTab === 'option' ? 'active' : ''}`}
+                                                                    onClick={() => setActiveTab('option')}
+                                                                >
+                                                                    옵션 설정
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                        <div className="tab-content">
+                                                            {activeTab === 'data' && (
+                                                                <div className="tab-pane active">
+                                                                    {chartInstance.data.datasets.map((dataset, datasetIndex) => (
+                                                                        <div className='data_box inner_box' key={datasetIndex}>
+                                                                            <div className='input-group'>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    value={dataset.label}
+                                                                                    className='form-control'
+                                                                                />
+                                                                                <button className="btn btn-success" type="button">X</button>
+                                                                            </div>
+                                                                            <div className='data_inner'>
+                                                                                {dataset.data.map((data, index) => (
+                                                                                    <div className='form-floating' key={index}>
+                                                                                        <input
+                                                                                            type="text"
+                                                                                            className='form-control'
+                                                                                            placeholder={chartInstance.data.labels[index]}
+                                                                                            value={data}
+                                                                                        />
+                                                                                        <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                            {activeTab === 'option' && (
+                                                                <div className="tab-pane active">
+                                                                    {chartInstance.data.datasets.map((dataset, datasetIndex) => (
+                                                                        <div className='option_box inner_box' key={`dataset-${datasetIndex}`}>
+                                                                            <div className='input-group'>
+                                                                                <input
+                                                                                    type="text"
+                                                                                    value={dataset.label}
+                                                                                    className='form-control'
+                                                                                />
+                                                                                <button className="btn btn-success" type="button">X</button>
+                                                                            </div>
+                                                                            <div className='option_inner'>
+                                                                                <div className='input-group'>
+                                                                                    {dataset.backgroundColor.map((bg, index) => (
+                                                                                        <>
+                                                                                            <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
+                                                                                            <input
+                                                                                                type="color"
+                                                                                                className="form-control form-control-color"
+                                                                                                id={`bgc-${index}`}
+                                                                                                value={rgbaToHex(bg)}
+                                                                                            />
+                                                                                        </>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className='input-group'>
+                                                                                    {dataset.borderColor.map((bd, index) => (
+                                                                                        <>
+                                                                                            <label htmlFor={`bdc-${index}`} className='input-group-text'>Border Color</label>
+                                                                                            <input
+                                                                                                type="color"
+                                                                                                className="form-control form-control-color"
+                                                                                                id={`bdc-${index}`}
+                                                                                                value={rgbaToHex(bd)}
+                                                                                            />
+                                                                                        </>
+                                                                                    ))}
+                                                                                </div>
+                                                                                <div className='form-floating'>
+                                                                                    <select
+                                                                                        id={`bdw-${datasetIndex}`}
+                                                                                        className='form-select'
+                                                                                        value={dataset.borderWidth}
+                                                                                    >
+                                                                                        {[1, 2, 3, 4, 5].map((width) => (
+                                                                                            <option key={width} value={width}>{width}</option>
+                                                                                        ))}
+                                                                                    </select>
+                                                                                    <label htmlFor={`bdw-${datasetIndex}`}>Border Width: </label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                 </>
                                             ) : (
