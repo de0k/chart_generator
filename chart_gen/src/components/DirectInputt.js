@@ -7,6 +7,8 @@ import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
 import BarChart from '../components/BarChart';
 import LineChart from '../components/LineChart';
+import PieChart from '../components/PieChart';
+import DoughnutChart from '../components/DoughnutChart';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
@@ -95,6 +97,8 @@ function DirectInputt() {
                                         </div>
                                         {chartInstance && chartInstance.type === 'bar' && <BarChart />}
                                         {chartInstance && chartInstance.type === 'line' && <LineChart />}
+                                        {chartInstance && chartInstance.type === 'pie' && <PieChart />}
+                                        {chartInstance && chartInstance.type === 'doughnut' && <DoughnutChart />}
                                     </div>
                                 </div>
                             </div>
