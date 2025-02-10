@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { screenState, chartInstanceState } from '../recoil/atoms';
+import { screenState, chartInstanceState, uploadedDataState } from '../recoil/atoms';
 import { initChart, handleDataChange } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
@@ -19,11 +19,28 @@ function DirectInputt() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    // const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
     
     // useEffect(() => {
-    //     const options = initChart('bar');
-    //     setChartInstance(options);
-    // }, []);
+    //     if (uploadedData) {
+    //         const options = initChart('bar');
+    //         options.data.labels = uploadedData.labels;
+
+    //         if (options.type === 'pie' || options.type === 'doughnut') {
+    //             options.data.datasets = uploadedData.datasets.map(dataset => ({
+    //                 data: dataset.data,
+    //                 label: null
+    //             }));
+    //         } else {
+    //             options.data.datasets = uploadedData.datasets.map(dataset => ({
+    //                 data: dataset.data,
+    //                 label: dataset.label
+    //             }));
+    //         }
+
+    //         setChartInstance(options);
+    //     }
+    // }, [uploadedData]);
 
     // 차트 종류 선택 (ChartRenderer)
     const handleChartType = (chartType) => {

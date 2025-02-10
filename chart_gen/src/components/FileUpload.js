@@ -15,7 +15,7 @@ function FileUpload() {
         try {
             const parsedData = await processFileUpload(file);
             setUploadedData(parsedData);
-            setScreen('directInput');
+            setScreen('directInput_t');
         } catch (error) {
             setFileError(error.message); // 오류 메시지 설정
         }
