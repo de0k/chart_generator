@@ -48,6 +48,57 @@ function DirectInputt() {
         setChartInstance(options);
     };
 
+    // 라벨 추가
+    const handleAddLabel = () => {
+        if (!chartInstance) return;
+        if (chartInstance.data.labels.length >= 10) {
+            alert('데이터셋은 최대 10개까지 추가할 수 있습니다.');
+            return;
+        }
+    
+        const newLabel = `라벨 ${chartInstance.data.labels.length + 1}`;
+        const newChartInstance = {
+            ...chartInstance,
+            data: {
+                ...chartInstance.data,
+                labels: [...chartInstance.data.labels, newLabel],
+                datasets: chartInstance.data.datasets.map(dataset => ({
+                    ...dataset,
+                    data: [...dataset.data, 10], 
+                }))
+            }
+        };
+    
+        setChartInstance(newChartInstance);
+    };
+
+    // 라벨 제거
+    const handleRemoveLabel = (labelIndex) => {
+        if (!chartInstance) return;
+
+        // 라벨이 하나도 없으면 삭제할 수 없음
+        if (chartInstance.data.labels.length === 1) {
+            alert("삭제할 라벨이 없습니다.");
+            return;
+        }
+
+        const newChartInstance = {
+            ...chartInstance,
+            data: {
+                ...chartInstance.data,
+                labels: chartInstance.data.labels.filter((_, index) => index !== labelIndex), // 해당 라벨 삭제
+                datasets: chartInstance.data.datasets.map(dataset => ({
+                    ...dataset,
+                    data: dataset.data.filter((_, index) => index !== labelIndex) // 해당 데이터 삭제
+                }))
+            }
+        };
+
+        setChartInstance(newChartInstance);
+    };
+
+    
+
     return (
         <div className='main'>
             <div className="top_title_box n2">
@@ -93,7 +144,7 @@ function DirectInputt() {
                                         <div className='label_box'>
                                             {chartInstance ? (
                                                 <>
-                                                    <button className='btn btn-primary btn_add'>라벨 추가</button>
+                                                    <button className='btn btn-primary btn_add' onClick={handleAddLabel}>라벨 추가</button>
                                                     <div className='sticky-top'>
                                                         {chartInstance.data.labels.map((label, index) => (
                                                             <div className='input-group' key={index}>
@@ -103,7 +154,7 @@ function DirectInputt() {
                                                                     className='form-control'
                                                                     onChange={(e) => handleDataChange(setChartInstance,'labels', 0,index, e.target.value)}
                                                                 />
-                                                                <button className="btn btn-success" type="button">X</button>
+                                                                <button className="btn btn-success" type="button" onClick={() => handleRemoveLabel(index)}>X</button>
                                                             </div>
                                                         ))}
                                                     </div>

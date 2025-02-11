@@ -339,3 +339,74 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
         };
     });
 };
+
+// 데이터셋 추가
+export const handleAddDataset = (setChartInstance, chartInstance, chartType) => {
+    if (!chartInstance) return;
+
+    if (chartInstance.data.datasets.length >= 10) {
+        alert('데이터셋은 최대 10개까지 추가할 수 있습니다.');
+        return;
+    }
+
+    let newDataset = {};
+
+    // 차트 타입별로 newDataset을 다르게 설정
+    if (chartType === 'bar' || chartType === 'line') {
+        newDataset = {
+            label: `Dataset ${chartInstance.data.datasets.length + 1}`,
+            data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+            backgroundColor: Array(chartInstance.data.labels.length).fill(
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
+            ),
+            borderColor: Array(chartInstance.data.labels.length).fill(
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`
+            ),
+            borderWidth: 1,
+        };
+        console.log(newDataset.backgroundColor);
+    } else if (chartType === 'pie' || chartType === 'doughnut') {
+        newDataset = {
+            data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+            backgroundColor: chartInstance.data.labels.map(() =>
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
+            ),
+        };
+    } else {
+        alert("지원되지 않는 차트 타입입니다.");
+        return;
+    }
+
+    // 차트 상태 업데이트
+    const newChartInstance = {
+        ...chartInstance,
+        data: {
+            ...chartInstance.data,
+            datasets: [...chartInstance.data.datasets, newDataset],
+        },
+    };
+
+    setChartInstance(newChartInstance);
+};
+
+// 데이터셋 제거
+export const handleRemoveDataset = (setChartInstance, chartInstance, datasetIndex) => {
+    if (!chartInstance) return;
+
+    // 데이터셋이 하나도 없으면 삭제할 수 없음
+    if (chartInstance.data.datasets.length === 1) {
+        alert("삭제할 데이터셋이 없습니다.");
+        return;
+    }
+
+    const newChartInstance = {
+        ...chartInstance,
+        data: {
+            ...chartInstance.data,
+            datasets: chartInstance.data.datasets.filter((_, index) => index !== datasetIndex) // 해당 데이터셋 삭제
+        }
+    };
+
+    setChartInstance(newChartInstance);
+};
+

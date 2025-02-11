@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { chartInstanceState, activeTabState } from '../recoil/atoms';
-import { rgbaToHex, handleDataChange, hexToRgba } from '../utils/utils';
+import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
 
 function LineChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
@@ -10,7 +10,7 @@ function LineChart() {
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add'>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance,chartInstance,'line')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
@@ -42,7 +42,7 @@ function LineChart() {
                                                 className='form-control'
                                                 onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button">X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
                                         </div>
                                         <div className='data_inner'>
                                             {dataset.data.map((data, index) => (
@@ -73,7 +73,7 @@ function LineChart() {
                                                 className='form-control'
                                                 onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button">X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
                                             {dataset.backgroundColor.map((bg, index) => (
