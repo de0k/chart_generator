@@ -19,34 +19,45 @@ function DirectInputt() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    // const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
-    
-    // useEffect(() => {
-    //     if (uploadedData) {
-    //         const options = initChart('bar');
-    //         options.data.labels = uploadedData.labels;
+    const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
 
-    //         if (options.type === 'pie' || options.type === 'doughnut') {
-    //             options.data.datasets = uploadedData.datasets.map(dataset => ({
-    //                 data: dataset.data,
-    //                 label: null
-    //             }));
-    //         } else {
-    //             options.data.datasets = uploadedData.datasets.map(dataset => ({
-    //                 data: dataset.data,
-    //                 label: dataset.label
-    //             }));
-    //         }
-
-    //         setChartInstance(options);
-    //     }
-    // }, [uploadedData]);
+    console.log(uploadedData);
 
     // 차트 종류 선택 (ChartRenderer)
+    // const handleChartType = (chartType) => {
+    //     const options = initChart(chartType);
+    //     setChartInstance(options);
+    // };
+
     const handleChartType = (chartType) => {
-        const options = initChart(chartType);
-        setChartInstance(options);
+        let options = initChart(chartType);
+        setChartInstance(options); // 먼저 초기 차트 설정
+
+        if (uploadedData) {
+            setChartInstance(prevChart => ({
+                ...prevChart,
+                data: {
+                    ...prevChart.data,
+                    labels: uploadedData.labels, // 라벨 덮어씌우기
+                    datasets: prevChart.data.datasets.map((dataset, index) => {
+                        const newDataset = {
+                            ...dataset,
+                            data: uploadedData.datasets[index]?.data || dataset.data, // 데이터 덮어씌우기
+                        };
+
+                        // bar, line 차트는 label도 덮어씌우기
+                        if (chartType === 'bar' || chartType === 'line') {
+                            newDataset.label = uploadedData.datasets[index]?.label || dataset.label;
+                        }
+
+                        return newDataset;
+                    }),
+                },
+            }));
+        }
     };
+
+    
 
     // 라벨 추가
     const handleAddLabel = () => {
