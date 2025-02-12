@@ -62,11 +62,27 @@ function DirectInputt() {
             data: {
                 ...chartInstance.data,
                 labels: [...chartInstance.data.labels, newLabel],
-                datasets: chartInstance.data.datasets.map(dataset => ({
-                    ...dataset,
-                    data: [...dataset.data, 10], 
-                }))
-            }
+                datasets: chartInstance.data.datasets.map(dataset => {
+                    // 차트 유형에 따른 분기
+                    if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                        return {
+                            ...dataset,
+                            data: [...dataset.data, 10],
+                            backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                            borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
+                            borderWidth: 1,
+                        };
+                    } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
+                        return {
+                            ...dataset,
+                            data: [...dataset.data, 10],
+                            backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                        };
+                    } else {
+                        return dataset;
+                    }
+                }),
+            },
         };
     
         setChartInstance(newChartInstance);
@@ -87,11 +103,26 @@ function DirectInputt() {
             data: {
                 ...chartInstance.data,
                 labels: chartInstance.data.labels.filter((_, index) => index !== labelIndex), // 해당 라벨 삭제
-                datasets: chartInstance.data.datasets.map(dataset => ({
-                    ...dataset,
-                    data: dataset.data.filter((_, index) => index !== labelIndex) // 해당 데이터 삭제
-                }))
-            }
+                datasets: chartInstance.data.datasets.map(dataset => {
+                    // 차트 유형에 따라 분기 처리
+                    if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                        return {
+                            ...dataset,
+                            data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                            backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
+                            borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex), // 테두리 색 삭제
+                        };
+                    } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
+                        return {
+                            ...dataset,
+                            data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                            backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
+                        };
+                    } else {
+                        return dataset;
+                    }
+                }),
+            },
         };
 
         setChartInstance(newChartInstance);

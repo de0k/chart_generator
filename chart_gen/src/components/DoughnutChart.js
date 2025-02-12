@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { chartInstanceState, activeTabState } from '../recoil/atoms';
-import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset } from '../utils/utils';
+import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
 
 function DoughnutChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
@@ -10,7 +10,7 @@ function DoughnutChart() {
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance,chartInstance,'doughnut')}>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'doughnut')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
@@ -35,6 +35,9 @@ function DoughnutChart() {
                             <div className="tab-pane active">
                                 {chartInstance.data.datasets.map((dataset, datasetIndex) => (
                                     <div className='data_box inner_box' key={datasetIndex}>
+                                        <div className='input-group'>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
+                                        </div>
                                         <div className='data_inner'>
                                             {dataset.data.map((data, index) => (
                                                 <div className='form-floating' key={index}>
@@ -43,7 +46,7 @@ function DoughnutChart() {
                                                         className='form-control'
                                                         placeholder={chartInstance.data.labels[index]}
                                                         value={data}
-                                                        onChange={(e) => handleDataChange(setChartInstance,'data',datasetIndex, index, e.target.value)}
+                                                        onChange={(e) => handleDataChange(setChartInstance, 'data', datasetIndex, index, e.target.value)}
                                                     />
                                                     <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
                                                 </div>
@@ -57,6 +60,9 @@ function DoughnutChart() {
                             <div className="tab-pane active">
                                 {chartInstance.data.datasets.map((dataset, datasetIndex) => (
                                     <div className='option_box inner_box' key={`dataset-${datasetIndex}`}>
+                                        <div className='input-group'>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
+                                        </div>
                                         <div className='option_inner'>
                                             {dataset.backgroundColor.map((bg, index) => (
                                                 <div>
@@ -68,7 +74,7 @@ function DoughnutChart() {
                                                             className="form-control form-control-color"
                                                             id={`bgc-${index}`}
                                                             value={rgbaToHex(bg)}
-                                                            onChange={(e) => handleDataChange(setChartInstance,'backgroundColor',datasetIndex, index, hexToRgba(e.target.value))}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value))}
                                                         />
                                                     </div>
                                                 </div>
