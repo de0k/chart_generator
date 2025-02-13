@@ -24,38 +24,46 @@ function DirectInputt() {
     console.log(uploadedData);
 
     // 차트 종류 선택 (ChartRenderer)
-    const handleChartType = (chartType) => {
-        const options = initChart(chartType);
-        setChartInstance(options);
-    };
-
     // const handleChartType = (chartType) => {
-    //     let options = initChart(chartType);
-    //     setChartInstance(options); // 먼저 초기 차트 설정
-
-    //     if (uploadedData) {
-    //         setChartInstance(prevChart => ({
-    //             ...prevChart,
-    //             data: {
-    //                 ...prevChart.data,
-    //                 labels: uploadedData.labels, // 라벨 덮어씌우기
-    //                 datasets: prevChart.data.datasets.map((dataset, index) => {
-    //                     const newDataset = {
-    //                         ...dataset,
-    //                         data: uploadedData.datasets[index]?.data || dataset.data, // 데이터 덮어씌우기
-    //                     };
-
-    //                     // bar, line 차트는 label도 덮어씌우기
-    //                     if (chartType === 'bar' || chartType === 'line') {
-    //                         newDataset.label = uploadedData.datasets[index]?.label || dataset.label;
-    //                     }
-
-    //                     return newDataset;
-    //                 }),
-    //             },
-    //         }));
-    //     }
+    //     const options = initChart(chartType);
+    //     setChartInstance(options);
     // };
+
+    const handleChartType = (chartType) => {
+        let options = initChart(chartType);
+        setChartInstance(options); // 먼저 초기 차트 설정
+    
+        if (uploadedData) {
+            setChartInstance(prevChart => ({
+                ...prevChart,
+                data: {
+                    ...prevChart.data,
+                    labels: uploadedData.labels, // 모든 차트의 라벨 덮어씌우기
+                    datasets: prevChart.data.datasets.map((dataset, index) => {
+                        const newDataset = {
+                            ...dataset,
+                            data: uploadedData.datasets[index]?.data || dataset.data, // 데이터 덮어씌우기
+                            backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) => 
+                                dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
+                            ),
+                        };
+    
+                        // bar, line 차트는 label, borderColor, borderWidth도 업데이트
+                        if (chartType === 'bar' || chartType === 'line') {
+                            newDataset.label = uploadedData.datasets[index]?.label || dataset.label;
+                            newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) => 
+                                dataset.borderColor?.[i] || 'rgba(255, 99, 132, 0.2)'
+                            );
+                            newDataset.borderWidth = dataset.borderWidth; // initChart 초기값 유지
+                        }
+    
+                        return newDataset;
+                    }),
+                },
+            }));
+        }
+    };
+    
 
     
 
