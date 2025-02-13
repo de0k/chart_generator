@@ -14,20 +14,13 @@ import DoughnutChart from '../components/DoughnutChart';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
 
 
+
 function DirectInputt() {
     const setScreen = useSetRecoilState(screenState);
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
-
-    console.log(uploadedData);
-
-    // 차트 종류 선택 (ChartRenderer)
-    // const handleChartType = (chartType) => {
-    //     const options = initChart(chartType);
-    //     setChartInstance(options);
-    // };
 
     const handleChartType = (chartType) => {
         let options = initChart(chartType);

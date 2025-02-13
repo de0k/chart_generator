@@ -1,4 +1,5 @@
 import * as XLSX from 'xlsx';
+import pattern from "patternomaly";
 
 // rgba 색상을 HEX 색상으로 변환
 export const rgbaToHex = (rgba) => {
