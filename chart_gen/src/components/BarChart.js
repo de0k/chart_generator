@@ -10,7 +10,7 @@ function BarChart() {
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance,chartInstance,'bar')}>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'bar')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
@@ -40,24 +40,38 @@ function BarChart() {
                                                 type="text"
                                                 value={dataset.label}
                                                 className='form-control'
-                                                onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
+                                                onChange={(e) => handleDataChange(setChartInstance, 'datasetsLabel', datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='data_inner'>
                                             {dataset.data.map((data, index) => (
                                                 <div className='form-floating' key={index}>
-                                                    <input
-                                                        type="text"
-                                                        className='form-control'
-                                                        placeholder={chartInstance.data.labels[index]}
-                                                        value={data}
-                                                        onChange={(e) => handleDataChange(setChartInstance,'data',datasetIndex, index, e.target.value)}
-                                                    />
-                                                    <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
+                                                    <div className="d-flex">
+                                                        <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
+                                                        {/* Min 값 입력 */}
+                                                        <input
+                                                            type="text"
+                                                            className='form-control me-2'
+                                                            placeholder={`Min ${chartInstance.data.labels[index]}`}
+                                                            value={data[0]}
+                                                            onChange={(e) =>
+                                                                handleDataChange(setChartInstance, 'data', datasetIndex, index, [Number(e.target.value), data[1]], true)}
+                                                        />
+                                                        {/* Max 값 입력 */}
+                                                        <input
+                                                            type="text"
+                                                            className='form-control'
+                                                            placeholder={`Max ${chartInstance.data.labels[index]}`}
+                                                            value={data[1]}
+                                                            onChange={(e) =>
+                                                                handleDataChange(setChartInstance, 'data', datasetIndex, index, [data[0], Number(e.target.value)], true)}
+                                                        />
+                                                    </div>
                                                 </div>
                                             ))}
                                         </div>
+
                                     </div>
                                 ))}
                             </div>
@@ -71,9 +85,9 @@ function BarChart() {
                                                 type="text"
                                                 value={dataset.label}
                                                 className='form-control'
-                                                onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
+                                                onChange={(e) => handleDataChange(setChartInstance, 'datasetsLabel', datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
                                             {dataset.backgroundColor.map((bg, index) => (
@@ -86,7 +100,7 @@ function BarChart() {
                                                             className="form-control form-control-color"
                                                             id={`bgc-${index}`}
                                                             value={rgbaToHex(bg)}
-                                                            onChange={(e) => handleDataChange(setChartInstance,'backgroundColor',datasetIndex, index, hexToRgba(e.target.value))}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value))}
                                                         />
                                                     </div>
                                                 </div>
@@ -101,7 +115,7 @@ function BarChart() {
                                                             className="form-control form-control-color"
                                                             id={`bdc-${index}`}
                                                             value={rgbaToHex(bd)}
-                                                            onChange={(e) => handleDataChange(setChartInstance,'borderColor',datasetIndex, index, hexToRgba(e.target.value))}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'borderColor', datasetIndex, index, hexToRgba(e.target.value))}
                                                         />
                                                     </div>
                                                 </div>
@@ -111,7 +125,7 @@ function BarChart() {
                                                     id={`bdw-${datasetIndex}`}
                                                     className='form-select'
                                                     value={dataset.borderWidth}
-                                                    onChange={(e) => handleDataChange(setChartInstance,'borderWidth',datasetIndex, 0, e.target.value)}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'borderWidth', datasetIndex, 0, e.target.value)}
                                                 >
                                                     {[0, 1, 2, 3, 4, 5].map((width) => (
                                                         <option key={width} value={width}>{width}</option>
@@ -125,7 +139,7 @@ function BarChart() {
                                                     type="number"
                                                     value={dataset.borderRadius}
                                                     className='form-control'
-                                                    onChange={(e) => handleDataChange(setChartInstance,'borderRadius',datasetIndex, 0, e.target.value)}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'borderRadius', datasetIndex, 0, e.target.value)}
                                                 />
                                                 <label htmlFor={`bdw-${datasetIndex}`}>Border Radius: </label>
                                             </div>

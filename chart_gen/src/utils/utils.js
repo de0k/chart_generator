@@ -244,7 +244,7 @@ export const initChart = (chartType) => {
                 labels: ['Category 1', 'Category 2', 'Category 3'],
                 datasets: [{
                     label: 'Dataset 1',
-                    data: [10, 20, 30],
+                    data: [[0,10],[0,20],[0,30]],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -366,7 +366,11 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                 datasets: prevChart.data.datasets.map((dataset, index) => {
                     const newDataset = {
                         ...dataset,
-                        data: uploadedData.datasets[index].data,
+                        data: chartType === 'bar'
+                            ? uploadedData.datasets[index].data.map(value =>
+                                Array.isArray(value) ? value : [0, value]
+                            )
+                            : uploadedData.datasets[index].data,
                         backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
                             dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
                         ),
@@ -397,7 +401,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
 };
 
 // 차트 data 속성 핸들링 함수
-export const handleDataChange = (setChartInstance, property, datasetIndex, valueIndex, newValue) => {
+export const handleDataChange = (setChartInstance, property, datasetIndex, valueIndex, newValue, minMax = false) => {
     setChartInstance(prevState => {
         const updatedData = { ...prevState.data };
 
@@ -416,7 +420,17 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 data: [...updatedData.datasets[datasetIndex].data]
             };
-            updatedData.datasets[datasetIndex].data[valueIndex] = newValue;
+
+            // ✅ Floating Bar Chart 지원
+            if (Array.isArray(updatedData.datasets[datasetIndex].data[valueIndex])) {
+                // 기존 데이터가 `[min, max]` 형식이면 `newValue`도 `[min, max]`로 변경
+                updatedData.datasets[datasetIndex].data[valueIndex] = minMax 
+                    ? newValue  // 직접 `[min, max]` 값을 전달할 경우
+                    : [updatedData.datasets[datasetIndex].data[valueIndex][0], newValue]; // max 값 변경
+            } else {
+                // 기존 데이터가 단일 값이면 `[min, max]` 형식으로 변환
+                updatedData.datasets[datasetIndex].data[valueIndex] = minMax ? newValue : [0, newValue];
+            }
         } else if (property === 'backgroundColor') {
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
@@ -470,7 +484,10 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                 if (chartInstance.type === 'bar') {
                     return {
                         ...dataset,
-                        data: [...dataset.data, 10],
+                        data: [
+                            ...dataset.data.map(value => Array.isArray(value) ? value : [0, value]), // 기존 데이터가 숫자면 변환
+                            [0, 10] // 새 데이터 추가
+                        ],
                         backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
                         borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
                         borderWidth: 1,
@@ -523,12 +540,20 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
             labels: chartInstance.data.labels.filter((_, index) => index !== labelIndex), // 해당 라벨 삭제
             datasets: chartInstance.data.datasets.map(dataset => {
                 // 차트 유형에 따라 분기 처리
-                if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                if (chartInstance.type === 'bar') {
                     return {
                         ...dataset,
-                        data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
-                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
-                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex), // 테두리 색 삭제
+                        data: dataset.data.filter((_, index) => index !== labelIndex)
+                            .map(value => Array.isArray(value) ? value : [0, value]), // 데이터가 단일값이면 [0, value] 변환
+                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex),
+                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex), 
+                    };
+                } else if (chartInstance.type === 'line') {
+                    return {
+                        ...dataset,
+                        data: dataset.data.filter((_, index) => index !== labelIndex), 
+                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex),
+                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -561,7 +586,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
     if (chartType === 'bar') {
         newDataset = {
             label: `Dataset ${chartInstance.data.datasets.length + 1}`,
-            data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+            data: Array(chartInstance.data.labels.length).map(() => [0, 10]),
             backgroundColor: Array(chartInstance.data.labels.length).fill(
                 `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
             ),
