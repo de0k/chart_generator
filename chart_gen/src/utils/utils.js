@@ -344,33 +344,39 @@ export const initChart = (chartType) => {
     };
 };
 
-// 차트 타입에 따른 초기화 함수
+/* 
+    ● 차트 타입에 따른 초기화 함수
+    - chartType으로 차트 초기화 및 상태 업데이트
+    - 업로드데이터가 있으면 
+    - ...prevChart, ...prevChart.data,, ...dataset, 기존 차트 상태 불러와서 데이터 덮어 씌움
+    - backgroundColor: Array.from({ length: uploadedData.labels.length } -> 업로드된 데이터가 차트 초기값 보다 많을 수 있어서 해당 속성 업로드된 데이터 갯수만큼 생성
+    - (_, i) -> _는 첫 번째 매개변수(배열 요소 값) 를 의미하는데, 여기선 필요 없으므로 _로 무시함. i는 현재 인덱스를 의미함.
+*/
 export const handleChartType = (chartType, setChartInstance, uploadedData) => {
     let options = initChart(chartType);
-    setChartInstance(options); // 먼저 초기 차트 설정
+    setChartInstance(options);
 
     if (uploadedData) {
         setChartInstance(prevChart => ({
             ...prevChart,
             data: {
                 ...prevChart.data,
-                labels: uploadedData.labels, // 모든 차트의 라벨 덮어씌우기
+                labels: uploadedData.labels,
                 datasets: prevChart.data.datasets.map((dataset, index) => {
                     const newDataset = {
                         ...dataset,
-                        data: uploadedData.datasets[index]?.data || dataset.data, // 데이터 덮어씌우기
+                        data: uploadedData.datasets[index].data,
                         backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
                             dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
                         ),
                     };
 
-                    // bar, line 차트는 label, borderColor, borderWidth도 업데이트
                     if (chartType === 'bar' || chartType === 'line') {
-                        newDataset.label = uploadedData.datasets[index]?.label || dataset.label;
+                        newDataset.label = uploadedData.datasets[index].label;
                         newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                            dataset.borderColor?.[i] || 'rgba(255, 99, 132, 0.2)'
+                            dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
                         );
-                        newDataset.borderWidth = dataset.borderWidth; // initChart 초기값 유지
+                        newDataset.borderWidth = dataset.borderWidth;
                     }
 
                     return newDataset;
@@ -445,7 +451,6 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
             ...chartInstance.data,
             labels: [...chartInstance.data.labels, newLabel],
             datasets: chartInstance.data.datasets.map(dataset => {
-                // 차트 유형에 따른 분기
                 if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
                     return {
                         ...dataset,
@@ -470,7 +475,13 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
     setChartInstance(newChartInstance);
 };
 
-// 차트 라벨 & 데이터 제거
+/*
+    차트 라벨 & 데이터 제거
+    labels: chartInstance.data.labels.filter((_, index) => index !== labelIndex),
+    -> ex) labels: ["A", "B", "C", "D"], `labelIndex = 1` (B) 삭제
+    -> chartInstance.data.labels.filter((_, index) => index !== 1);
+    -> ["A", "C", "D"]
+*/
 export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) => {
     if (!chartInstance) return;
 
@@ -534,7 +545,6 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             ),
             borderWidth: 1,
         };
-        console.log(newDataset.backgroundColor);
     } else if (chartType === 'pie' || chartType === 'doughnut') {
         newDataset = {
             data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
