@@ -113,11 +113,21 @@ function BarChart() {
                                                     value={dataset.borderWidth}
                                                     onChange={(e) => handleDataChange(setChartInstance,'borderWidth',datasetIndex, 0, e.target.value)}
                                                 >
-                                                    {[1, 2, 3, 4, 5].map((width) => (
+                                                    {[0, 1, 2, 3, 4, 5].map((width) => (
                                                         <option key={width} value={width}>{width}</option>
                                                     ))}
                                                 </select>
                                                 <label htmlFor={`bdw-${datasetIndex}`}>Border Width: </label>
+                                            </div>
+                                            <div className='form-floating'>
+                                                <input
+                                                    id={`bdw-${datasetIndex}`}
+                                                    type="number"
+                                                    value={dataset.borderRadius}
+                                                    className='form-control'
+                                                    onChange={(e) => handleDataChange(setChartInstance,'borderRadius',datasetIndex, 0, e.target.value)}
+                                                />
+                                                <label htmlFor={`bdw-${datasetIndex}`}>Border Radius: </label>
                                             </div>
                                         </div>
                                     </div>

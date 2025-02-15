@@ -256,6 +256,7 @@ export const initChart = (chartType) => {
                         'rgba(255, 206, 86, 0.2)',
                     ],
                     borderWidth: 1,
+                    borderRadius: 0,
                 }],
             },
             options: {
@@ -371,7 +372,16 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         ),
                     };
 
-                    if (chartType === 'bar' || chartType === 'line') {
+                    if (chartType === 'bar') {
+                        newDataset.label = uploadedData.datasets[index].label;
+                        newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
+                        );
+                        newDataset.borderWidth = dataset.borderWidth;
+                        newDataset.borderRadius = dataset.borderRadius;
+                    }
+
+                    if (chartType === 'line') {
                         newDataset.label = uploadedData.datasets[index].label;
                         newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
                             dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
@@ -427,6 +437,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 borderWidth: newValue
             };
+        } else if (property === 'borderRadius') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                borderRadius: newValue
+            };
         }
 
         return {
@@ -451,7 +467,16 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
             ...chartInstance.data,
             labels: [...chartInstance.data.labels, newLabel],
             datasets: chartInstance.data.datasets.map(dataset => {
-                if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                if (chartInstance.type === 'bar') {
+                    return {
+                        ...dataset,
+                        data: [...dataset.data, 10],
+                        backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                        borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
+                        borderWidth: 1,
+                        borderRadius: 0,
+                    };
+                } else if  (chartInstance.type === 'line') {
                     return {
                         ...dataset,
                         data: [...dataset.data, 10],
@@ -533,7 +558,20 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
     let newDataset = {};
 
     // 차트 타입별로 newDataset을 다르게 설정
-    if (chartType === 'bar' || chartType === 'line') {
+    if (chartType === 'bar') {
+        newDataset = {
+            label: `Dataset ${chartInstance.data.datasets.length + 1}`,
+            data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+            backgroundColor: Array(chartInstance.data.labels.length).fill(
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
+            ),
+            borderColor: Array(chartInstance.data.labels.length).fill(
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`
+            ),
+            borderWidth: 1,
+            borderRadius: 0,
+        };
+    } else if (chartType === 'line') {
         newDataset = {
             label: `Dataset ${chartInstance.data.datasets.length + 1}`,
             data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
