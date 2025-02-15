@@ -6,7 +6,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Toolti
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
 import DataBarChart from './DataBarChart';
-import LineChart from './LineChart';
+import DataLineChart from './DataLineChart';
 import PieChart from './PieChart';
 import DoughnutChart from './DoughnutChart';
 import OptionsBarChart from './OptionsBarChart';
@@ -91,7 +91,7 @@ function DirectInputt() {
                                             )}
                                         </div>
                                         {chartInstance && chartInstance.type === 'bar' && <DataBarChart />}
-                                        {chartInstance && chartInstance.type === 'line' && <LineChart />}
+                                        {chartInstance && chartInstance.type === 'line' && <DataLineChart />}
                                         {chartInstance && chartInstance.type === 'pie' && <PieChart />}
                                         {chartInstance && chartInstance.type === 'doughnut' && <DoughnutChart />}
                                     </div>
