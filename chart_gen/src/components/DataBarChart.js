@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { chartInstanceState, activeTabState } from '../recoil/atoms';
 import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
 
-function BarChart() {
+function DataBarChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
@@ -156,4 +156,4 @@ function BarChart() {
 };
 
 
-export default BarChart;
+export default DataBarChart;

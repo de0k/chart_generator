@@ -5,10 +5,11 @@ import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel } 
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
-import BarChart from '../components/BarChart';
-import LineChart from '../components/LineChart';
-import PieChart from '../components/PieChart';
-import DoughnutChart from '../components/DoughnutChart';
+import DataBarChart from './DataBarChart';
+import LineChart from './LineChart';
+import PieChart from './PieChart';
+import DoughnutChart from './DoughnutChart';
+import OptionsBarChart from './OptionsBarChart';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
@@ -29,7 +30,7 @@ function DirectInputt() {
                 </div>
             </div>
             <div className="chart_wrap">
-                <div 
+                <div
                     id="chart_setting"
                     className={`input_wrap w3-sidebar w3-bar-block w3-card w3-animate-left`}
                     style={{
@@ -43,7 +44,12 @@ function DirectInputt() {
                             <button
                                 type='button'
                                 className="title"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setActiveSection('chart');
+                                }}
                                 aria-controls="chart-setting-default"
+                                aria-expanded={activeSection === 'chart'}
                             >
                                 차트 설정
                             </button>
@@ -53,10 +59,10 @@ function DirectInputt() {
                                 <div className="input_item select_type input-group">
                                     <div className="label_text input-group-text col-lg-2">종류</div>
                                     <div className='set_box form-control col-lg-10'>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('bar',setChartInstance, uploadedData)}>Bar Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('line',setChartInstance, uploadedData)}>Line Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('pie',setChartInstance, uploadedData)}>Pie Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('doughnut',setChartInstance, uploadedData)}>Doughnut Chart</button>
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('bar', setChartInstance, uploadedData)}>Bar Chart</button>
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('line', setChartInstance, uploadedData)}>Line Chart</button>
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('pie', setChartInstance, uploadedData)}>Pie Chart</button>
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('doughnut', setChartInstance, uploadedData)}>Doughnut Chart</button>
                                     </div>
                                 </div>
                                 <div className='input_item set_dataset input-group'>
@@ -73,9 +79,9 @@ function DirectInputt() {
                                                                     type="text"
                                                                     value={label}
                                                                     className='form-control'
-                                                                    onChange={(e) => handleDataChange(setChartInstance,'labels', 0,index, e.target.value)}
+                                                                    onChange={(e) => handleDataChange(setChartInstance, 'labels', 0, index, e.target.value)}
                                                                 />
-                                                                <button className="btn btn-success" type="button" onClick={() => handleRemoveLabel(chartInstance, setChartInstance,index)}>X</button>
+                                                                <button className="btn btn-success" type="button" onClick={() => handleRemoveLabel(chartInstance, setChartInstance, index)}>X</button>
                                                             </div>
                                                         ))}
                                                     </div>
@@ -84,7 +90,7 @@ function DirectInputt() {
                                                 <p>차트 타입을 선택해주세요.</p>
                                             )}
                                         </div>
-                                        {chartInstance && chartInstance.type === 'bar' && <BarChart />}
+                                        {chartInstance && chartInstance.type === 'bar' && <DataBarChart />}
                                         {chartInstance && chartInstance.type === 'line' && <LineChart />}
                                         {chartInstance && chartInstance.type === 'pie' && <PieChart />}
                                         {chartInstance && chartInstance.type === 'doughnut' && <DoughnutChart />}
@@ -93,7 +99,31 @@ function DirectInputt() {
                             </div>
                         </Collapse>
                     </div>
-
+                    <div className="card">
+                        <div className="card-header">
+                            <button
+                                type='button'
+                                className="title"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    setActiveSection('more');
+                                }}
+                                aria-controls="chart-setting-more"
+                                aria-expanded={activeSection === 'more'}
+                            >
+                                추가 설정
+                            </button>
+                        </div>
+                        <Collapse in={activeSection === 'more'}>
+                            <div id="chart-setting-more" className="card-body">
+                                <div className="input_item input-group">
+                                </div>
+                                <div className="input_item input-group">
+                                    {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}   
+                                </div>
+                            </div>
+                        </Collapse>
+                    </div>
                 </div>
                 <div
                     className="result_wrap sticky-top"

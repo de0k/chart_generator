@@ -264,6 +264,11 @@ export const initChart = (chartType) => {
                 plugins: {
                     legend: { position: 'top' },
                 },
+                indexAxis: 'x',
+                scales: {
+                    x: { type: 'category', beginAtZero: true, stacked: false }, 
+                    y: { type: 'linear', beginAtZero: true, stacked: false }, 
+                },
             },
         },
         line: {
@@ -457,11 +462,40 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 borderRadius: newValue
             };
+        } else if (property === 'indexAxis') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                borderRadius: newValue
+            };
         }
 
         return {
             ...prevState,
             data: updatedData
+        };
+    });
+};
+
+// 차트 options 속성 핸들링 함수
+export const handleOptionsChange = (setChartInstance, property, newValue) => {
+    setChartInstance(prevState => {
+        const updatedOptions = { ...prevState.options };
+
+        if (property === 'indexAxis') {
+            updatedOptions.indexAxis = newValue;
+            
+            updatedOptions.scales = newValue === 'y' 
+                ? { x: { beginAtZero: true, stacked: updatedOptions.scales?.x?.stacked || false }, y: { type: 'category' } }
+                : { x: { type: 'category' }, y: { beginAtZero: true, stacked: updatedOptions.scales?.y?.stacked || false } };
+        }
+
+        console.log('Before Update:', prevState);
+        console.log('After Update:', updatedOptions);
+
+        return {
+            ...prevState,
+            options : updatedOptions
         };
     });
 };
