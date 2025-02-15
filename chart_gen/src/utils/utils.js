@@ -1,7 +1,11 @@
 import * as XLSX from 'xlsx';
-import pattern from "patternomaly";
 
-// rgba 색상을 HEX 색상으로 변환
+/* 
+    ● rgba 색상을 HEX 색상으로 변환
+    rgba를 매개변수로 받아 숫자만 추출하여 parts에 저장
+    각각 r,g,b에 저장 ( parseInt() -> 숫자로 변환 / .toString(16) -> 16진수 문자열로 변환 / .padStart(2, '0') -> 한 자리일 경우 앞에 0을 추가 (예: 9 → 09) )
+    hex 형태로 반환
+*/
 export const rgbaToHex = (rgba) => {
     const parts = rgba.match(/\d+/g);
     const r = parseInt(parts[0]).toString(16).padStart(2, '0');
@@ -10,7 +14,13 @@ export const rgbaToHex = (rgba) => {
     return `#${r}${g}${b}`;
 };
 
-// HEX 색상을 rgba 색상으로 변환
+
+/* 
+    ● HEX 색상을 rgba 색상으로 변환
+    alpha(투명도), hex를 매개변수로 받아 ex) "#ff6347"
+    각각 r,g,b에 16진수로 변환하여 저장 ( r -> ff, g -> 63, b -> 47 )
+    rgba 형태로 반환
+*/
 export const hexToRgba = (hex, alpha = 1) => {
     const r = parseInt(hex.slice(1, 3), 16);
     const g = parseInt(hex.slice(3, 5), 16);
@@ -29,19 +39,61 @@ function formatJsonData(data) {
     return { labels, datasets };
 }
 
-// XLSX 데이터를 labels와 datasets 형식으로 변환
+/* 
+    ● XLSX 데이터를 labels와 datasets 형식으로 변환
+
+    ex)
+    labels   데이터셋 1번
+    ---------------------
+    라벨 1번       12
+    라벨 2번       19
+    라벨 3번        3
+    라벨 4번       25
+
+    data.slice(1) -> ["라벨 1번", 12], ["라벨 2번", 19], ["라벨 3번", 3], ["라벨 4번", 25]
+    .map(row => row[0]); -> labels: ["라벨 1번", "라벨 2번", "라벨 3번", "라벨 4번"],
+    data[0].slice(1) -> 데이터셋 1번
+    data: data.slice(1).map(row => row[colIndex + 1] || 0), -> 헤더 제거 후 라벨을 제외한 data들만 추출
+*/
 function formatXlsxData(data) {
-    // First column is labels, first row contains dataset labels
-    const labels = data.slice(1).map(row => row[0]); // Exclude header and use first column as labels
+    const labels = data.slice(1).map(row => row[0]);
     const datasets = data[0].slice(1).map((datasetLabel, colIndex) => ({
         label: datasetLabel || `데이터셋 ${colIndex + 1}`,
-        data: data.slice(1).map(row => row[colIndex + 1] || 0), // Skip header row
+        data: data.slice(1).map(row => row[colIndex + 1] || 0),
     }));
 
     return { labels, datasets };
 }
 
-// 업로드된 파일(JSON 또는 XLSX)을 파싱하여 데이터 구조로 변환
+/* 
+    ● 업로드된 파일(JSON 또는 XLSX)을 파싱하여 데이터 구조로 변환
+
+    - return new Promise((resolve, reject) => { ... });
+    : 비동기 파일 처리를 위해 Promise를 사용.
+      성공적으로 파일을 읽으면 resolve(data), 실패하면 reject(error)
+
+    - const reader = new FileReader(); : FileReader 객체 생성
+
+    - reader.onload : 파일 읽기 완료 후 실행
+    - 파일 확장자가 "json"이면:
+    - event.target.result → JSON 형식의 텍스트 데이터를 가져옴
+    - JSON.parse(event.target.result) → JSON을 파싱하여 객체로 변환
+    - formatJsonData(data) → 데이터를 변환하는 함수 실행 (위에 해당함수 참고)
+    - 변환된 데이터를 resolve()로 반환
+    - 파일 확장자가 "xlsx"이면:
+    - XLSX.read(event.target.result, { type: 'binary' }) → 엑셀 파일을 바이너리로 읽음
+    - workbook.SheetNames[0] → 첫 번째 시트의 이름 가져오기
+    - workbook.Sheets[sheetName] → 해당 시트의 내용 가져오기
+    - XLSX.utils.sheet_to_json(sheet, { header: 1 }) → 엑셀 데이터를 배열 형식으로 변환
+    - formatXlsxData(data) → 데이터를 변환하는 함수 실행 (위에 해당함수 참고)
+    - 변환된 데이터를 resolve()로 반환
+
+    - 파일 읽기 실패 시 처리 (reader.onerror)
+
+    - JSON 파일 → reader.readAsText(file) : 텍스트 형식으로 파일을 읽음
+    - XLSX 파일 → reader.readAsBinaryString(file)
+      : 바이너리 형식으로 파일을 읽음 (엑셀 파일은 바이너리 데이터를 처리해야 함)
+*/
 export async function parseFileData(file, fileExtension) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -98,8 +150,8 @@ export const generateChartCode = (activeChart, chartData) => {
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
     // 환경에 따라 Chart.js 경로 선택
-    const chartJsSrc = isLocal 
-        ? "https://cdn.jsdelivr.net/npm/chart.js" 
+    const chartJsSrc = isLocal
+        ? "https://cdn.jsdelivr.net/npm/chart.js"
         : "/pcms/common/plugins/Chartjs/Chartjs.js";
 
     return `
@@ -292,6 +344,43 @@ export const initChart = (chartType) => {
     };
 };
 
+// 차트 타입에 따른 초기화 함수
+export const handleChartType = (chartType, setChartInstance, uploadedData) => {
+    let options = initChart(chartType);
+    setChartInstance(options); // 먼저 초기 차트 설정
+
+    if (uploadedData) {
+        setChartInstance(prevChart => ({
+            ...prevChart,
+            data: {
+                ...prevChart.data,
+                labels: uploadedData.labels, // 모든 차트의 라벨 덮어씌우기
+                datasets: prevChart.data.datasets.map((dataset, index) => {
+                    const newDataset = {
+                        ...dataset,
+                        data: uploadedData.datasets[index]?.data || dataset.data, // 데이터 덮어씌우기
+                        backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
+                        ),
+                    };
+
+                    // bar, line 차트는 label, borderColor, borderWidth도 업데이트
+                    if (chartType === 'bar' || chartType === 'line') {
+                        newDataset.label = uploadedData.datasets[index]?.label || dataset.label;
+                        newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            dataset.borderColor?.[i] || 'rgba(255, 99, 132, 0.2)'
+                        );
+                        newDataset.borderWidth = dataset.borderWidth; // initChart 초기값 유지
+                    }
+
+                    return newDataset;
+                }),
+            },
+        }));
+    }
+};
+
+// 차트 data 속성 핸들링 함수
 export const handleDataChange = (setChartInstance, property, datasetIndex, valueIndex, newValue) => {
     setChartInstance(prevState => {
         const updatedData = { ...prevState.data };
@@ -301,36 +390,36 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
             updatedData.labels[valueIndex] = newValue;
         } else if (property === 'datasetsLabel') {
             updatedData.datasets = [...updatedData.datasets];
-            updatedData.datasets[datasetIndex] = { 
-                ...updatedData.datasets[datasetIndex], 
-                label: newValue 
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                label: newValue
             };
         } else if (property === 'data') {
             updatedData.datasets = [...updatedData.datasets];
-            updatedData.datasets[datasetIndex] = { 
-                ...updatedData.datasets[datasetIndex], 
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
                 data: [...updatedData.datasets[datasetIndex].data]
             };
             updatedData.datasets[datasetIndex].data[valueIndex] = newValue;
         } else if (property === 'backgroundColor') {
             updatedData.datasets = [...updatedData.datasets];
-            updatedData.datasets[datasetIndex] = { 
-                ...updatedData.datasets[datasetIndex], 
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
                 backgroundColor: [...updatedData.datasets[datasetIndex].backgroundColor]
             };
             updatedData.datasets[datasetIndex].backgroundColor[valueIndex] = newValue;
         } else if (property === 'borderColor') {
             updatedData.datasets = [...updatedData.datasets];
-            updatedData.datasets[datasetIndex] = { 
-                ...updatedData.datasets[datasetIndex], 
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
                 borderColor: [...updatedData.datasets[datasetIndex].borderColor]
             };
             updatedData.datasets[datasetIndex].borderColor[valueIndex] = newValue;
         } else if (property === 'borderWidth') {
             updatedData.datasets = [...updatedData.datasets];
-            updatedData.datasets[datasetIndex] = { 
-                ...updatedData.datasets[datasetIndex], 
-                borderWidth: newValue 
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                borderWidth: newValue
             };
         }
 
@@ -341,7 +430,87 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
     });
 };
 
-// 데이터셋 추가
+// 차트 라벨 & 데이터 추가
+export const handleAddLabel = (chartInstance, setChartInstance) => {
+    if (!chartInstance) return;
+    if (chartInstance.data.labels.length >= 10) {
+        alert('데이터셋은 최대 10개까지 추가할 수 있습니다.');
+        return;
+    }
+
+    const newLabel = `라벨 ${chartInstance.data.labels.length + 1}`;
+    const newChartInstance = {
+        ...chartInstance,
+        data: {
+            ...chartInstance.data,
+            labels: [...chartInstance.data.labels, newLabel],
+            datasets: chartInstance.data.datasets.map(dataset => {
+                // 차트 유형에 따른 분기
+                if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                    return {
+                        ...dataset,
+                        data: [...dataset.data, 10],
+                        backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                        borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
+                        borderWidth: 1,
+                    };
+                } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
+                    return {
+                        ...dataset,
+                        data: [...dataset.data, 10],
+                        backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                    };
+                } else {
+                    return dataset;
+                }
+            }),
+        },
+    };
+
+    setChartInstance(newChartInstance);
+};
+
+// 차트 라벨 & 데이터 제거
+export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) => {
+    if (!chartInstance) return;
+
+    // 라벨이 하나도 없으면 삭제할 수 없음
+    if (chartInstance.data.labels.length === 1) {
+        alert("삭제할 라벨이 없습니다.");
+        return;
+    }
+
+    const newChartInstance = {
+        ...chartInstance,
+        data: {
+            ...chartInstance.data,
+            labels: chartInstance.data.labels.filter((_, index) => index !== labelIndex), // 해당 라벨 삭제
+            datasets: chartInstance.data.datasets.map(dataset => {
+                // 차트 유형에 따라 분기 처리
+                if (chartInstance.type === 'bar' || chartInstance.type === 'line') {
+                    return {
+                        ...dataset,
+                        data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
+                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex), // 테두리 색 삭제
+                    };
+                } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
+                    return {
+                        ...dataset,
+                        data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
+                    };
+                } else {
+                    return dataset;
+                }
+            }),
+        },
+    };
+
+    setChartInstance(newChartInstance);
+};
+
+// 차트 데이터셋 추가
 export const handleAddDataset = (setChartInstance, chartInstance, chartType) => {
     if (!chartInstance) return;
 
@@ -390,7 +559,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
     setChartInstance(newChartInstance);
 };
 
-// 데이터셋 제거
+// 차트 데이터셋 제거
 export const handleRemoveDataset = (setChartInstance, chartInstance, datasetIndex) => {
     if (!chartInstance) return;
 
