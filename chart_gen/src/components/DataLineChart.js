@@ -76,21 +76,16 @@ function DataLineChart() {
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
-                                            {dataset.backgroundColor.map((bg, index) => (
-                                                <div>
-                                                    <div>{chartInstance.data.labels[index]}</div>
-                                                    <div className='input-group'>
-                                                        <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
-                                                        <input
-                                                            type="color"
-                                                            className="form-control form-control-color"
-                                                            id={`bgc-${index}`}
-                                                            value={rgbaToHex(bg)}
-                                                            onChange={(e) => handleDataChange(setChartInstance,'backgroundColor',datasetIndex, index, hexToRgba(e.target.value))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
+                                            <div className='input-group'>
+                                                <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>Background Color</label>
+                                                <input
+                                                    type="color"
+                                                    className="form-control form-control-color"
+                                                    id={`bgc-${datasetIndex}`}
+                                                    value={rgbaToHex(dataset.backgroundColor)}
+                                                    onChange={(e) => handleDataChange(setChartInstance,'backgroundColor_1',datasetIndex, 0, hexToRgba(e.target.value))}
+                                                />
+                                            </div>
                                             <div className='input-group'>
                                                 <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
                                                 <input

@@ -278,11 +278,7 @@ export const initChart = (chartType) => {
                 datasets: [{
                     label: 'Dataset 1',
                     data: [15, 25, 35],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
                     tension: 0,
                 }],
@@ -390,6 +386,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         newDataset.label = uploadedData.datasets[index].label;
                         newDataset.borderColor = dataset.borderColor;
                         newDataset.tension = dataset.tension;
+                        newDataset.backgroundColor = dataset.backgroundColor;
                     }
 
                     return newDataset;
@@ -446,6 +443,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 backgroundColor: [...updatedData.datasets[datasetIndex].backgroundColor]
             };
             updatedData.datasets[datasetIndex].backgroundColor[valueIndex] = newValue;
+        } else if (property === 'backgroundColor_1') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                backgroundColor: newValue 
+            };
         } else if (property === 'borderColor') {
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
@@ -540,9 +543,9 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                     return {
                         ...dataset,
                         data: [...dataset.data, 10],
-                        backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
-                        borderColor: 'rgba(255, 99, 132, 0.2)',
-                        tension: 0,
+                        backgroundColor: dataset.backgroundColor,
+                        borderColor: dataset.borderColor,
+                        tension: dataset.tension,
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -595,7 +598,6 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                     return {
                         ...dataset,
                         data: dataset.data.filter((_, index) => index !== labelIndex), 
-                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -642,9 +644,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
         newDataset = {
             label: `Dataset ${chartInstance.data.datasets.length + 1}`,
             data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
-            backgroundColor: Array(chartInstance.data.labels.length).fill(
-                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
-            ),
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 0.2)',
             tension: 0,
         };
