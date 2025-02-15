@@ -101,6 +101,16 @@ function DataLineChart() {
                                                     onChange={(e) => handleDataChange(setChartInstance,'borderColor_1',datasetIndex, 0, hexToRgba(e.target.value))}
                                                 />
                                             </div>
+                                            <div className='input-group'>
+                                                <label htmlFor={`ten-${datasetIndex}`} className='input-group-text'>tension</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control form-control-color"
+                                                    id={`ten-${datasetIndex}`}
+                                                    value={dataset.tension}
+                                                    onChange={(e) => handleDataChange(setChartInstance,'tension',datasetIndex, 0, e.target.value)}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

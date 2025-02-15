@@ -284,6 +284,7 @@ export const initChart = (chartType) => {
                         'rgba(255, 206, 86, 0.2)',
                     ],
                     borderColor: 'rgba(255, 99, 132, 0.2)',
+                    tension: 0,
                 }],
             },
             options: {
@@ -388,6 +389,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                     if (chartType === 'line') {
                         newDataset.label = uploadedData.datasets[index].label;
                         newDataset.borderColor = dataset.borderColor;
+                        newDataset.tension = dataset.tension;
                     }
 
                     return newDataset;
@@ -469,11 +471,11 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 borderRadius: newValue
             };
-        } else if (property === 'indexAxis') {
+        } else if (property === 'tension') {
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
-                borderRadius: newValue
+                tension: newValue
             };
         }
 
@@ -540,6 +542,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         data: [...dataset.data, 10],
                         backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
                         borderColor: 'rgba(255, 99, 132, 0.2)',
+                        tension: 0,
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -625,7 +628,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
     if (chartType === 'bar') {
         newDataset = {
             label: `Dataset ${chartInstance.data.datasets.length + 1}`,
-            data: Array(chartInstance.data.labels.length).map(() => [0, 10]),
+            data: Array(chartInstance.data.labels.length).fill([0, 10]),
             backgroundColor: Array(chartInstance.data.labels.length).fill(
                 `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
             ),
@@ -643,6 +646,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
                 `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
             ),
             borderColor: 'rgba(255, 99, 132, 0.2)',
+            tension: 0,
         };
     } else if (chartType === 'pie' || chartType === 'doughnut') {
         newDataset = {
