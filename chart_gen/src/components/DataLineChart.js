@@ -106,6 +106,16 @@ function DataLineChart() {
                                                     onChange={(e) => handleDataChange(setChartInstance,'tension',datasetIndex, 0, e.target.value)}
                                                 />
                                             </div>
+                                            <div className="form-check form-switch">
+                                                <label className="form-check-label" htmlFor={`fillSwitch-${datasetIndex}`}>fill</label>
+                                                <input 
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`fillSwitch-${datasetIndex}`}
+                                                    checked={dataset.fill || false}
+                                                    onChange={(event) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, event.target.checked)}
+                                                />
+                                            </div>
                                         </div>
                                     </div>
                                 ))}

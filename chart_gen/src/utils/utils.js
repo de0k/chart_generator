@@ -281,6 +281,7 @@ export const initChart = (chartType) => {
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
                     tension: 0,
+                    fill: false,
                 }],
             },
             options: {
@@ -387,6 +388,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         newDataset.borderColor = dataset.borderColor;
                         newDataset.tension = dataset.tension;
                         newDataset.backgroundColor = dataset.backgroundColor;
+                        newDataset.fill = dataset.fill;
                     }
 
                     return newDataset;
@@ -480,6 +482,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 tension: newValue
             };
+        } else if (property === 'fill') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                fill: newValue
+            };
         }
 
         return {
@@ -546,6 +554,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         backgroundColor: dataset.backgroundColor,
                         borderColor: dataset.borderColor,
                         tension: dataset.tension,
+                        fill: dataset.fill,
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -647,6 +656,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 0.2)',
             tension: 0,
+            fill: false,
         };
     } else if (chartType === 'pie' || chartType === 'doughnut') {
         newDataset = {
