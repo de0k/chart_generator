@@ -91,33 +91,15 @@ function LineChart() {
                                                     </div>
                                                 </div>
                                             ))}
-                                            {dataset.borderColor.map((bd, index) => (
-                                                <div>
-                                                    <div>{chartInstance.data.labels[index]}</div>
-                                                    <div className='input-group'>
-                                                        <label htmlFor={`bdc-${index}`} className='input-group-text'>Border Color</label>
-                                                        <input
-                                                            type="color"
-                                                            className="form-control form-control-color"
-                                                            id={`bdc-${index}`}
-                                                            value={rgbaToHex(bd)}
-                                                            onChange={(e) => handleDataChange(setChartInstance,'borderColor',datasetIndex, index, hexToRgba(e.target.value))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            <div className='form-floating'>
-                                                <select
-                                                    id={`bdw-${datasetIndex}`}
-                                                    className='form-select'
-                                                    value={dataset.borderWidth}
-                                                    onChange={(e) => handleDataChange(setChartInstance,'borderWidth',datasetIndex, 0, e.target.value)}
-                                                >
-                                                    {[1, 2, 3, 4, 5].map((width) => (
-                                                        <option key={width} value={width}>{width}</option>
-                                                    ))}
-                                                </select>
-                                                <label htmlFor={`bdw-${datasetIndex}`}>Border Width: </label>
+                                            <div className='input-group'>
+                                                <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
+                                                <input
+                                                    type="color"
+                                                    className="form-control form-control-color"
+                                                    id={`bdc-${datasetIndex}`}
+                                                    value={rgbaToHex(dataset.borderColor)}
+                                                    onChange={(e) => handleDataChange(setChartInstance,'borderColor_1',datasetIndex, 0, hexToRgba(e.target.value))}
+                                                />
                                             </div>
                                         </div>
                                     </div>

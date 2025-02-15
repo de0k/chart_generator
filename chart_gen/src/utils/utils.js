@@ -283,12 +283,7 @@ export const initChart = (chartType) => {
                         'rgba(54, 162, 235, 0.2)',
                         'rgba(255, 206, 86, 0.2)',
                     ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderWidth: 2,
+                    borderColor: 'rgba(255, 99, 132, 0.2)',
                 }],
             },
             options: {
@@ -392,10 +387,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
 
                     if (chartType === 'line') {
                         newDataset.label = uploadedData.datasets[index].label;
-                        newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                            dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
-                        );
-                        newDataset.borderWidth = dataset.borderWidth;
+                        newDataset.borderColor = dataset.borderColor;
                     }
 
                     return newDataset;
@@ -428,13 +420,22 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
 
             // ✅ Floating Bar Chart 지원
             if (Array.isArray(updatedData.datasets[datasetIndex].data[valueIndex])) {
-                // 기존 데이터가 `[min, max]` 형식이면 `newValue`도 `[min, max]`로 변경
-                updatedData.datasets[datasetIndex].data[valueIndex] = minMax 
-                    ? newValue  // 직접 `[min, max]` 값을 전달할 경우
-                    : [updatedData.datasets[datasetIndex].data[valueIndex][0], newValue]; // max 값 변경
+                if (minMax) {
+                    updatedData.datasets[datasetIndex].data[valueIndex] = newValue; // [min, max] 값 직접 전달
+                } else {
+                    updatedData.datasets[datasetIndex].data[valueIndex] = [
+                        updatedData.datasets[datasetIndex].data[valueIndex][0],
+                        newValue
+                    ]; // max 값만 변경
+                }
             } else {
-                // 기존 데이터가 단일 값이면 `[min, max]` 형식으로 변환
-                updatedData.datasets[datasetIndex].data[valueIndex] = minMax ? newValue : [0, newValue];
+                // ✅ 기존 데이터가 단일 값일 때
+                if (minMax) {
+                    updatedData.datasets[datasetIndex].data[valueIndex] = newValue; // [min, max] 값 직접 전달
+                } else {
+                    // ✅ Bar Chart가 아닌 경우는 그대로 단일 값 유지
+                    updatedData.datasets[datasetIndex].data[valueIndex] = newValue;
+                }
             }
         } else if (property === 'backgroundColor') {
             updatedData.datasets = [...updatedData.datasets];
@@ -450,6 +451,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 borderColor: [...updatedData.datasets[datasetIndex].borderColor]
             };
             updatedData.datasets[datasetIndex].borderColor[valueIndex] = newValue;
+        } else if (property === 'borderColor_1') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                borderColor: newValue 
+            };
         } else if (property === 'borderWidth') {
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
@@ -532,8 +539,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         ...dataset,
                         data: [...dataset.data, 10],
                         backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
-                        borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
-                        borderWidth: 1,
+                        borderColor: 'rgba(255, 99, 132, 0.2)',
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -587,7 +593,6 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                         ...dataset,
                         data: dataset.data.filter((_, index) => index !== labelIndex), 
                         backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex),
-                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -637,10 +642,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             backgroundColor: Array(chartInstance.data.labels.length).fill(
                 `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
             ),
-            borderColor: Array(chartInstance.data.labels.length).fill(
-                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 1)`
-            ),
-            borderWidth: 1,
+            borderColor: 'rgba(255, 99, 132, 0.2)',
         };
     } else if (chartType === 'pie' || chartType === 'doughnut') {
         newDataset = {
