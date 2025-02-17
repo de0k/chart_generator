@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { screenState, chartInstanceState, uploadedDataState } from '../recoil/atoms';
-import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel } from '../utils/utils';
+import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel, handleOptionsChange } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
@@ -117,6 +117,29 @@ function DirectInputt() {
                         <Collapse in={activeSection === 'more'}>
                             <div id="chart-setting-more" className="card-body">
                                 <div className="input_item input-group">
+                                    <div>
+                                        <h3>제목 설정</h3>
+                                        <div className="form-check form-switch">
+                                            <label className="form-check-label" htmlFor={`titleDisplaySwitch`}>제목 표시 여부</label>
+                                            <input 
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id={`titleDisplaySwitch`}
+                                                checked={chartInstance?.options?.plugins?.title?.display || false}
+                                                onChange={(event) => handleOptionsChange(setChartInstance, 'titleDisplay', event.target.checked)}
+                                            />
+                                        </div>
+                                        <div className="form-check form-switch">
+                                            <label className="form-check-label" htmlFor={`titleFullWidthSwitch`}>제목 전체 너비 설정 여부</label>
+                                            <input 
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id={`titleFullWidthSwitch`}
+                                                checked={chartInstance?.options?.plugins?.title?.fullWidth || false}
+                                                onChange={(event) => handleOptionsChange(setChartInstance, 'titleFullWidth', event.target.checked)}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="input_item input-group">
                                     {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}   

@@ -237,6 +237,28 @@ export const downloadXlsx = (workbook, fileName = 'chart_data.xlsx') => {
 
 // 차트 초기값 정의 함수
 export const initChart = (chartType) => {
+    var commonOptions = {
+        "responsive": true, // 차트가 반응형 동작
+        "plugins": {
+            "title": { // 차트 제목 설정
+                "display": true, // 차트 제목 표시 여부
+                "fullWidth": true, // 차트 전체 너비 설정 여부
+                "text": "차트 제목입니다.",
+                "position": "bottom",
+                "color": "#aa7942",
+                "size": 16
+            },
+            "legend": { // 범례 설정
+                "display": true,
+                "fullWidth": true,
+                "position": "top",
+                "labels": {
+                    "color": "#000",
+                    "size": 16
+                }
+            }
+        }
+    };
     const chartConfig = {
         bar: {
             type: 'bar',
@@ -244,7 +266,7 @@ export const initChart = (chartType) => {
                 labels: ['Category 1', 'Category 2', 'Category 3'],
                 datasets: [{
                     label: 'Dataset 1',
-                    data: [[0,10],[0,20],[0,30]],
+                    data: [[0, 10], [0, 20], [0, 30]],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -260,14 +282,11 @@ export const initChart = (chartType) => {
                 }],
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                },
+                ...commonOptions,
                 indexAxis: 'x',
                 scales: {
-                    x: { type: 'category', beginAtZero: true, stacked: false }, 
-                    y: { type: 'linear', beginAtZero: true, stacked: false }, 
+                    x: { type: 'category', beginAtZero: true, stacked: false },
+                    y: { type: 'linear', beginAtZero: true, stacked: false },
                 },
             },
         },
@@ -285,10 +304,7 @@ export const initChart = (chartType) => {
                 }],
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                },
+                ...commonOptions,
             },
         },
         pie: {
@@ -305,10 +321,7 @@ export const initChart = (chartType) => {
                 }],
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                },
+                ...commonOptions,
             },
         },
         doughnut: {
@@ -325,10 +338,7 @@ export const initChart = (chartType) => {
                 }],
             },
             options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'top' },
-                },
+                ...commonOptions,
             },
         },
     };
@@ -449,7 +459,7 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
-                backgroundColor: newValue 
+                backgroundColor: newValue
             };
         } else if (property === 'borderColor') {
             updatedData.datasets = [...updatedData.datasets];
@@ -462,7 +472,7 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
-                borderColor: newValue 
+                borderColor: newValue
             };
         } else if (property === 'borderWidth') {
             updatedData.datasets = [...updatedData.datasets];
@@ -500,22 +510,28 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
 // 차트 options 속성 핸들링 함수
 export const handleOptionsChange = (setChartInstance, property, newValue) => {
     setChartInstance(prevState => {
-        const updatedOptions = { ...prevState.options };
+        let updatedOptions = JSON.parse(JSON.stringify(prevState.options));
 
         if (property === 'indexAxis') {
             updatedOptions.indexAxis = newValue;
-            
-            updatedOptions.scales = newValue === 'y' 
+
+            updatedOptions.scales = newValue === 'y'
                 ? { x: { beginAtZero: true, stacked: updatedOptions.scales?.x?.stacked || false }, y: { type: 'category' } }
                 : { x: { type: 'category' }, y: { beginAtZero: true, stacked: updatedOptions.scales?.y?.stacked || false } };
+        } else if (property === 'titleDisplay') {
+            updatedOptions.plugins.title.display = newValue;
+        } else if (property === 'titleFullWidth') {
+            updatedOptions.plugins.title.fullWidth = newValue;
         }
+
+        
 
         console.log('Before Update:', prevState);
         console.log('After Update:', updatedOptions);
 
         return {
             ...prevState,
-            options : updatedOptions
+            options: updatedOptions
         };
     });
 };
@@ -547,7 +563,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderWidth: 1,
                         borderRadius: 0,
                     };
-                } else if  (chartInstance.type === 'line') {
+                } else if (chartInstance.type === 'line') {
                     return {
                         ...dataset,
                         data: [...dataset.data, 10],
@@ -601,12 +617,12 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                         data: dataset.data.filter((_, index) => index !== labelIndex)
                             .map(value => Array.isArray(value) ? value : [0, value]), // 데이터가 단일값이면 [0, value] 변환
                         backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex),
-                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex), 
+                        borderColor: dataset.borderColor.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'line') {
                     return {
                         ...dataset,
-                        data: dataset.data.filter((_, index) => index !== labelIndex), 
+                        data: dataset.data.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
