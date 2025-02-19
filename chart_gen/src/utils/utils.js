@@ -246,7 +246,7 @@ export const initChart = (chartType) => {
                 "text": "차트 제목입니다.",
                 "position": "bottom",
                 "color": "#aa7942",
-                "size": 16
+                "font": { "size": 16 }
             },
             "legend": { // 범례 설정
                 "display": true,
@@ -522,6 +522,14 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.display = newValue;
         } else if (property === 'titleFullWidth') {
             updatedOptions.plugins.title.fullWidth = newValue;
+        } else if (property === 'titleText') {
+            updatedOptions.plugins.title.text = newValue;
+        } else if (property === 'titlePositon') {
+            updatedOptions.plugins.title.position = newValue;
+        } else if (property === 'titleColor') {
+            updatedOptions.plugins.title.color = newValue;
+        } else if (property === 'titleSize') {
+            updatedOptions.plugins.title.font.size = newValue;
         }
 
         
