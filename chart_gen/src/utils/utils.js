@@ -313,6 +313,7 @@ export const initChart = (chartType) => {
                     borderColor: 'rgba(255, 99, 132, 0.2)',
                     tension: 0,
                     fill: false,
+                    stepped: false,
                     // pointStyle: ['circle','circle','circle'],
                     // pointRadius: [10,10,10],
                     // pointHoverRadius: [15,15,15],
@@ -439,6 +440,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         newDataset.tension = dataset.tension;
                         newDataset.backgroundColor = dataset.backgroundColor;
                         newDataset.fill = dataset.fill;
+                        newDataset.stepped = dataset.stepped;
                         // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
                         //     dataset.pointStyle[i] || 'circle'
                         // );
@@ -547,9 +549,15 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 fill: newValue
             };
-        } 
-        
-        
+        } else if (property === 'stepped') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                stepped: newValue
+            };
+        }
+
+
         // else if (property === 'datasets_pointStyle') {
         //     updatedData.datasets = [...updatedData.datasets];
         //     updatedData.datasets[datasetIndex] = {
@@ -684,6 +692,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderColor: dataset.borderColor,
                         tension: dataset.tension,
                         fill: dataset.fill,
+                        stepped: dataset.stepped,
                         // pointStyle: [...dataset.pointStyle, 'circle'],
                         // pointRadius: [...dataset.pointRadius, 10],
                         // pointHoverRadius: [...dataset.pointHoverRadius, 15],
@@ -792,6 +801,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             borderColor: 'rgba(255, 99, 132, 0.2)',
             tension: 0,
             fill: false,
+            stepped: false,
             // pointStyle: Array(chartInstance.data.labels.length).fill('circle'),
             // pointRadius: Array(chartInstance.data.labels.length).fill(10),
             // pointHoverRadius: Array(chartInstance.data.labels.length).fill(15),

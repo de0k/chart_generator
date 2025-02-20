@@ -116,6 +116,16 @@ function DataLineChart() {
                                                     onChange={(event) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, event.target.checked)}
                                                 />
                                             </div>
+                                            <div className="form-check form-switch">
+                                                <label className="form-check-label" htmlFor={`steppedSwitch-${datasetIndex}`}>stepped</label>
+                                                <input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id={`steppedSwitch-${datasetIndex}`}
+                                                    checked={dataset.stepped || false}
+                                                    onChange={(event) => handleDataChange(setChartInstance, 'stepped', datasetIndex, 0, event.target.checked)}
+                                                />
+                                            </div>
                                             {/* {dataset.pointStyle.map((ps, index) => (
                                                 <div>
                                                     <div>{chartInstance.data.labels[index]}</div>
