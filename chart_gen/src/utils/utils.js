@@ -254,9 +254,9 @@ export const initChart = (chartType) => {
                 "position": "top",
                 "labels": {
                     "color": "#000",
-                    "size": 16
+                    "font": { "size": 16 }
                 }
-            }
+            },
         }
     };
     const chartConfig = {
@@ -532,7 +532,7 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.font.size = newValue;
         }
 
-        
+
 
         console.log('Before Update:', prevState);
         console.log('After Update:', updatedOptions);
