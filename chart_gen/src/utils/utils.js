@@ -530,6 +530,16 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.color = newValue;
         } else if (property === 'titleSize') {
             updatedOptions.plugins.title.font.size = newValue;
+        } else if (property === 'legendDisplay') {
+            updatedOptions.plugins.legend.display = newValue;
+        } else if (property === 'legendFullWidth') {
+            updatedOptions.plugins.legend.fullWidth = newValue;
+        } else if (property === 'legendPositon') {
+            updatedOptions.plugins.legend.position = newValue;
+        } else if (property === 'legendColor') {
+            updatedOptions.plugins.legend.labels.color = newValue;
+        } else if (property === 'legendSize') {
+            updatedOptions.plugins.legend.labels.font.size = newValue;
         }
 
 
