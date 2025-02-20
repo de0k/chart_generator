@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { chartInstanceState, activeTabState } from '../recoil/atoms';
 import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
 
-function DoughnutChart() {
+function DataDoughnutChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
@@ -92,4 +92,4 @@ function DoughnutChart() {
 };
 
 
-export default DoughnutChart;
+export default DataDoughnutChart;

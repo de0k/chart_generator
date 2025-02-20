@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { chartInstanceState, activeTabState } from '../recoil/atoms';
 import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
 
-function PieChart() {
+function DataPieChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
@@ -92,4 +92,4 @@ function PieChart() {
 };
 
 
-export default PieChart;
+export default DataPieChart;

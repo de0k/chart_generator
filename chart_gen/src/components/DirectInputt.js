@@ -7,8 +7,8 @@ import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
 import DataBarChart from './DataBarChart';
 import DataLineChart from './DataLineChart';
-import PieChart from './PieChart';
-import DoughnutChart from './DoughnutChart';
+import DataPieChart from './DataPieChart';
+import DataDoughnutChart from './DataDoughnutChart';
 import OptionsBarChart from './OptionsBarChart';
 import OptionsLineChart from './OptionsLineChart';
 import OptionsCommon from './OptionsCommon';
@@ -94,8 +94,8 @@ function DirectInputt() {
                                         </div>
                                         {chartInstance && chartInstance.type === 'bar' && <DataBarChart />}
                                         {chartInstance && chartInstance.type === 'line' && <DataLineChart />}
-                                        {chartInstance && chartInstance.type === 'pie' && <PieChart />}
-                                        {chartInstance && chartInstance.type === 'doughnut' && <DoughnutChart />}
+                                        {chartInstance && chartInstance.type === 'pie' && <DataPieChart />}
+                                        {chartInstance && chartInstance.type === 'doughnut' && <DataDoughnutChart />}
                                     </div>
                                 </div>
                             </div>
