@@ -10,7 +10,7 @@ function OptionsCommon() {
         <div>
             <h3>제목 설정</h3>
             <div className="form-check form-switch">
-                <label className="form-check-label" htmlFor={`titleDisplaySwitch`}>제목 표시 여부</label>
+                <label className="form-check-label" htmlFor={`titleDisplaySwitch`}>표시 여부</label>
                 <input
                     className="form-check-input"
                     type="checkbox"
@@ -20,7 +20,7 @@ function OptionsCommon() {
                 />
             </div>
             <div className="form-check form-switch">
-                <label className="form-check-label" htmlFor={`titleFullWidthSwitch`}>제목 전체 너비 설정 여부</label>
+                <label className="form-check-label" htmlFor={`titleFullWidthSwitch`}>전체 너비 설정 여부</label>
                 <input
                     className="form-check-input"
                     type="checkbox"
@@ -48,10 +48,10 @@ function OptionsCommon() {
                         <option key={position} value={position}>{position}</option>
                     ))}
                 </select>
-                <label htmlFor={`title_position`}>제목 위치 설정: </label>
+                <label htmlFor={`title_position`}>위치 설정: </label>
             </div>
             <div>
-                <label htmlFor={`title_color`} className='input-group-text'>제목 색 설정: </label>
+                <label htmlFor={`title_color`} className='input-group-text'>색 설정: </label>
                 <input
                     type="color"
                     className="form-control form-control-color"
@@ -68,12 +68,65 @@ function OptionsCommon() {
                     className='form-control'
                     onChange={(e) => handleOptionsChange(setChartInstance, 'titleSize', e.target.value)}
                 />
-                <label htmlFor={`title_size`}>제목 크기: </label>
+                <label htmlFor={`title_size`}>크기: </label>
             </div>
 
-            <h3>범례 설정</h3>
+            <h3>부제목 설정</h3>
             <div className="form-check form-switch">
-                <label className="form-check-label" htmlFor={`legendDisplaySwitch`}>범례 표시 여부</label>
+                <label className="form-check-label" htmlFor={`subtitleDisplaySwitch`}>표시 여부</label>
+                <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`subtitleDisplaySwitch`}
+                    checked={chartInstance?.options?.plugins?.subtitle?.display || false}
+                    onChange={(event) => handleOptionsChange(setChartInstance, 'subtitleDisplay', event.target.checked)}
+                />
+            </div>
+            <div className=''>
+                <input
+                    type="text"
+                    value={chartInstance?.options?.plugins?.subtitle?.text}
+                    className='form-control'
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleText', e.target.value)}
+                />
+            </div>
+            <div className='form-floating'>
+                <select
+                    id={`subtitle_position`}
+                    className='form-select'
+                    value={chartInstance?.options?.plugins?.subtitle?.position}
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'subtitlePositon', e.target.value)}
+                >
+                    {["top", "left", "bottom", "right"].map((position) => (
+                        <option key={position} value={position}>{position}</option>
+                    ))}
+                </select>
+                <label htmlFor={`subtitle_position`}>위치 설정: </label>
+            </div>
+            <div>
+                <label htmlFor={`subtitle_color`} className='input-group-text'>색 설정: </label>
+                <input
+                    type="color"
+                    className="form-control form-control-color"
+                    id={`subtitle_color`}
+                    value={chartInstance?.options?.plugins?.subtitle?.color}
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleColor', hexToRgba(e.target.value))}
+                />
+            </div>
+            <div className='form-floating'>
+                <input
+                    id={`subtitle_size`}
+                    type="number"
+                    value={chartInstance?.options?.plugins?.subtitle?.font?.size}
+                    className='form-control'
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleSize', e.target.value)}
+                />
+                <label htmlFor={`subtitle_size`}>크기: </label>
+            </div>
+
+            <h3>설정</h3>
+            <div className="form-check form-switch">
+                <label className="form-check-label" htmlFor={`legendDisplaySwitch`}>표시 여부</label>
                 <input
                     className="form-check-input"
                     type="checkbox"
@@ -83,7 +136,7 @@ function OptionsCommon() {
                 />
             </div>
             <div className="form-check form-switch">
-                <label className="form-check-label" htmlFor={`legendFullWidthSwitch`}>범례 전체 너비 설정 여부</label>
+                <label className="form-check-label" htmlFor={`legendFullWidthSwitch`}>전체 너비 설정 여부</label>
                 <input
                     className="form-check-input"
                     type="checkbox"
@@ -103,10 +156,10 @@ function OptionsCommon() {
                         <option key={position} value={position}>{position}</option>
                     ))}
                 </select>
-                <label htmlFor={`legend_position`}>범례 위치 설정: </label>
+                <label htmlFor={`legend_position`}>위치 설정: </label>
             </div>
             <div>
-                <label htmlFor={`legend_color`} className='input-group-text'>범례 색 설정: </label>
+                <label htmlFor={`legend_color`} className='input-group-text'>색 설정: </label>
                 <input
                     type="color"
                     className="form-control form-control-color"
@@ -123,7 +176,7 @@ function OptionsCommon() {
                     className='form-control'
                     onChange={(e) => handleOptionsChange(setChartInstance, 'legendSize', e.target.value)}
                 />
-                <label htmlFor={`legend_size`}>범례 크기: </label>
+                <label htmlFor={`legend_size`}>크기: </label>
             </div>
             <div className="form-check form-switch">
                 <label className="form-check-label" htmlFor={`interaction_intersectSwitch`}>툴팁 광범위 감지 여부</label>

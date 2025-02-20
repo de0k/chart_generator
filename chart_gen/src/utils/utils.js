@@ -251,6 +251,7 @@ export const initChart = (chartType) => {
             "subtitle": {
                 "display": true,
                 "text": 'Chart Subtitle',
+                "position": "top",
                 "color": 'blue',
                 "font": {
                     "size": 12,
@@ -325,7 +326,6 @@ export const initChart = (chartType) => {
                             color: "#000",
                             font: {
                                 size: 16,
-                                weight: "bold"
                             }
                         },
                         min: null,
@@ -339,7 +339,6 @@ export const initChart = (chartType) => {
                             color: "#000",
                             font: {
                                 size: 16,
-                                weight: "bold"
                             }
                         },
                         min: null,
@@ -571,6 +570,16 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.color = newValue;
         } else if (property === 'titleSize') {
             updatedOptions.plugins.title.font.size = newValue;
+        } else if (property === 'subtitleDisplay') {
+            updatedOptions.plugins.subtitle.display = newValue;
+        }  else if (property === 'subtitleText') {
+            updatedOptions.plugins.subtitle.text = newValue;
+        } else if (property === 'subtitlePositon') {
+            updatedOptions.plugins.subtitle.position = newValue;
+        } else if (property === 'subtitleColor') {
+            updatedOptions.plugins.subtitle.color = newValue;
+        } else if (property === 'subtitleSize') {
+            updatedOptions.plugins.subtitle.font.size = newValue;
         } else if (property === 'legendDisplay') {
             updatedOptions.plugins.legend.display = newValue;
         } else if (property === 'legendFullWidth') {
@@ -583,6 +592,16 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.labels.font.size = newValue;
         } else if (property === 'interaction_intersect') {
             updatedOptions.interaction.intersect = newValue;
+        } else if (property === 'scales_x_display') {
+            updatedOptions.scales.x.display = newValue;
+        } else if (property === 'scales_x_title_display') {
+            updatedOptions.scales.x.title.display = newValue;
+        } else if (property === 'scales_x_title_text') {
+            updatedOptions.scales.x.title.text = newValue;
+        } else if (property === 'scales_x_title_color') {
+            updatedOptions.scales.x.title.color = newValue;
+        } else if (property === 'scales_x_title_font_size') {
+            updatedOptions.scales.x.title.font.size = newValue;
         }
 
 
