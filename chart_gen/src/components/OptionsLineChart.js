@@ -57,26 +57,6 @@ function OptionsLineChart() {
                 />
                 <label htmlFor={`scales_x_title_font_size`}>제목 크기: </label>
             </div>
-            {/* <div className='form-floating'>
-                <input
-                    id={`scales_x_`}
-                    type="number"
-                    value={chartInstance?.options?.scales?.x?.title?.font?.size}
-                    className='form-control'
-                    onChange={(e) => handleOptionsChange(setChartInstance, 'scales_x_', e.target.value)}
-                />
-                <label htmlFor={`scales_x_`}>최소: </label>
-            </div> */}
-            {/* <div className='form-floating'>
-                <input
-                    id={`scales_x_`}
-                    type="number"
-                    value={chartInstance?.options?.scales?.x?.title?.font?.size}
-                    className='form-control'
-                    onChange={(e) => handleOptionsChange(setChartInstance, 'scales_x_', e.target.value)}
-                />
-                <label htmlFor={`scales_x_`}>최대: </label>
-            </div> */}
         </div>
     );
 };

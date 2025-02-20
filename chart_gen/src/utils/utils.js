@@ -238,37 +238,37 @@ export const downloadXlsx = (workbook, fileName = 'chart_data.xlsx') => {
 // 차트 초기값 정의 함수
 export const initChart = (chartType) => {
     var commonOptions = {
-        "responsive": true, // 차트가 반응형 동작
-        "plugins": {
-            "title": { // 차트 제목 설정
-                "display": true, // 차트 제목 표시 여부
-                "fullWidth": true, // 차트 전체 너비 설정 여부
-                "text": "차트 제목입니다.",
-                "position": "top",
-                "color": "#aa7942",
-                "font": { "size": 16 }
+        responsive: true, // 차트가 반응형 동작
+        plugins: {
+            title: { // 차트 제목 설정
+                display: true, // 차트 제목 표시 여부
+                fullWidth: true, // 차트 전체 너비 설정 여부
+                text: "차트 제목입니다.",
+                position: "top",
+                color: "#aa7942",
+                font: { size: 16 }
             },
-            "subtitle": {
-                "display": true,
-                "text": 'Chart Subtitle',
-                "position": "top",
-                "color": 'blue',
-                "font": {
-                    "size": 12,
+            subtitle: {
+                display: true,
+                text: 'Chart Subtitle',
+                position: "top",
+                color: '#000',
+                font: {
+                    size: 12,
                 },
             },
-            "legend": { // 범례 설정
-                "display": true,
-                "fullWidth": true,
-                "position": "top",
-                "labels": {
-                    "color": "#000",
-                    "font": { "size": 16 }
+            legend: { // 범례 설정
+                display: true,
+                fullWidth: true,
+                position: "top",
+                labels: {
+                    color: "#000",
+                    font: { size: 16 }
                 }
             },
         },
-        "interaction": {
-            "intersect": true,
+        interaction: {
+            intersect: true,
         },
     };
     const chartConfig = {
@@ -313,6 +313,9 @@ export const initChart = (chartType) => {
                     borderColor: 'rgba(255, 99, 132, 0.2)',
                     tension: 0,
                     fill: false,
+                    // pointStyle: ['circle','circle','circle'],
+                    // pointRadius: [10,10,10],
+                    // pointHoverRadius: [15,15,15],
                 }],
             },
             options: {
@@ -328,8 +331,6 @@ export const initChart = (chartType) => {
                                 size: 16,
                             }
                         },
-                        min: null,
-                        max: null,
                     },
                     y: {
                         display: true,
@@ -341,8 +342,6 @@ export const initChart = (chartType) => {
                                 size: 16,
                             }
                         },
-                        min: null,
-                        max: null,
                     }
                 }
             },
@@ -397,12 +396,13 @@ export const initChart = (chartType) => {
     ● 차트 타입에 따른 초기화 함수
     - chartType으로 차트 초기화 및 상태 업데이트
     - 업로드데이터가 있으면 
-    - ...prevChart, ...prevChart.data,, ...dataset, 기존 차트 상태 불러와서 데이터 덮어 씌움
+    - ...prevChart, ...prevChart.data, ...dataset, 기존 차트 상태 불러와서 데이터 덮어 씌움
     - backgroundColor: Array.from({ length: uploadedData.labels.length } -> 업로드된 데이터가 차트 초기값 보다 많을 수 있어서 해당 속성 업로드된 데이터 갯수만큼 생성
     - (_, i) -> _는 첫 번째 매개변수(배열 요소 값) 를 의미하는데, 여기선 필요 없으므로 _로 무시함. i는 현재 인덱스를 의미함.
 */
 export const handleChartType = (chartType, setChartInstance, uploadedData) => {
     let options = initChart(chartType);
+    console.log(options);
     setChartInstance(options);
 
     if (uploadedData) {
@@ -439,6 +439,15 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         newDataset.tension = dataset.tension;
                         newDataset.backgroundColor = dataset.backgroundColor;
                         newDataset.fill = dataset.fill;
+                        // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                        //     dataset.pointStyle[i] || 'circle'
+                        // );
+                        // newDataset.pointRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                        //     dataset.pointRadius[i] || 10
+                        // );
+                        // newDataset.pointHoverRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                        //     dataset.pointHoverRadius[i] || 15
+                        // );
                     }
 
                     return newDataset;
@@ -538,7 +547,31 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 fill: newValue
             };
-        }
+        } 
+        
+        
+        // else if (property === 'datasets_pointStyle') {
+        //     updatedData.datasets = [...updatedData.datasets];
+        //     updatedData.datasets[datasetIndex] = {
+        //         ...updatedData.datasets[datasetIndex],
+        //         pointStyle: [...updatedData.datasets[datasetIndex].pointStyle]
+        //     };
+        //     updatedData.datasets[datasetIndex].pointStyle[valueIndex] = newValue;
+        // } else if (property === 'datasets_pointRadius') {
+        //     updatedData.datasets = [...updatedData.datasets];
+        //     updatedData.datasets[datasetIndex] = {
+        //         ...updatedData.datasets[datasetIndex],
+        //         pointRadius: [...updatedData.datasets[datasetIndex].pointRadius]
+        //     };
+        //     updatedData.datasets[datasetIndex].pointRadius[valueIndex] = newValue;
+        // } else if (property === 'datasets_pointHoverRadius') {
+        //     updatedData.datasets = [...updatedData.datasets];
+        //     updatedData.datasets[datasetIndex] = {
+        //         ...updatedData.datasets[datasetIndex],
+        //         pointHoverRadius: [...updatedData.datasets[datasetIndex].pointHoverRadius]
+        //     };
+        //     updatedData.datasets[datasetIndex].pointHoverRadius[valueIndex] = newValue;
+        // }
 
         return {
             ...prevState,
@@ -572,7 +605,7 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.font.size = newValue;
         } else if (property === 'subtitleDisplay') {
             updatedOptions.plugins.subtitle.display = newValue;
-        }  else if (property === 'subtitleText') {
+        } else if (property === 'subtitleText') {
             updatedOptions.plugins.subtitle.text = newValue;
         } else if (property === 'subtitlePositon') {
             updatedOptions.plugins.subtitle.position = newValue;
@@ -651,6 +684,9 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderColor: dataset.borderColor,
                         tension: dataset.tension,
                         fill: dataset.fill,
+                        // pointStyle: [...dataset.pointStyle, 'circle'],
+                        // pointRadius: [...dataset.pointRadius, 10],
+                        // pointHoverRadius: [...dataset.pointHoverRadius, 15],
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -703,6 +739,9 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                     return {
                         ...dataset,
                         data: dataset.data.filter((_, index) => index !== labelIndex),
+                        // pointStyle: dataset.pointStyle.filter((_, index) => index !== labelIndex),
+                        // pointRadius: dataset.pointRadius.filter((_, index) => index !== labelIndex),
+                        // pointHoverRadius: dataset.pointHoverRadius.filter((_, index) => index !== labelIndex),
                     };
                 } else if (chartInstance.type === 'pie' || chartInstance.type === 'doughnut') {
                     return {
@@ -753,6 +792,9 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             borderColor: 'rgba(255, 99, 132, 0.2)',
             tension: 0,
             fill: false,
+            // pointStyle: Array(chartInstance.data.labels.length).fill('circle'),
+            // pointRadius: Array(chartInstance.data.labels.length).fill(10),
+            // pointHoverRadius: Array(chartInstance.data.labels.length).fill(15),
         };
     } else if (chartType === 'pie' || chartType === 'doughnut') {
         newDataset = {

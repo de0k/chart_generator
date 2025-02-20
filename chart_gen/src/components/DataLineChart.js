@@ -10,7 +10,7 @@ function DataLineChart() {
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance,chartInstance,'line')}>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'line')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
@@ -40,9 +40,9 @@ function DataLineChart() {
                                                 type="text"
                                                 value={dataset.label}
                                                 className='form-control'
-                                                onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
+                                                onChange={(e) => handleDataChange(setChartInstance, 'datasetsLabel', datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='data_inner'>
                                             {dataset.data.map((data, index) => (
@@ -52,7 +52,7 @@ function DataLineChart() {
                                                         className='form-control'
                                                         placeholder={chartInstance.data.labels[index]}
                                                         value={data}
-                                                        onChange={(e) => handleDataChange(setChartInstance,'data',datasetIndex, index, e.target.value)}
+                                                        onChange={(e) => handleDataChange(setChartInstance, 'data', datasetIndex, index, e.target.value)}
                                                     />
                                                     <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
                                                 </div>
@@ -71,9 +71,9 @@ function DataLineChart() {
                                                 type="text"
                                                 value={dataset.label}
                                                 className='form-control'
-                                                onChange={(e) => handleDataChange(setChartInstance,'datasetsLabel',datasetIndex, 0, e.target.value)}
+                                                onChange={(e) => handleDataChange(setChartInstance, 'datasetsLabel', datasetIndex, 0, e.target.value)}
                                             />
-                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance,chartInstance,datasetIndex)}>X</button>
+                                            <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
                                             <div className='input-group'>
@@ -83,7 +83,7 @@ function DataLineChart() {
                                                     className="form-control form-control-color"
                                                     id={`bgc-${datasetIndex}`}
                                                     value={rgbaToHex(dataset.backgroundColor)}
-                                                    onChange={(e) => handleDataChange(setChartInstance,'backgroundColor_1',datasetIndex, 0, hexToRgba(e.target.value))}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor_1', datasetIndex, 0, hexToRgba(e.target.value))}
                                                 />
                                             </div>
                                             <div className='input-group'>
@@ -93,7 +93,7 @@ function DataLineChart() {
                                                     className="form-control form-control-color"
                                                     id={`bdc-${datasetIndex}`}
                                                     value={rgbaToHex(dataset.borderColor)}
-                                                    onChange={(e) => handleDataChange(setChartInstance,'borderColor_1',datasetIndex, 0, hexToRgba(e.target.value))}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'borderColor_1', datasetIndex, 0, hexToRgba(e.target.value))}
                                                 />
                                             </div>
                                             <div className='input-group'>
@@ -103,12 +103,12 @@ function DataLineChart() {
                                                     className="form-control form-control-color"
                                                     id={`ten-${datasetIndex}`}
                                                     value={dataset.tension}
-                                                    onChange={(e) => handleDataChange(setChartInstance,'tension',datasetIndex, 0, e.target.value)}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'tension', datasetIndex, 0, e.target.value)}
                                                 />
                                             </div>
                                             <div className="form-check form-switch">
                                                 <label className="form-check-label" htmlFor={`fillSwitch-${datasetIndex}`}>fill</label>
-                                                <input 
+                                                <input
                                                     className="form-check-input"
                                                     type="checkbox"
                                                     id={`fillSwitch-${datasetIndex}`}
@@ -116,6 +116,51 @@ function DataLineChart() {
                                                     onChange={(event) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, event.target.checked)}
                                                 />
                                             </div>
+                                            {/* {dataset.pointStyle.map((ps, index) => (
+                                                <div>
+                                                    <div>{chartInstance.data.labels[index]}</div>
+                                                    <div className='input-group'>
+                                                        <label htmlFor={`ps-${index}`} className='input-group-text'>pointStyle</label>
+                                                        <input
+                                                            type="text"
+                                                            className="form-control form-control-color"
+                                                            id={`ps-${index}`}
+                                                            value={ps}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'datasets_pointStyle', datasetIndex, index, e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {dataset.pointRadius.map((pr, index) => (
+                                                <div>
+                                                    <div>{chartInstance.data.labels[index]}</div>
+                                                    <div className='input-group'>
+                                                        <label htmlFor={`pr-${index}`} className='input-group-text'>pointRadius</label>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control form-control-color"
+                                                            id={`pr-${index}`}
+                                                            value={pr}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'datasets_pointRadius', datasetIndex, index, e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {dataset.pointHoverRadius.map((phr, index) => (
+                                                <div>
+                                                    <div>{chartInstance.data.labels[index]}</div>
+                                                    <div className='input-group'>
+                                                        <label htmlFor={`phr-${index}`} className='input-group-text'>pointHoverRadius</label>
+                                                        <input
+                                                            type="number"
+                                                            className="form-control form-control-color"
+                                                            id={`phr-${index}`}
+                                                            value={phr}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'datasets_pointHoverRadius', datasetIndex, index, e.target.value)}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))} */}
                                         </div>
                                     </div>
                                 ))}
