@@ -410,6 +410,33 @@ export const initChart = (chartType) => {
                 },
             },
         },
+        // radar: {
+        //     type: 'radar',
+        //     data: {
+        //         labels: ['Red', 'Blue', 'Yellow'],
+        //         datasets: [{
+        //             label: 'Dataset 1',
+        //             data: [15, 25, 35],
+        //             backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        //             borderColor: 'rgba(255, 99, 132, 0.2)',
+        //             fill: true,
+        //         }],
+        //     },
+        //     options: {
+        //         ...commonOptions,
+        //         scales: {
+        //             r: {
+        //                 pointLabels: {
+        //                     display: true,
+        //                     centerPointLabels: true,
+        //                     font: {
+        //                         size: 15
+        //                     }
+        //                 }
+        //             }
+        //         },
+        //     },
+        // },
     };
 
     return chartConfig[chartType] || {
@@ -480,6 +507,13 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         //     dataset.pointHoverRadius[i] || 15
                         // );
                     }
+
+                    // if (chartType === 'radar') {
+                    //     newDataset.label = uploadedData.datasets[index].label;
+                    //     newDataset.borderColor = dataset.borderColor;
+                    //     newDataset.backgroundColor = dataset.backgroundColor;
+                    //     newDataset.fill = dataset.fill;
+                    // }
 
                     return newDataset;
                 }),
@@ -748,6 +782,18 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                 } else {
                     return dataset;
                 }
+
+
+
+                // else if (chartInstance.type === 'radar') {
+                //     return {
+                //         ...dataset,
+                //         data: [...dataset.data, 10],
+                //         backgroundColor: dataset.backgroundColor,
+                //         borderColor: dataset.borderColor,
+                //         fill: dataset.fill,
+                //     };
+                // }
             }),
         },
     };
@@ -809,6 +855,15 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                 } else {
                     return dataset;
                 }
+
+
+
+                // else if (chartInstance.type === 'radar') {
+                //     return {
+                //         ...dataset,
+                //         data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                //     };
+                // }
             }),
         },
     };
@@ -872,6 +927,17 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
         alert("지원되지 않는 차트 타입입니다.");
         return;
     }
+
+
+    // else if (chartType === 'radar') {
+    //     newDataset = {
+    //         label: `Dataset ${chartInstance.data.datasets.length + 1}`,
+    //         data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+    //         backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    //         borderColor: 'rgba(255, 99, 132, 0.2)',
+    //         fill: true,
+    //     };
+    // }
 
     // 차트 상태 업데이트
     const newChartInstance = {

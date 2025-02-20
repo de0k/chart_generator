@@ -10,6 +10,7 @@ import DataLineChart from './DataLineChart';
 import DataPieChart from './DataPieChart';
 import DataDoughnutChart from './DataDoughnutChart';
 import DataPolarAreaChart from './DataPolarAreaChart';
+import DataRadarChart from './DataRadarChart';
 import OptionsBarChart from './OptionsBarChart';
 import OptionsLineChart from './OptionsLineChart';
 import OptionsPolarAreaChart from './OptionsPolarAreaChart';
@@ -68,6 +69,7 @@ function DirectInputt() {
                                         <button className='btn btn-secondary' onClick={() => handleChartType('pie', setChartInstance, uploadedData)}>Pie Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('doughnut', setChartInstance, uploadedData)}>Doughnut Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('polarArea', setChartInstance, uploadedData)}>polarArea Chart</button>
+                                        {/* <button className='btn btn-secondary' onClick={() => handleChartType('radar', setChartInstance, uploadedData)}>radar Chart</button> */}
                                     </div>
                                 </div>
                                 <div className='input_item set_dataset input-group'>
@@ -100,6 +102,7 @@ function DirectInputt() {
                                         {chartInstance && chartInstance.type === 'pie' && <DataPieChart />}
                                         {chartInstance && chartInstance.type === 'doughnut' && <DataDoughnutChart />}
                                         {chartInstance && chartInstance.type === 'polarArea' && <DataPolarAreaChart />}
+                                        {/* {chartInstance && chartInstance.type === 'radar' && <DataRadarChart />} */}
                                     </div>
                                 </div>
                             </div>
