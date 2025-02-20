@@ -12,6 +12,7 @@ import DataDoughnutChart from './DataDoughnutChart';
 import DataPolarAreaChart from './DataPolarAreaChart';
 import OptionsBarChart from './OptionsBarChart';
 import OptionsLineChart from './OptionsLineChart';
+import OptionsPolarAreaChart from './OptionsPolarAreaChart';
 import OptionsCommon from './OptionsCommon';
 
 // Chart.js 구성 요소 등록
@@ -127,6 +128,7 @@ function DirectInputt() {
                                 <div className="input_item input-group">
                                     {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}
                                     {chartInstance && chartInstance.type === 'line' && <OptionsLineChart />}
+                                    {chartInstance && chartInstance.type === 'polarArea' && <OptionsPolarAreaChart />}
                                 </div>
                             </div>
                         </Collapse>

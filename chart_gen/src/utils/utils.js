@@ -397,6 +397,17 @@ export const initChart = (chartType) => {
             },
             options: {
                 ...commonOptions,
+                scales: {
+                    r: {
+                        pointLabels: {
+                            display: true,
+                            centerPointLabels: true,
+                            font: {
+                                size: 15
+                            }
+                        }
+                    }
+                },
             },
         },
     };
@@ -664,7 +675,11 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.scales.x.title.color = newValue;
         } else if (property === 'scales_x_title_font_size') {
             updatedOptions.scales.x.title.font.size = newValue;
-        } 
+        } else if (property === 'scales_r_pointLabels_display') {
+            updatedOptions.scales.r.pointLabels.display = newValue;
+        } else if (property === 'scales_r_pointLabels_title_font_size') {
+            updatedOptions.scales.r.pointLabels.font.size = newValue;
+        }
 
 
 
