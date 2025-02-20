@@ -188,6 +188,16 @@ function OptionsCommon() {
                     onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_intersect', event.target.checked)}
                 />
             </div>
+            <div className="form-check form-switch">
+                <label className="form-check-label" htmlFor={`interaction_mode`}>툴팁 데이터셋 모두 출력 여부</label>
+                <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`interaction_mode`}
+                    checked={chartInstance?.options?.interaction?.mode === 'index'}
+                    onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_mode',event.target.checked ? 'index' : 'nearest')}
+                />
+            </div>
         </div>
     );
 };

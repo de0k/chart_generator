@@ -268,6 +268,7 @@ export const initChart = (chartType) => {
             },
         },
         interaction: {
+            mode: "nearest",
             intersect: true,
         },
     };
@@ -633,6 +634,9 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.labels.font.size = newValue;
         } else if (property === 'interaction_intersect') {
             updatedOptions.interaction.intersect = newValue;
+        } else if (property === 'interaction_mode') {
+            updatedOptions.interaction.mode = newValue;
+            updatedOptions.interaction.mode = newValue === 'index' ? "index" : 'nearest';
         } else if (property === 'scales_x_display') {
             updatedOptions.scales.x.display = newValue;
         } else if (property === 'scales_x_title_display') {
@@ -643,7 +647,7 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.scales.x.title.color = newValue;
         } else if (property === 'scales_x_title_font_size') {
             updatedOptions.scales.x.title.font.size = newValue;
-        }
+        } 
 
 
 
