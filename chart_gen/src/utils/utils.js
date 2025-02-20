@@ -382,6 +382,23 @@ export const initChart = (chartType) => {
                 ...commonOptions,
             },
         },
+        polarArea: {
+            type: 'polarArea',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow'],
+                datasets: [{
+                    data: [40, 30, 30],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)',
+                    ],
+                }],
+            },
+            options: {
+                ...commonOptions,
+            },
+        },
     };
 
     return chartConfig[chartType] || {
@@ -707,6 +724,12 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         data: [...dataset.data, 10],
                         backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
                     };
+                } else if (chartInstance.type === 'polarArea') {
+                    return {
+                        ...dataset,
+                        data: [...dataset.data, 10],
+                        backgroundColor: [...dataset.backgroundColor, 'rgba(255, 99, 132, 0.2)'],
+                    };
                 } else {
                     return dataset;
                 }
@@ -762,6 +785,12 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
                         data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
                         backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
                     };
+                } else if (chartInstance.type === 'polarArea') {
+                    return {
+                        ...dataset,
+                        data: dataset.data.filter((_, index) => index !== labelIndex), // 데이터 삭제
+                        backgroundColor: dataset.backgroundColor.filter((_, index) => index !== labelIndex), // 배경색 삭제
+                    };
                 } else {
                     return dataset;
                 }
@@ -811,6 +840,13 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             // pointHoverRadius: Array(chartInstance.data.labels.length).fill(15),
         };
     } else if (chartType === 'pie' || chartType === 'doughnut') {
+        newDataset = {
+            data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
+            backgroundColor: chartInstance.data.labels.map(() =>
+                `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.5)`
+            ),
+        };
+    } else if (chartType === 'polarArea') {
         newDataset = {
             data: Array(chartInstance.data.labels.length).fill(10), // 기본값 10으로 초기화
             backgroundColor: chartInstance.data.labels.map(() =>

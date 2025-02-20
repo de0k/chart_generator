@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { screenState, chartInstanceState, uploadedDataState } from '../recoil/atoms';
 import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel } from '../utils/utils';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
 import DataBarChart from './DataBarChart';
 import DataLineChart from './DataLineChart';
 import DataPieChart from './DataPieChart';
 import DataDoughnutChart from './DataDoughnutChart';
+import DataPolarAreaChart from './DataPolarAreaChart';
 import OptionsBarChart from './OptionsBarChart';
 import OptionsLineChart from './OptionsLineChart';
 import OptionsCommon from './OptionsCommon';
 
 // Chart.js 구성 요소 등록
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale);
 
 function DirectInputt() {
     const setScreen = useSetRecoilState(screenState);
@@ -65,6 +66,7 @@ function DirectInputt() {
                                         <button className='btn btn-secondary' onClick={() => handleChartType('line', setChartInstance, uploadedData)}>Line Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('pie', setChartInstance, uploadedData)}>Pie Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('doughnut', setChartInstance, uploadedData)}>Doughnut Chart</button>
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('polarArea', setChartInstance, uploadedData)}>polarArea Chart</button>
                                     </div>
                                 </div>
                                 <div className='input_item set_dataset input-group'>
@@ -96,6 +98,7 @@ function DirectInputt() {
                                         {chartInstance && chartInstance.type === 'line' && <DataLineChart />}
                                         {chartInstance && chartInstance.type === 'pie' && <DataPieChart />}
                                         {chartInstance && chartInstance.type === 'doughnut' && <DataDoughnutChart />}
+                                        {chartInstance && chartInstance.type === 'polarArea' && <DataPolarAreaChart />}
                                     </div>
                                 </div>
                             </div>
