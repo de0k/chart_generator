@@ -10,6 +10,7 @@ import DataLineChart from './DataLineChart';
 import PieChart from './PieChart';
 import DoughnutChart from './DoughnutChart';
 import OptionsBarChart from './OptionsBarChart';
+import OptionsLineChart from './OptionsLineChart';
 import OptionsCommon from './OptionsCommon';
 
 // Chart.js 구성 요소 등록
@@ -122,6 +123,7 @@ function DirectInputt() {
                                 </div>
                                 <div className="input_item input-group">
                                     {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}
+                                    {chartInstance && chartInstance.type === 'line' && <OptionsLineChart />}
                                 </div>
                             </div>
                         </Collapse>

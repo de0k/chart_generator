@@ -125,6 +125,16 @@ function OptionsCommon() {
                 />
                 <label htmlFor={`legend_size`}>범례 크기: </label>
             </div>
+            <div className="form-check form-switch">
+                <label className="form-check-label" htmlFor={`interaction_intersectSwitch`}>툴팁 광범위 감지 여부</label>
+                <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`interaction_intersectSwitch`}
+                    checked={chartInstance?.options?.interaction?.intersect || false}
+                    onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_intersect', event.target.checked)}
+                />
+            </div>
         </div>
     );
 };

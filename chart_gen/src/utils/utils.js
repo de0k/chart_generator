@@ -244,9 +244,17 @@ export const initChart = (chartType) => {
                 "display": true, // 차트 제목 표시 여부
                 "fullWidth": true, // 차트 전체 너비 설정 여부
                 "text": "차트 제목입니다.",
-                "position": "bottom",
+                "position": "top",
                 "color": "#aa7942",
                 "font": { "size": 16 }
+            },
+            "subtitle": {
+                "display": true,
+                "text": 'Chart Subtitle',
+                "color": 'blue',
+                "font": {
+                    "size": 12,
+                },
             },
             "legend": { // 범례 설정
                 "display": true,
@@ -257,7 +265,10 @@ export const initChart = (chartType) => {
                     "font": { "size": 16 }
                 }
             },
-        }
+        },
+        "interaction": {
+            "intersect": true,
+        },
     };
     const chartConfig = {
         bar: {
@@ -305,6 +316,36 @@ export const initChart = (chartType) => {
             },
             options: {
                 ...commonOptions,
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: "Category", // X축 제목 추가
+                            color: "#000",
+                            font: {
+                                size: 16,
+                                weight: "bold"
+                            }
+                        },
+                        min: null,
+                        max: null,
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Value',
+                            color: "#000",
+                            font: {
+                                size: 16,
+                                weight: "bold"
+                            }
+                        },
+                        min: null,
+                        max: null,
+                    }
+                }
             },
         },
         pie: {
@@ -540,6 +581,8 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.labels.color = newValue;
         } else if (property === 'legendSize') {
             updatedOptions.plugins.legend.labels.font.size = newValue;
+        } else if (property === 'interaction_intersect') {
+            updatedOptions.interaction.intersect = newValue;
         }
 
 
