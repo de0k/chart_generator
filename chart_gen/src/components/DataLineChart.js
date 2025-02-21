@@ -126,6 +126,16 @@ function DataLineChart() {
                                                     onChange={(event) => handleDataChange(setChartInstance, 'stepped', datasetIndex, 0, event.target.checked)}
                                                 />
                                             </div>
+                                            <div className='form-floating'>
+                                                <input
+                                                    id={`order-${datasetIndex}`}
+                                                    type="number"
+                                                    value={dataset.order}
+                                                    className='form-control'
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'order', datasetIndex, 0, e.target.value)}
+                                                />
+                                                <label htmlFor={`order-${datasetIndex}`}>order: </label>
+                                            </div>
                                             {/* {dataset.pointStyle.map((ps, index) => (
                                                 <div>
                                                     <div>{chartInstance.data.labels[index]}</div>

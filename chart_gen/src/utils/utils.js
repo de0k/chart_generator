@@ -292,6 +292,7 @@ export const initChart = (chartType) => {
                     ],
                     borderWidth: 1,
                     borderRadius: 0,
+                    order:0,
                 }],
             },
             options: {
@@ -315,6 +316,7 @@ export const initChart = (chartType) => {
                     tension: 0,
                     fill: false,
                     stepped: false,
+                    order:0,
                     // pointStyle: ['circle','circle','circle'],
                     // pointRadius: [10,10,10],
                     // pointHoverRadius: [15,15,15],
@@ -488,6 +490,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         );
                         newDataset.borderWidth = dataset.borderWidth;
                         newDataset.borderRadius = dataset.borderRadius;
+                        newDataset.order = dataset.order;
                     }
 
                     if (chartType === 'line') {
@@ -497,6 +500,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         newDataset.backgroundColor = dataset.backgroundColor;
                         newDataset.fill = dataset.fill;
                         newDataset.stepped = dataset.stepped;
+                        newDataset.order = dataset.order;
                         // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
                         //     dataset.pointStyle[i] || 'circle'
                         // );
@@ -617,6 +621,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
                 stepped: newValue
+            };
+        } else if (property === 'order') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                order : newValue
             };
         }
 
@@ -753,6 +763,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderColor: [...dataset.borderColor, 'rgba(255, 99, 132, 0.2)'],
                         borderWidth: 1,
                         borderRadius: 0,
+                        order: 0,
                     };
                 } else if (chartInstance.type === 'line') {
                     return {
@@ -763,6 +774,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         tension: dataset.tension,
                         fill: dataset.fill,
                         stepped: dataset.stepped,
+                        order: 0,
                         // pointStyle: [...dataset.pointStyle, 'circle'],
                         // pointRadius: [...dataset.pointRadius, 10],
                         // pointHoverRadius: [...dataset.pointHoverRadius, 15],
@@ -895,6 +907,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             ),
             borderWidth: 1,
             borderRadius: 0,
+            order: 0,
         };
     } else if (chartType === 'line') {
         newDataset = {
@@ -905,6 +918,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             tension: 0,
             fill: false,
             stepped: false,
+            order: 0,
             // pointStyle: Array(chartInstance.data.labels.length).fill('circle'),
             // pointRadius: Array(chartInstance.data.labels.length).fill(10),
             // pointHoverRadius: Array(chartInstance.data.labels.length).fill(15),

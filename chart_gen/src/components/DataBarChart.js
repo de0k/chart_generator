@@ -143,6 +143,16 @@ function DataBarChart() {
                                                 />
                                                 <label htmlFor={`bdw-${datasetIndex}`}>Border Radius: </label>
                                             </div>
+                                            <div className='form-floating'>
+                                                <input
+                                                    id={`order-${datasetIndex}`}
+                                                    type="number"
+                                                    value={dataset.order}
+                                                    className='form-control'
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'order', datasetIndex, 0, e.target.value)}
+                                                />
+                                                <label htmlFor={`order-${datasetIndex}`}>order: </label>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
