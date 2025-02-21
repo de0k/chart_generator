@@ -35,7 +35,8 @@ function DataPolarAreaChart() {
                             <div className="tab-pane active">
                                 {chartInstance.data.datasets.map((dataset, datasetIndex) => (
                                     <div className='data_box inner_box' key={datasetIndex}>
-                                        <div className='input-group'>
+                                        <div className='input-group dataset_del_wrap'>
+                                            <div className='input-group-text'>데이터 셋 제거</div>
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='data_inner'>
@@ -60,13 +61,14 @@ function DataPolarAreaChart() {
                             <div className="tab-pane active">
                                 {chartInstance.data.datasets.map((dataset, datasetIndex) => (
                                     <div className='option_box inner_box' key={`dataset-${datasetIndex}`}>
-                                        <div className='input-group'>
+                                        <div className='input-group dataset_del_wrap'>
+                                            <div className='input-group-text'>데이터 셋 제거</div>
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
                                             {dataset.backgroundColor.map((bg, index) => (
-                                                <div>
-                                                    <div>{chartInstance.data.labels[index]}</div>
+                                                <div className='custom_item'>
+                                                    <div className='custom_label'>{chartInstance.data.labels[index]}</div>
                                                     <div className='input-group'>
                                                         <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
                                                         <input

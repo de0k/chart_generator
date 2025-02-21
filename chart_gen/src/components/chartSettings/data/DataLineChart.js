@@ -106,6 +106,18 @@ function DataLineChart() {
                                                     onChange={(e) => handleDataChange(setChartInstance, 'tension', datasetIndex, 0, e.target.value)}
                                                 />
                                             </div>
+                                            <div className='input-group'>
+                                                <label htmlFor={`steppedSwitch-${datasetIndex}`} className='input-group-text'>stepped</label>
+                                                <div className="form-control form-check form-switch">
+                                                    <input
+                                                        className="form-check-input"
+                                                        type="checkbox"
+                                                        id={`steppedSwitch-${datasetIndex}`}
+                                                        checked={dataset.stepped || false}
+                                                        onChange={(event) => handleDataChange(setChartInstance, 'stepped', datasetIndex, 0, event.target.checked)}
+                                                    />
+                                                </div>
+                                            </div>
                                             <div className='form-floating'>
                                                 <select
                                                     id={`fillSwitch-${datasetIndex}`}
@@ -118,16 +130,6 @@ function DataLineChart() {
                                                     ))}
                                                 </select>
                                                 <label htmlFor={`fillSwitch-${datasetIndex}`}>fill: </label>
-                                            </div>
-                                            <div className="form-check form-switch">
-                                                <label className="form-check-label" htmlFor={`steppedSwitch-${datasetIndex}`}>stepped</label>
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
-                                                    id={`steppedSwitch-${datasetIndex}`}
-                                                    checked={dataset.stepped || false}
-                                                    onChange={(event) => handleDataChange(setChartInstance, 'stepped', datasetIndex, 0, event.target.checked)}
-                                                />
                                             </div>
                                             <div className='form-floating'>
                                                 <input

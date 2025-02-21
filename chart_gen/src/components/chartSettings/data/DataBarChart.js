@@ -8,7 +8,7 @@ function DataBarChart() {
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
     return (
-        <div className='datasets_box'>
+        <div className='datasets_box bar_data'>
             <>
                 <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'bar')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
@@ -47,26 +47,28 @@ function DataBarChart() {
                                         <div className='data_inner'>
                                             {dataset.data.map((data, index) => (
                                                 <div className='form-floating' key={index}>
-                                                    <div className="d-flex">
-                                                        <label htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
-                                                        {/* Min 값 입력 */}
-                                                        <input
-                                                            type="text"
-                                                            className='form-control me-2'
-                                                            placeholder={`Min ${chartInstance.data.labels[index]}`}
-                                                            value={data[0]}
-                                                            onChange={(e) =>
-                                                                handleDataChange(setChartInstance, 'data', datasetIndex, index, [Number(e.target.value), data[1]], true)}
-                                                        />
-                                                        {/* Max 값 입력 */}
-                                                        <input
-                                                            type="text"
-                                                            className='form-control'
-                                                            placeholder={`Max ${chartInstance.data.labels[index]}`}
-                                                            value={data[1]}
-                                                            onChange={(e) =>
-                                                                handleDataChange(setChartInstance, 'data', datasetIndex, index, [data[0], Number(e.target.value)], true)}
-                                                        />
+                                                    <div className="custom_item">
+                                                        <label className='custom_label' htmlFor={chartInstance.data.labels[index]}>{chartInstance.data.labels[index]}</label>
+                                                        <div className='d-flex'>
+                                                            {/* Min 값 입력 */}
+                                                            <input
+                                                                type="text"
+                                                                className='form-control me-2'
+                                                                placeholder={`Min ${chartInstance.data.labels[index]}`}
+                                                                value={data[0]}
+                                                                onChange={(e) =>
+                                                                    handleDataChange(setChartInstance, 'data', datasetIndex, index, [Number(e.target.value), data[1]], true)}
+                                                            />
+                                                            {/* Max 값 입력 */}
+                                                            <input
+                                                                type="text"
+                                                                className='form-control'
+                                                                placeholder={`Max ${chartInstance.data.labels[index]}`}
+                                                                value={data[1]}
+                                                                onChange={(e) =>
+                                                                    handleDataChange(setChartInstance, 'data', datasetIndex, index, [data[0], Number(e.target.value)], true)}
+                                                            />
+                                                        </div>
                                                     </div>
                                                 </div>
                                             ))}
@@ -90,37 +92,7 @@ function DataBarChart() {
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
-                                            {dataset.backgroundColor.map((bg, index) => (
-                                                <div>
-                                                    <div>{chartInstance.data.labels[index]}</div>
-                                                    <div className='input-group'>
-                                                        <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
-                                                        <input
-                                                            type="color"
-                                                            className="form-control form-control-color"
-                                                            id={`bgc-${index}`}
-                                                            value={rgbaToHex(bg)}
-                                                            onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            {dataset.borderColor.map((bd, index) => (
-                                                <div>
-                                                    <div>{chartInstance.data.labels[index]}</div>
-                                                    <div className='input-group'>
-                                                        <label htmlFor={`bdc-${index}`} className='input-group-text'>Border Color</label>
-                                                        <input
-                                                            type="color"
-                                                            className="form-control form-control-color"
-                                                            id={`bdc-${index}`}
-                                                            value={rgbaToHex(bd)}
-                                                            onChange={(e) => handleDataChange(setChartInstance, 'borderColor', datasetIndex, index, hexToRgba(e.target.value))}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            <div className='form-floating'>
+                                        <div className='form-floating'>
                                                 <select
                                                     id={`bdw-${datasetIndex}`}
                                                     className='form-select'
@@ -153,6 +125,36 @@ function DataBarChart() {
                                                 />
                                                 <label htmlFor={`order-${datasetIndex}`}>order: </label>
                                             </div>
+                                            {dataset.backgroundColor.map((bg, index) => (
+                                                <div className='custom_item'>
+                                                    <div className='custom_label'>{chartInstance.data.labels[index]}</div>
+                                                    <div className='input-group'>
+                                                        <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
+                                                        <input
+                                                            type="color"
+                                                            className="form-control form-control-color"
+                                                            id={`bgc-${index}`}
+                                                            value={rgbaToHex(bg)}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value))}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {dataset.borderColor.map((bd, index) => (
+                                                <div className="custom_item">
+                                                    <div className='custom_label'>{chartInstance.data.labels[index]}</div>
+                                                    <div className='input-group'>
+                                                        <label htmlFor={`bdc-${index}`} className='input-group-text'>Border Color</label>
+                                                        <input
+                                                            type="color"
+                                                            className="form-control form-control-color"
+                                                            id={`bdc-${index}`}
+                                                            value={rgbaToHex(bd)}
+                                                            onChange={(e) => handleDataChange(setChartInstance, 'borderColor', datasetIndex, index, hexToRgba(e.target.value))}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                 ))}

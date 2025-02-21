@@ -33,7 +33,6 @@ function DirectInput() {
     const [savedCode, setSavedCode] = useRecoilState(savedCodeState);
     const [showCodeModal, setShowCodeModal] = useRecoilState(showCodeModalState);
     const [showFileConvertModal, setShowFileConvertModal] = useRecoilState(showFileConvertModalState);
-
     const [key, setKey] = useState(0);
     
     // Re-render chart when sidebar state changes
@@ -172,25 +171,16 @@ function DirectInput() {
                         </div>
                         <Collapse in={activeSection === 'more'}>
                             <div id="chart-setting-more" className="card-body">
-                                <div className="input_item input-group">
-                                    {chartInstance && chartInstance.type && <OptionsCommon />}
-                                </div>
-                                <div className="input_item input-group">
-                                    {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}
-                                    {chartInstance && chartInstance.type === 'line' && <OptionsLineChart />}
-                                    {chartInstance && chartInstance.type === 'polarArea' && <OptionsPolarAreaChart />}
-                                    {chartInstance && chartInstance.type === 'radar' && <OptionsRadarChart />}
-                                </div>
+                                {chartInstance && chartInstance.type && <OptionsCommon />}
+                                {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}
+                                {chartInstance && chartInstance.type === 'line' && <OptionsLineChart />}
+                                {chartInstance && chartInstance.type === 'polarArea' && <OptionsPolarAreaChart />}
+                                {chartInstance && chartInstance.type === 'radar' && <OptionsRadarChart />}
                             </div>
                         </Collapse>
                     </div>
                 </div>
-                <div
-                    className="result_wrap sticky-top"
-                    style={{
-                        flex: isSidebarOpen ? "1" : "auto"
-                    }}
-                >
+                <div className="result_wrap sticky-top">
                     {!isSidebarOpen ? (
                         <div className='btn_wrap'>
                             <button className="btn btn-primary" onClick={() => setIsSidebarOpen(true)}>
