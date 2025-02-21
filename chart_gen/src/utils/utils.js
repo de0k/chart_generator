@@ -296,35 +296,44 @@ export const initChart = (chartType) => {
             intersect: true,
         },
     };
+
+    const isStacked = false;
+
+    const bar_dataset = {
+        label: 'Dataset 1',
+        data: [[0, 10], [0, 20], [0, 30]],
+        backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+        ],
+        borderColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+        ],
+        borderWidth: 1,
+        borderRadius: 0,
+        order: 0,
+    };
+
+    if (isStacked) {
+        bar_dataset.stack = 'Stack 0';
+    }
+
     const chartConfig = {
         bar: {
             type: 'bar',
             data: {
                 labels: ['Category 1', 'Category 2', 'Category 3'],
-                datasets: [{
-                    label: 'Dataset 1',
-                    data: [[0, 10], [0, 20], [0, 30]],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                    ],
-                    borderWidth: 1,
-                    borderRadius: 0,
-                    order: 0,
-                }],
+                datasets: [bar_dataset],
             },
             options: {
                 ...commonOptions,
                 indexAxis: 'x',
                 scales: {
-                    x: { type: 'category', beginAtZero: true, stacked: false },
-                    y: { type: 'linear', beginAtZero: true, stacked: false },
+                    x: { type: 'category', beginAtZero: true, stacked: isStacked },
+                    y: { type: 'linear', beginAtZero: true, stacked: isStacked },
                 },
             },
         },
@@ -495,64 +504,74 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
     setChartInstance(options);
 
     if (uploadedData) {
-        setChartInstance(prevChart => ({
-            ...prevChart,
-            data: {
-                ...prevChart.data,
-                labels: uploadedData.labels,
-                datasets: prevChart.data.datasets.map((dataset, index) => {
-                    const newDataset = {
-                        ...dataset,
-                        data: chartType === 'bar'
-                            ? uploadedData.datasets[index].data.map(value =>
-                                Array.isArray(value) ? value : [0, value]
-                            )
-                            : uploadedData.datasets[index].data,
-                        backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                            dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
-                        ),
-                    };
+        setChartInstance(prevChart => {
+            const isStacked = prevChart.options?.scales?.x?.stacked && prevChart.options?.scales?.y?.stacked; // 스택 여부 확인
 
-                    if (chartType === 'bar') {
-                        newDataset.label = uploadedData.datasets[index].label;
-                        newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                            dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
-                        );
-                        newDataset.borderWidth = dataset.borderWidth;
-                        newDataset.borderRadius = dataset.borderRadius;
-                        newDataset.order = dataset.order;
-                    }
+            return {
+                ...prevChart,
+                data: {
+                    ...prevChart.data,
+                    labels: uploadedData.labels,
+                    datasets: prevChart.data.datasets.map((dataset, index) => {
+                        const newDataset = {
+                            ...dataset,
+                            data: chartType === 'bar'
+                                ? uploadedData.datasets[index].data.map(value =>
+                                    Array.isArray(value) ? value : [0, value]
+                                )
+                                : uploadedData.datasets[index].data,
+                            backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                                dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
+                            ),
+                        };
 
-                    if (chartType === 'line') {
-                        newDataset.label = uploadedData.datasets[index].label;
-                        newDataset.borderColor = dataset.borderColor;
-                        newDataset.tension = dataset.tension;
-                        newDataset.backgroundColor = dataset.backgroundColor;
-                        newDataset.fill = dataset.fill;
-                        newDataset.stepped = dataset.stepped;
-                        newDataset.order = dataset.order;
-                        // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                        //     dataset.pointStyle[i] || 'circle'
-                        // );
-                        // newDataset.pointRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                        //     dataset.pointRadius[i] || 10
-                        // );
-                        // newDataset.pointHoverRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                        //     dataset.pointHoverRadius[i] || 15
-                        // );
-                    }
+                        if (chartType === 'bar') {
+                            newDataset.label = uploadedData.datasets[index].label;
+                            newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                                dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
+                            );
+                            newDataset.borderWidth = dataset.borderWidth;
+                            newDataset.borderRadius = dataset.borderRadius;
+                            newDataset.order = dataset.order;
+                            // options.scales.x.stacked 및 options.scales.y.stacked가 true일 경우만 stack 적용
+                            if (isStacked) {
+                                newDataset.stack = dataset.stack || 'Stack 0';
+                            } else {
+                                delete newDataset.stack; // 스택이 비활성화되면 stack 속성 제거
+                            }
+                        }
 
-                    if (chartType === 'radar') {
-                        newDataset.label = uploadedData.datasets[index].label;
-                        newDataset.borderColor = dataset.borderColor;
-                        newDataset.backgroundColor = dataset.backgroundColor;
-                        newDataset.order = dataset.order;
-                    }
+                        if (chartType === 'line') {
+                            newDataset.label = uploadedData.datasets[index].label;
+                            newDataset.borderColor = dataset.borderColor;
+                            newDataset.tension = dataset.tension;
+                            newDataset.backgroundColor = dataset.backgroundColor;
+                            newDataset.fill = dataset.fill;
+                            newDataset.stepped = dataset.stepped;
+                            newDataset.order = dataset.order;
+                            // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            //     dataset.pointStyle[i] || 'circle'
+                            // );
+                            // newDataset.pointRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            //     dataset.pointRadius[i] || 10
+                            // );
+                            // newDataset.pointHoverRadius = Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                            //     dataset.pointHoverRadius[i] || 15
+                            // );
+                        }
 
-                    return newDataset;
-                }),
-            },
-        }));
+                        if (chartType === 'radar') {
+                            newDataset.label = uploadedData.datasets[index].label;
+                            newDataset.borderColor = dataset.borderColor;
+                            newDataset.backgroundColor = dataset.backgroundColor;
+                            newDataset.order = dataset.order;
+                        }
+
+                        return newDataset;
+                    }),
+                },
+            };
+        });
     }
 };
 
@@ -659,6 +678,12 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 ...updatedData.datasets[datasetIndex],
                 order: newValue
             };
+        } else if (property === 'stack') {
+            updatedData.datasets = [...updatedData.datasets];
+            updatedData.datasets[datasetIndex] = {
+                ...updatedData.datasets[datasetIndex],
+                stack: newValue
+            };
         }
 
 
@@ -762,7 +787,27 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.scales.r.pointLabels.display = newValue;
         } else if (property === 'scales_r_pointLabels_title_font_size') {
             updatedOptions.scales.r.pointLabels.font.size = newValue;
-        } 
+        } else if (property === 'scales_stacked') {
+            updatedOptions.scales.x.stacked = newValue;
+            updatedOptions.scales.y.stacked = newValue;
+
+            return {
+                ...prevState,
+                options: updatedOptions,
+                data: {
+                    ...prevState.data,
+                    datasets: prevState.data.datasets.map(dataset => {
+                        let updatedDataset = { ...dataset };
+                        if (newValue) {
+                            updatedDataset.stack = dataset.stack || 'Stack 0';
+                        } else {
+                            delete updatedDataset.stack;
+                        }
+                        return updatedDataset;
+                    }),
+                },
+            };
+        }
 
 
 
@@ -785,6 +830,10 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
     }
 
     const newLabel = `라벨 ${chartInstance.data.labels.length + 1}`;
+
+    // 스택 활성화 여부 확인
+    const isStacked = chartInstance.options?.scales?.x?.stacked && chartInstance.options?.scales?.y?.stacked;
+
     const newChartInstance = {
         ...chartInstance,
         data: {
@@ -803,6 +852,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderWidth: 1,
                         borderRadius: 0,
                         order: 0,
+                        ...(isStacked ? { stack: 'Stack 0' } : {}), // 스택이 활성화되었을 때만 stack 추가
                     };
                 } else if (chartInstance.type === 'line') {
                     return {
@@ -927,6 +977,9 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
         return;
     }
 
+    // 스택 활성화 여부 확인
+    const isStacked = chartInstance.options?.scales?.x?.stacked && chartInstance.options?.scales?.y?.stacked;
+
     let newDataset = {};
 
     // 차트 타입별로 newDataset을 다르게 설정
@@ -943,6 +996,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             borderWidth: 1,
             borderRadius: 0,
             order: 0,
+            ...(isStacked ? { stack: 'Stack 0' } : {}), // 스택 활성화 시 stack 추가
         };
     } else if (chartType === 'line') {
         newDataset = {

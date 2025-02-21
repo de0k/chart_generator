@@ -7,6 +7,9 @@ function DataBarChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
+    // 스택 활성화 여부 확인
+    const isStacked = chartInstance.options?.scales?.x?.stacked && chartInstance.options?.scales?.y?.stacked;
+
     return (
         <div className='datasets_box bar_data'>
             <>
@@ -125,6 +128,19 @@ function DataBarChart() {
                                                 />
                                                 <label htmlFor={`order-${datasetIndex}`}>order: </label>
                                             </div>
+                                            {/* stack 옵션: stacked가 활성화된 경우만 표시 */}
+                                            {isStacked && (
+                                                <div className='form-floating'>
+                                                    <input
+                                                        id={`stack-${datasetIndex}`}
+                                                        type="text"
+                                                        value={dataset.stack}
+                                                        className='form-control'
+                                                        onChange={(e) => handleDataChange(setChartInstance, 'stack', datasetIndex, 0, e.target.value)}
+                                                    />
+                                                    <label htmlFor={`stack-${datasetIndex}`}>stack: </label>
+                                                </div>
+                                            )}
                                             {dataset.backgroundColor.map((bg, index) => (
                                                 <div className='custom_item'>
                                                     <div className='custom_label'>{chartInstance.data.labels[index]}</div>
@@ -155,6 +171,7 @@ function DataBarChart() {
                                                     </div>
                                                 </div>
                                             ))}
+                                            
                                         </div>
                                     </div>
                                 ))}
