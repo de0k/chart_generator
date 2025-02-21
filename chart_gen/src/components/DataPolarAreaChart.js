@@ -10,7 +10,7 @@ function DataPolarAreaChart() {
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'pie')}>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'polarArea')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">

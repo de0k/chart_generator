@@ -14,6 +14,7 @@ import DataRadarChart from './DataRadarChart';
 import OptionsBarChart from './OptionsBarChart';
 import OptionsLineChart from './OptionsLineChart';
 import OptionsPolarAreaChart from './OptionsPolarAreaChart';
+import OptionsRadarChart from './OptionsRadarChart';
 import OptionsCommon from './OptionsCommon';
 
 // Chart.js 구성 요소 등록
@@ -69,7 +70,7 @@ function DirectInputt() {
                                         <button className='btn btn-secondary' onClick={() => handleChartType('pie', setChartInstance, uploadedData)}>Pie Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('doughnut', setChartInstance, uploadedData)}>Doughnut Chart</button>
                                         <button className='btn btn-secondary' onClick={() => handleChartType('polarArea', setChartInstance, uploadedData)}>polarArea Chart</button>
-                                        {/* <button className='btn btn-secondary' onClick={() => handleChartType('radar', setChartInstance, uploadedData)}>radar Chart</button> */}
+                                        <button className='btn btn-secondary' onClick={() => handleChartType('radar', setChartInstance, uploadedData)}>radar Chart</button>
                                     </div>
                                 </div>
                                 <div className='input_item set_dataset input-group'>
@@ -102,7 +103,7 @@ function DirectInputt() {
                                         {chartInstance && chartInstance.type === 'pie' && <DataPieChart />}
                                         {chartInstance && chartInstance.type === 'doughnut' && <DataDoughnutChart />}
                                         {chartInstance && chartInstance.type === 'polarArea' && <DataPolarAreaChart />}
-                                        {/* {chartInstance && chartInstance.type === 'radar' && <DataRadarChart />} */}
+                                        {chartInstance && chartInstance.type === 'radar' && <DataRadarChart />}
                                     </div>
                                 </div>
                             </div>
@@ -132,6 +133,7 @@ function DirectInputt() {
                                     {chartInstance && chartInstance.type === 'bar' && <OptionsBarChart />}
                                     {chartInstance && chartInstance.type === 'line' && <OptionsLineChart />}
                                     {chartInstance && chartInstance.type === 'polarArea' && <OptionsPolarAreaChart />}
+                                    {chartInstance && chartInstance.type === 'radar' && <OptionsRadarChart />}
                                 </div>
                             </div>
                         </Collapse>

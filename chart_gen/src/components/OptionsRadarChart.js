@@ -3,7 +3,7 @@ import { useRecoilState } from 'recoil';
 import { chartInstanceState } from '../recoil/atoms';
 import { handleOptionsChange } from '../utils/utils';
 
-function OptionsPolarAreaChart() {
+function OptionsRadarChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
 
     return (
@@ -34,4 +34,4 @@ function OptionsPolarAreaChart() {
 };
 
 
-export default OptionsPolarAreaChart;
+export default OptionsRadarChart;
