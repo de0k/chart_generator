@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { screenState, chartInstanceState, uploadedDataState, savedCodeState, showCodeModalState } from '../recoil/atoms';
+import { screenState, chartInstanceState, uploadedDataState, savedCodeState, showCodeModalState, showFileConvertModalState } from '../recoil/atoms';
 import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel, generateChartCode } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
@@ -16,7 +16,8 @@ import OptionsLineChart from './OptionsLineChart';
 import OptionsPolarAreaChart from './OptionsPolarAreaChart';
 import OptionsRadarChart from './OptionsRadarChart';
 import OptionsCommon from './OptionsCommon';
-import CodeModal from '../components/CodeModal';
+import CodeModal from './CodeModal';
+import FileConvertModal from './FileConvertModal';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale);
@@ -29,6 +30,7 @@ function DirectInputt() {
     const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
     const [savedCode, setSavedCode] = useRecoilState(savedCodeState);
     const [showCodeModal, setShowCodeModal] = useRecoilState(showCodeModalState);
+    const [showFileConvertModal, setShowFileConvertModal] = useRecoilState(showFileConvertModalState);
 
     // HTML 코드 생성 및 저장
     const handleSaveChartCode = () => {
@@ -48,6 +50,7 @@ function DirectInputt() {
                 <strong className='title'>직접 입력</strong>
                 <div className='right_item d-flex gap-1'>
                     <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
+                    <button className='btn btn-success' onClick={() => setShowFileConvertModal(true)}>파일 변환</button>
                 </div>
             </div>
             <div className="chart_wrap">
@@ -189,6 +192,7 @@ function DirectInputt() {
                 </div>
             </div>
             {showCodeModal && (<CodeModal/>)}
+            {showFileConvertModal && (<FileConvertModal/>)}
         </div>
     );
 };

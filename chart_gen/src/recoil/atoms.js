@@ -31,8 +31,14 @@ export const savedCodeState = atom({
     default: '',
 });
 
-// 모달 상태 관리
+// HTML 코드 모달 상태 관리
 export const showCodeModalState = atom({
     key: 'showCodeModalState',
+    default: false,
+});
+
+// 파일변환 모달 상태 관리
+export const showFileConvertModalState = atom({
+    key: 'showFileConvertModalState',
     default: false,
 });

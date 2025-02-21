@@ -169,12 +169,15 @@ export const generateChartCode = (chartInstance) => {
 };
 
 // JSON 데이터 생성
-export const prepareJsonData = (labels, datasetLabels, innerdata) => {
+export const prepareJsonData = (chartInstance) => {
+    if (!chartInstance || !chartInstance.data) {
+        throw new Error("유효한 chartInstance가 필요합니다.");
+    }
     return {
-        labels: labels,
-        datasets: datasetLabels.map((label, index) => ({
-            label: label,
-            data: innerdata[index],
+        labels: chartInstance.data.labels,
+        datasets: chartInstance.data.datasets.map((dataset) => ({
+            label: dataset.label,
+            data: dataset.data,
         })),
     };
 };
@@ -189,7 +192,15 @@ export const downloadJson = (data, fileName = 'chart_data.json') => {
 };
 
 // CSV 데이터 생성
-export const prepareCsvData = (labels, datasetLabels, innerdata) => {
+export const prepareCsvData = (chartInstance) => {
+    if (!chartInstance || !chartInstance.data) {
+        throw new Error("유효한 chartInstance가 필요합니다.");
+    }
+
+    const { labels, datasets } = chartInstance.data;
+    const datasetLabels = datasets.map(dataset => dataset.label);
+    const innerdata = datasets.map(dataset => dataset.data);
+
     const rows = [
         ["Label", ...datasetLabels], // 헤더 생성
         ...labels.map((label, index) => [
@@ -211,7 +222,15 @@ export const downloadCsv = (csvContent, fileName = 'chart_data.csv') => {
 };
 
 // XLSX 데이터 생성
-export const prepareXlsxData = (labels, datasetLabels, innerdata) => {
+export const prepareXlsxData = (chartInstance) => {
+    if (!chartInstance || !chartInstance.data) {
+        throw new Error("유효한 chartInstance가 필요합니다.");
+    }
+
+    const { labels, datasets } = chartInstance.data;
+    const datasetLabels = datasets.map(dataset => dataset.label);
+    const innerdata = datasets.map(dataset => dataset.data);
+
     const rows = [
         ["Label", ...datasetLabels], // 헤더 생성
         ...labels.map((label, index) => [
