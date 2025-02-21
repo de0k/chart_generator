@@ -10,34 +10,50 @@ function OptionsCommon() {
         <>
             <div className="input_item input-group">
                 <div className="label_text input-group-text col-lg-2">제목 설정</div>
-                <div className='set_box form-control col-lg-10'>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`titleDisplaySwitch`}>표시 여부</label>
+                <div className='set_box form-control col-lg-10 option_inner'>
+                    <div className='input-group custom_switch_box'>
+                        <label htmlFor={`titleDisplaySwitch`} className='input-group-text'>표시 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`titleDisplaySwitch`}
+                                checked={chartInstance?.options?.plugins?.title?.display || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'titleDisplay', event.target.checked)}
+                            />
+                        </div>
+                    </div>
+                    <div className='input-group custom_switch_box'>
+                        <label className='input-group-text' htmlFor={`titleFullWidthSwitch`}>전체 너비 설정 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`titleFullWidthSwitch`}
+                                checked={chartInstance?.options?.plugins?.title?.fullWidth || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'titleFullWidth', event.target.checked)}
+                            />
+                        </div>
+                    </div>
+                    <div className='input-group custom_input_box'>
+                        <label htmlFor={`title_color`} className='input-group-text'>색 설정: </label>
                         <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`titleDisplaySwitch`}
-                            checked={chartInstance?.options?.plugins?.title?.display || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'titleDisplay', event.target.checked)}
+                            type="color"
+                            className="form-control form-control-color"
+                            id={`title_color`}
+                            value={chartInstance?.options?.plugins?.title?.color}
+                            onChange={(e) => handleOptionsChange(setChartInstance, 'titleColor', hexToRgba(e.target.value))}
                         />
                     </div>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`titleFullWidthSwitch`}>전체 너비 설정 여부</label>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`titleFullWidthSwitch`}
-                            checked={chartInstance?.options?.plugins?.title?.fullWidth || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'titleFullWidth', event.target.checked)}
-                        />
-                    </div>
-                    <div className=''>
+                    <div className='form-floating'>
                         <input
                             type="text"
+                            id={`title_text`}
                             value={chartInstance?.options?.plugins?.title?.text}
                             className='form-control'
                             onChange={(e) => handleOptionsChange(setChartInstance, 'titleText', e.target.value)}
                         />
+                        <label htmlFor={`title_text`}>제목: </label>
                     </div>
                     <div className='form-floating'>
                         <select
@@ -52,16 +68,7 @@ function OptionsCommon() {
                         </select>
                         <label htmlFor={`title_position`}>위치 설정: </label>
                     </div>
-                    <div>
-                        <label htmlFor={`title_color`} className='input-group-text'>색 설정: </label>
-                        <input
-                            type="color"
-                            className="form-control form-control-color"
-                            id={`title_color`}
-                            value={chartInstance?.options?.plugins?.title?.color}
-                            onChange={(e) => handleOptionsChange(setChartInstance, 'titleColor', hexToRgba(e.target.value))}
-                        />
-                    </div>
+
                     <div className='form-floating'>
                         <input
                             id={`title_size`}
@@ -76,24 +83,38 @@ function OptionsCommon() {
             </div>
             <div className="input_item input-group">
                 <div className="label_text input-group-text col-lg-2">부제목 설정</div>
-                <div className='set_box form-control col-lg-10'>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`subtitleDisplaySwitch`}>표시 여부</label>
+                <div className='set_box form-control col-lg-10 option_inner'>
+                    <div className='input-group custom_switch_box'>
+                        <label htmlFor={`subtitleDisplaySwitch`} className='input-group-text'>표시 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`subtitleDisplaySwitch`}
+                                checked={chartInstance?.options?.plugins?.subtitle?.display || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'subtitleDisplay', event.target.checked)}
+                            />
+                        </div>
+                    </div>
+                    <div className='input-group custom_input_box'>
+                        <label htmlFor={`subtitle_color`} className='input-group-text'>색 설정: </label>
                         <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`subtitleDisplaySwitch`}
-                            checked={chartInstance?.options?.plugins?.subtitle?.display || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'subtitleDisplay', event.target.checked)}
+                            type="color"
+                            className="form-control form-control-color"
+                            id={`subtitle_color`}
+                            value={chartInstance?.options?.plugins?.subtitle?.color}
+                            onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleColor', hexToRgba(e.target.value))}
                         />
                     </div>
-                    <div className=''>
+                    <div className='form-floating'>
                         <input
                             type="text"
+                            id={`subtitle_text`}
                             value={chartInstance?.options?.plugins?.subtitle?.text}
                             className='form-control'
                             onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleText', e.target.value)}
                         />
+                        <label htmlFor={`subtitle_text`}>부제목: </label>
                     </div>
                     <div className='form-floating'>
                         <select
@@ -108,16 +129,7 @@ function OptionsCommon() {
                         </select>
                         <label htmlFor={`subtitle_position`}>위치 설정: </label>
                     </div>
-                    <div>
-                        <label htmlFor={`subtitle_color`} className='input-group-text'>색 설정: </label>
-                        <input
-                            type="color"
-                            className="form-control form-control-color"
-                            id={`subtitle_color`}
-                            value={chartInstance?.options?.plugins?.subtitle?.color}
-                            onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleColor', hexToRgba(e.target.value))}
-                        />
-                    </div>
+
                     <div className='form-floating'>
                         <input
                             id={`subtitle_size`}
@@ -132,25 +144,39 @@ function OptionsCommon() {
             </div>
             <div className="input_item input-group">
                 <div className="label_text input-group-text col-lg-2">범례 설정</div>
-                <div className='set_box form-control col-lg-10'>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`legendDisplaySwitch`}>표시 여부</label>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`legendDisplaySwitch`}
-                            checked={chartInstance?.options?.plugins?.legend?.display || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'legendDisplay', event.target.checked)}
-                        />
+                <div className='set_box form-control col-lg-10 option_inner'>
+                    <div className='input-group custom_switch_box'>
+                        <label htmlFor={`legendDisplaySwitch`} className='input-group-text'>표시 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`legendDisplaySwitch`}
+                                checked={chartInstance?.options?.plugins?.legend?.display || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'legendDisplay', event.target.checked)}
+                            />
+                        </div>
                     </div>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`legendFullWidthSwitch`}>전체 너비 설정 여부</label>
+                    <div className='input-group custom_switch_box'>
+                        <label className='input-group-text' htmlFor={`legendFullWidthSwitch`}>전체 너비 설정 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`legendFullWidthSwitch`}
+                                checked={chartInstance?.options?.plugins?.legend?.fullWidth || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'legendFullWidth', event.target.checked)}
+                            />
+                        </div>
+                    </div>
+                    <div className='input-group custom_input_box'>
+                        <label htmlFor={`legend_color`} className='input-group-text'>색 설정: </label>
                         <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`legendFullWidthSwitch`}
-                            checked={chartInstance?.options?.plugins?.legend?.fullWidth || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'legendFullWidth', event.target.checked)}
+                            type="color"
+                            className="form-control form-control-color"
+                            id={`legend_color`}
+                            value={chartInstance?.options?.plugins?.legend?.labels?.color}
+                            onChange={(e) => handleOptionsChange(setChartInstance, 'legendColor', hexToRgba(e.target.value))}
                         />
                     </div>
                     <div className='form-floating'>
@@ -179,16 +205,7 @@ function OptionsCommon() {
                         </select>
                         <label htmlFor={`legend_align`}>정렬 설정: </label>
                     </div>
-                    <div>
-                        <label htmlFor={`legend_color`} className='input-group-text'>색 설정: </label>
-                        <input
-                            type="color"
-                            className="form-control form-control-color"
-                            id={`legend_color`}
-                            value={chartInstance?.options?.plugins?.legend?.labels?.color}
-                            onChange={(e) => handleOptionsChange(setChartInstance, 'legendColor', hexToRgba(e.target.value))}
-                        />
-                    </div>
+
                     <div className='form-floating'>
                         <input
                             id={`legend_size`}
@@ -199,23 +216,27 @@ function OptionsCommon() {
                         />
                         <label htmlFor={`legend_size`}>크기: </label>
                     </div>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`legend_title_display`}>타이틀 표시 여부</label>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`legend_title_display`}
-                            checked={chartInstance?.options?.plugins?.legend?.title?.display || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'legend_title_display', event.target.checked)}
-                        />
+                    <div className='input-group custom_switch_box mt-3'>
+                        <label className='input-group-text' htmlFor={`legend_title_display`}>타이틀 표시 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`legend_title_display`}
+                                checked={chartInstance?.options?.plugins?.legend?.title?.display || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'legend_title_display', event.target.checked)}
+                            />
+                        </div>
                     </div>
-                    <div className=''>
+                    <div className='form-floating'>
                         <input
                             type="text"
+                            id={`legend_title_text`}
                             value={chartInstance?.options?.plugins?.legend?.title?.text}
                             className='form-control'
                             onChange={(e) => handleOptionsChange(setChartInstance, 'legend_title_text', e.target.value)}
                         />
+                        <label htmlFor={`legend_title_text`}>범례 제목: </label>
                     </div>
                     <div className='form-floating'>
                         <select
@@ -234,26 +255,30 @@ function OptionsCommon() {
             </div>
             <div className="input_item input-group">
                 <div className="label_text input-group-text col-lg-2">기타 설정</div>
-                <div className='set_box form-control col-lg-10'>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`interaction_intersectSwitch`}>툴팁 광범위 감지 여부</label>
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            id={`interaction_intersectSwitch`}
-                            checked={chartInstance?.options?.interaction?.intersect || false}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_intersect', event.target.checked)}
-                        />
+                <div className='set_box form-control col-lg-10 option_inner'>
+                    <div className='input-group custom_switch_box'>
+                        <label className='input-group-text' htmlFor={`interaction_intersectSwitch`}>툴팁 광범위 감지 여부</label>
+                        <div className="form-control form-check form-switch">
+                            <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id={`interaction_intersectSwitch`}
+                                checked={chartInstance?.options?.interaction?.intersect || false}
+                                onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_intersect', event.target.checked)}
+                            />
+                        </div>
                     </div>
-                    <div className="form-check form-switch">
-                        <label className="form-check-label" htmlFor={`interaction_mode`}>툴팁 데이터셋 모두 출력 여부</label>
+                    <div className='input-group custom_switch_box'>
+                        <label className='input-group-text' htmlFor={`interaction_mode`}>툴팁 데이터셋 모두 출력 여부</label>
+                        <div className="form-control form-check form-switch">
                         <input
                             className="form-check-input"
                             type="checkbox"
                             id={`interaction_mode`}
                             checked={chartInstance?.options?.interaction?.mode === 'index'}
-                            onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_mode',event.target.checked ? 'index' : 'nearest')}
+                            onChange={(event) => handleOptionsChange(setChartInstance, 'interaction_mode', event.target.checked ? 'index' : 'nearest')}
                         />
+                        </div>
                     </div>
                 </div>
             </div>

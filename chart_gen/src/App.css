@@ -30,7 +30,7 @@
 .chart_wrap .set_dataset .datasets_box .tab_wrap .inner_box{border: var(--bs-card-border-width) solid var(--bs-card-border-color);border-radius: var(--bs-card-border-radius);margin: 5px 0;padding: 10px;position: relative;}
 .dataset_del_wrap .input-group-text { flex:1; }
 .chart_wrap .set_dataset .datasets_box .data_inner .form-floating{margin: 5px 0;}
-.chart_wrap .set_dataset .datasets_box .option_inner > * {margin-top: 5px;}
+.chart_wrap .option_inner > * {margin-top: 5px;}
 .chart_wrap .set_dataset .datasets_box .option_inner .input-group-text {cursor: pointer;width: 50%;}
 .chart_wrap .set_dataset .datasets_box .custom_item .custom_label {
     margin-bottom: 0.3em; margin-top: 0.7em; padding-left: 0.7em; position: relative;
@@ -40,8 +40,10 @@
     content: ''; width: 4px; height: 4px; background-color: rgba(var(--bs-body-color-rgb), .65); position: absolute; left: 0; top: 0.6em;
     border-radius: 50%;
 }
-.chart_wrap .set_dataset .datasets_box .form-check { margin-bottom: 0; display: flex; justify-content: center; }
-.chart_wrap .set_dataset .datasets_box .form-check .form-check-input { width: 100%; }
+.custom_switch_box .input-group-text {width: 50%;}
+.custom_input_box .input-group-text {width: 50%;}
+.custom_switch_box .form-check { margin-bottom: 0; display: flex; justify-content: center; }
+.custom_switch_box .form-check .form-check-input { width: 100%; }
 .chart_wrap .result_wrap{
     --bs-card-border-color: var(--bs-border-color-translucent);
     --bs-card-border-radius: var(--bs-border-radius);

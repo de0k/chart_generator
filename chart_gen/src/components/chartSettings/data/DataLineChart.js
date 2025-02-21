@@ -106,7 +106,7 @@ function DataLineChart() {
                                                     onChange={(e) => handleDataChange(setChartInstance, 'tension', datasetIndex, 0, e.target.value)}
                                                 />
                                             </div>
-                                            <div className='input-group'>
+                                            <div className='input-group custom_switch_box'>
                                                 <label htmlFor={`steppedSwitch-${datasetIndex}`} className='input-group-text'>stepped</label>
                                                 <div className="form-control form-check form-switch">
                                                     <input
