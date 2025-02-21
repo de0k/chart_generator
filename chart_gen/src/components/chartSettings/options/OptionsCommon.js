@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { chartInstanceState } from '../recoil/atoms';
-import { handleOptionsChange, hexToRgba } from '../utils/utils';
+import { chartInstanceState } from '../../../recoil/atoms';
+import { handleOptionsChange, hexToRgba } from '../../../utils/utils';
 
 function OptionsCommon() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);

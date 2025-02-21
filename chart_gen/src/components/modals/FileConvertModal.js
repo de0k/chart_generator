@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { chartInstanceState, showFileConvertModalState } from '../recoil/atoms';
-import { prepareJsonData, downloadJson, prepareCsvData, downloadCsv, prepareXlsxData, downloadXlsx } from '../utils/utils';
+import { chartInstanceState, showFileConvertModalState } from '../../recoil/atoms';
+import { prepareJsonData, downloadJson, prepareCsvData, downloadCsv, prepareXlsxData, downloadXlsx } from '../../utils/utils';
 
 function FileConvertModal() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);

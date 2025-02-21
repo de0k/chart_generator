@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import FileUpload from './components/FileUpload';
 import DirectInput from './components/DirectInput';
-import DirectInputt from './components/DirectInputt';
 import { screenState } from './recoil/atoms';
 
 function AppContent() {
@@ -15,9 +14,7 @@ function AppContent() {
             case 'fileUpload':
                 return <FileUpload />;
             case 'directInput':
-                return <DirectInput defaultChartType="Bar" />;
-            case 'directInput_t':
-                    return <DirectInputt />;
+                return <DirectInput />;
             default:
                 return (
                     <div className='main'>
@@ -28,7 +25,6 @@ function AppContent() {
                             <a href={`${process.env.PUBLIC_URL}/file/sample_data.zip`} download="sample_data.zip" className="btn btn-primary btn-lg btn_download">샘플 다운로드</a>
                             <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
                             <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
-                            <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput_t')}>직접 입력_t</button>
                         </div>
                     </div>
                 );

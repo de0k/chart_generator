@@ -256,6 +256,7 @@ export const downloadXlsx = (workbook, fileName = 'chart_data.xlsx') => {
 export const initChart = (chartType) => {
     var commonOptions = {
         responsive: true, // 차트가 반응형 동작
+        maintainAspectRatio: true,
         plugins: {
             title: { // 차트 제목 설정
                 display: true, // 차트 제목 표시 여부

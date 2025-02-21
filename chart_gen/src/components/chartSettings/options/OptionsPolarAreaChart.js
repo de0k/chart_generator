@@ -1,9 +1,9 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { chartInstanceState } from '../recoil/atoms';
-import { handleOptionsChange } from '../utils/utils';
+import { chartInstanceState } from '../../../recoil/atoms';
+import { handleOptionsChange } from '../../../utils/utils';
 
-function OptionsRadarChart() {
+function OptionsPolarAreaChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
 
     return (
@@ -34,4 +34,4 @@ function OptionsRadarChart() {
 };
 
 
-export default OptionsRadarChart;
+export default OptionsPolarAreaChart;

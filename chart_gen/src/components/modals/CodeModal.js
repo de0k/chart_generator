@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { savedCodeState, showCodeModalState } from '../recoil/atoms';
+import { savedCodeState, showCodeModalState } from '../../recoil/atoms';
 
 function CodeModal() {
     const [savedCode, setSavedCode] = useRecoilState(savedCodeState);

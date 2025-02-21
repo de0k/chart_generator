@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { chartInstanceState, activeTabState } from '../recoil/atoms';
-import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
+import { chartInstanceState, activeTabState } from '../../../recoil/atoms';
+import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../../../utils/utils';
 
 function DataLineChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);

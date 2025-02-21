@@ -1,16 +1,16 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { chartInstanceState, activeTabState } from '../recoil/atoms';
-import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../utils/utils';
+import { chartInstanceState, activeTabState } from '../../../recoil/atoms';
+import { rgbaToHex, handleDataChange, hexToRgba, handleAddDataset, handleRemoveDataset } from '../../../utils/utils';
 
-function DataPolarAreaChart() {
+function DataPieChart() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
     const [activeTab, setActiveTab] = useRecoilState(activeTabState);
 
     return (
         <div className='datasets_box'>
             <>
-                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'polarArea')}>데이터셋 추가</button>
+                <button className='btn btn-primary btn_add' onClick={() => handleAddDataset(setChartInstance, chartInstance, 'pie')}>데이터셋 추가</button>
                 <div className='tab_wrap'>
                     <ul className="nav nav-tabs" role="tablist">
                         <li className="nav-item">
@@ -92,4 +92,4 @@ function DataPolarAreaChart() {
 };
 
 
-export default DataPolarAreaChart;
+export default DataPieChart;
