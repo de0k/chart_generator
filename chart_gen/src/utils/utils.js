@@ -264,7 +264,13 @@ export const initChart = (chartType) => {
                 labels: {
                     color: "#000",
                     font: { size: 16 }
-                }
+                },
+                title: {
+                    display: true,
+                    text: 'Legend Title',
+                    position: 'center',
+                },
+                align: 'center',
             },
         },
         interaction: {
@@ -711,6 +717,14 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.labels.color = newValue;
         } else if (property === 'legendSize') {
             updatedOptions.plugins.legend.labels.font.size = newValue;
+        } else if (property === 'legend_align') {
+            updatedOptions.plugins.legend.align = newValue;
+        } else if (property === 'legend_title_display') {
+            updatedOptions.plugins.legend.title.display = newValue;
+        } else if (property === 'legend_title_text') {
+            updatedOptions.plugins.legend.title.text = newValue;
+        } else if (property === 'legend_title_position') {
+            updatedOptions.plugins.legend.title.position = newValue;
         } else if (property === 'interaction_intersect') {
             updatedOptions.interaction.intersect = newValue;
         } else if (property === 'interaction_mode') {
@@ -730,7 +744,7 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.scales.r.pointLabels.display = newValue;
         } else if (property === 'scales_r_pointLabels_title_font_size') {
             updatedOptions.scales.r.pointLabels.font.size = newValue;
-        }
+        } 
 
 
 

@@ -158,6 +158,19 @@ function OptionsCommon() {
                 </select>
                 <label htmlFor={`legend_position`}>위치 설정: </label>
             </div>
+            <div className='form-floating'>
+                <select
+                    id={`legend_align`}
+                    className='form-select'
+                    value={chartInstance?.options?.plugins?.legend?.align}
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'legend_align', e.target.value)}
+                >
+                    {["start", "center", "end"].map((align) => (
+                        <option key={align} value={align}>{align}</option>
+                    ))}
+                </select>
+                <label htmlFor={`legend_align`}>정렬 설정: </label>
+            </div>
             <div>
                 <label htmlFor={`legend_color`} className='input-group-text'>색 설정: </label>
                 <input
@@ -178,6 +191,39 @@ function OptionsCommon() {
                 />
                 <label htmlFor={`legend_size`}>크기: </label>
             </div>
+            <div className="form-check form-switch">
+                <label className="form-check-label" htmlFor={`legend_title_display`}>타이틀 표시 여부</label>
+                <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id={`legend_title_display`}
+                    checked={chartInstance?.options?.plugins?.legend?.title?.display || false}
+                    onChange={(event) => handleOptionsChange(setChartInstance, 'legend_title_display', event.target.checked)}
+                />
+            </div>
+            <div className=''>
+                <input
+                    type="text"
+                    value={chartInstance?.options?.plugins?.legend?.title?.text}
+                    className='form-control'
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'legend_title_text', e.target.value)}
+                />
+            </div>
+            <div className='form-floating'>
+                <select
+                    id={`legend_title_position`}
+                    className='form-select'
+                    value={chartInstance?.options?.plugins?.legend?.title?.position}
+                    onChange={(e) => handleOptionsChange(setChartInstance, 'legend_title_position', e.target.value)}
+                >
+                    {["start", "center", "end"].map((position) => (
+                        <option key={position} value={position}>{position}</option>
+                    ))}
+                </select>
+                <label htmlFor={`legend_title_position`}>타이틀 위치 설정: </label>
+            </div>
+
+
             <div className="form-check form-switch">
                 <label className="form-check-label" htmlFor={`interaction_intersectSwitch`}>툴팁 광범위 감지 여부</label>
                 <input
