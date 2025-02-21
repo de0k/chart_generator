@@ -611,6 +611,7 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 tension: newValue
             };
         } else if (property === 'fill') {
+            if (newValue === 'false') newValue = false;
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],

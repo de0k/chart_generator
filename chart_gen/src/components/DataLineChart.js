@@ -106,15 +106,18 @@ function DataLineChart() {
                                                     onChange={(e) => handleDataChange(setChartInstance, 'tension', datasetIndex, 0, e.target.value)}
                                                 />
                                             </div>
-                                            <div className="form-check form-switch">
-                                                <label className="form-check-label" htmlFor={`fillSwitch-${datasetIndex}`}>fill</label>
-                                                <input
-                                                    className="form-check-input"
-                                                    type="checkbox"
+                                            <div className='form-floating'>
+                                                <select
                                                     id={`fillSwitch-${datasetIndex}`}
-                                                    checked={dataset.fill || false}
-                                                    onChange={(event) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, event.target.checked)}
-                                                />
+                                                    className='form-select'
+                                                    value={dataset.fill}
+                                                    onChange={(e) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, e.target.value)}
+                                                >
+                                                    {['false', 'origin', 'start', 'end'].map((option) => (
+                                                        <option key={option} value={option}>{option}</option>
+                                                    ))}
+                                                </select>
+                                                <label htmlFor={`fillSwitch-${datasetIndex}`}>fill: </label>
                                             </div>
                                             <div className="form-check form-switch">
                                                 <label className="form-check-label" htmlFor={`steppedSwitch-${datasetIndex}`}>stepped</label>
