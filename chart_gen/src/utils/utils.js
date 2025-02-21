@@ -141,8 +141,8 @@ export const processFileUpload = async (file) => {
 };
 
 // 차트 HTML 코드 생성
-export const generateChartCode = (activeChart, chartData) => {
-    if (!activeChart) {
+export const generateChartCode = (chartInstance) => {
+    if (!chartInstance.type) {
         throw new Error('차트 타입이 필요합니다.');
     }
 
@@ -151,7 +151,7 @@ export const generateChartCode = (activeChart, chartData) => {
 
     // 환경에 따라 Chart.js 경로 선택
     const chartJsSrc = isLocal
-        ? "https://cdn.jsdelivr.net/npm/chart.js"
+        ? "https://cdn.jsdelivr.net/npm/chart.js@3.9.0"
         : "/pcms/common/plugins/Chartjs/Chartjs.js";
 
     return `
@@ -160,11 +160,9 @@ export const generateChartCode = (activeChart, chartData) => {
         <script>
         const ctx = document.getElementById('myChart').getContext('2d');
         new Chart(ctx, {
-            type: '${activeChart.toLowerCase()}',
-            data: ${JSON.stringify(chartData)},
-            options: {
-                responsive: true,
-            },
+            type: '${chartInstance.type}',
+            data: ${JSON.stringify(chartInstance.data)},
+            options: ${JSON.stringify(chartInstance.options)},
         });
         </script>
     `.trim();

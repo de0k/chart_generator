@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
-import { screenState, chartInstanceState, uploadedDataState } from '../recoil/atoms';
-import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel } from '../utils/utils';
+import { screenState, chartInstanceState, uploadedDataState, savedCodeState, showCodeModalState } from '../recoil/atoms';
+import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel, generateChartCode } from '../utils/utils';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
@@ -16,6 +16,7 @@ import OptionsLineChart from './OptionsLineChart';
 import OptionsPolarAreaChart from './OptionsPolarAreaChart';
 import OptionsRadarChart from './OptionsRadarChart';
 import OptionsCommon from './OptionsCommon';
+import CodeModal from '../components/CodeModal';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale);
@@ -26,6 +27,19 @@ function DirectInputt() {
     const [activeSection, setActiveSection] = useState('chart');
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [uploadedData, setUploadedData] = useRecoilState(uploadedDataState);
+    const [savedCode, setSavedCode] = useRecoilState(savedCodeState);
+    const [showCodeModal, setShowCodeModal] = useRecoilState(showCodeModalState);
+
+    // HTML 코드 생성 및 저장
+    const handleSaveChartCode = () => {
+        try {
+            const chartCode = generateChartCode(chartInstance);
+            setSavedCode(chartCode);
+            setShowCodeModal(true); // 모달 열기
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     return (
         <div className='main'>
@@ -33,6 +47,7 @@ function DirectInputt() {
                 <button className='custom-btn custom-back btn btn-secondary' onClick={() => setScreen('main')}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
                 <div className='right_item d-flex gap-1'>
+                    <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
                 </div>
             </div>
             <div className="chart_wrap">
@@ -173,6 +188,7 @@ function DirectInputt() {
 
                 </div>
             </div>
+            {showCodeModal && (<CodeModal/>)}
         </div>
     );
 };

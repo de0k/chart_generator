@@ -24,3 +24,15 @@ export const activeTabState = atom({
     key: 'activeTabState',
     default: 'data',
 });
+
+// HTML 코드 상태 관리
+export const savedCodeState = atom({
+    key: 'savedCodeState',
+    default: '',
+});
+
+// 모달 상태 관리
+export const showCodeModalState = atom({
+    key: 'showCodeModalState',
+    default: false,
+});
