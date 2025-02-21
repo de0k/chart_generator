@@ -124,7 +124,7 @@ function OptionsCommon() {
                 <label htmlFor={`subtitle_size`}>크기: </label>
             </div>
 
-            <h3>설정</h3>
+            <h3>범례 설정</h3>
             <div className="form-check form-switch">
                 <label className="form-check-label" htmlFor={`legendDisplaySwitch`}>표시 여부</label>
                 <input

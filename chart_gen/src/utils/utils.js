@@ -292,7 +292,7 @@ export const initChart = (chartType) => {
                     ],
                     borderWidth: 1,
                     borderRadius: 0,
-                    order:0,
+                    order: 0,
                 }],
             },
             options: {
@@ -316,7 +316,7 @@ export const initChart = (chartType) => {
                     tension: 0,
                     fill: false,
                     stepped: false,
-                    order:0,
+                    order: 0,
                     // pointStyle: ['circle','circle','circle'],
                     // pointRadius: [10,10,10],
                     // pointHoverRadius: [15,15,15],
@@ -324,6 +324,12 @@ export const initChart = (chartType) => {
             },
             options: {
                 ...commonOptions,
+                plugins: {
+                    ...commonOptions.plugins,
+                    filler: {
+                        propagate: false,
+                    },
+                },
                 scales: {
                     x: {
                         display: true,
@@ -421,7 +427,7 @@ export const initChart = (chartType) => {
                     data: [15, 25, 35],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
-                    order:0,
+                    order: 0,
                 }],
             },
             options: {
@@ -627,7 +633,7 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
             updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
-                order : newValue
+                order: newValue
             };
         }
 
@@ -872,7 +878,7 @@ export const handleRemoveLabel = (chartInstance, setChartInstance, labelIndex) =
 
 
 
-                
+
             }),
         },
     };
