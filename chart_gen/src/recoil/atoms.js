@@ -24,6 +24,10 @@ export const activeTabState = atom({
     key: 'activeTabState',
     default: 'data',
 });
+export const optionActiveTabState = atom({
+    key: 'optionActiveTabState',
+    default: 'title',
+});
 
 // HTML 코드 상태 관리
 export const savedCodeState = atom({

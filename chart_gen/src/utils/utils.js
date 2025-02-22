@@ -264,7 +264,11 @@ export const initChart = (chartType) => {
                 text: "차트 제목입니다.",
                 position: "top",
                 color: "#aa7942",
-                font: { size: 16 }
+                font: { size: 16 },
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
             },
             subtitle: {
                 display: true,
@@ -274,6 +278,10 @@ export const initChart = (chartType) => {
                 font: {
                     size: 12,
                 },
+                padding: {
+                    top: 5,
+                    bottom: 5,
+                },
             },
             legend: { // 범례 설정
                 display: true,
@@ -281,12 +289,14 @@ export const initChart = (chartType) => {
                 position: "top",
                 labels: {
                     color: "#000",
-                    font: { size: 16 }
+                    font: { size: 16 },
+                    padding: 5,
                 },
                 title: {
                     display: true,
                     text: 'Legend Title',
                     position: 'center',
+                    padding: 5,
                 },
                 align: 'center',
             },
@@ -315,6 +325,7 @@ export const initChart = (chartType) => {
         borderWidth: 1,
         borderRadius: 0,
         order: 0,
+        borderSkipped: false,
     };
 
     if (isStacked) {
@@ -533,6 +544,7 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                             newDataset.borderWidth = dataset.borderWidth;
                             newDataset.borderRadius = dataset.borderRadius;
                             newDataset.order = dataset.order;
+                            newDataset.borderSkipped = dataset.borderSkipped;
                             // options.scales.x.stacked 및 options.scales.y.stacked가 true일 경우만 stack 적용
                             if (isStacked) {
                                 newDataset.stack = dataset.stack || 'Stack 0';
@@ -740,6 +752,10 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.title.color = newValue;
         } else if (property === 'titleSize') {
             updatedOptions.plugins.title.font.size = newValue;
+        } else if (property === 'title_padding_top') {
+            updatedOptions.plugins.title.padding.top = newValue;
+        } else if (property === 'title_padding_bottom') {
+            updatedOptions.plugins.title.padding.bottom = newValue;
         } else if (property === 'subtitleDisplay') {
             updatedOptions.plugins.subtitle.display = newValue;
         } else if (property === 'subtitleText') {
@@ -750,6 +766,10 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.subtitle.color = newValue;
         } else if (property === 'subtitleSize') {
             updatedOptions.plugins.subtitle.font.size = newValue;
+        } else if (property === 'subtitle_padding_top') {
+            updatedOptions.plugins.subtitle.padding.top = newValue;
+        } else if (property === 'subtitle_padding_bottom') {
+            updatedOptions.plugins.subtitle.padding.bottom = newValue;
         } else if (property === 'legendDisplay') {
             updatedOptions.plugins.legend.display = newValue;
         } else if (property === 'legendFullWidth') {
@@ -768,6 +788,10 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.title.text = newValue;
         } else if (property === 'legend_title_position') {
             updatedOptions.plugins.legend.title.position = newValue;
+        } else if (property === 'legend_labels_padding') {
+            updatedOptions.plugins.legend.labels.padding = newValue;
+        } else if (property === 'legend_title_padding') {
+            updatedOptions.plugins.legend.title.padding = newValue;
         } else if (property === 'interaction_intersect') {
             updatedOptions.interaction.intersect = newValue;
         } else if (property === 'interaction_mode') {
@@ -852,6 +876,7 @@ export const handleAddLabel = (chartInstance, setChartInstance) => {
                         borderWidth: 1,
                         borderRadius: 0,
                         order: 0,
+                        borderSkipped: false,
                         ...(isStacked ? { stack: 'Stack 0' } : {}), // 스택이 활성화되었을 때만 stack 추가
                     };
                 } else if (chartInstance.type === 'line') {
@@ -996,6 +1021,7 @@ export const handleAddDataset = (setChartInstance, chartInstance, chartType) => 
             borderWidth: 1,
             borderRadius: 0,
             order: 0,
+            borderSkipped: false,
             ...(isStacked ? { stack: 'Stack 0' } : {}), // 스택 활성화 시 stack 추가
         };
     } else if (chartType === 'line') {
