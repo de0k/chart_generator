@@ -523,44 +523,52 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                 data: {
                     ...prevChart.data,
                     labels: uploadedData.labels,
-                    datasets: prevChart.data.datasets.map((dataset, index) => {
+                    datasets: uploadedData.datasets.map((dataset, index) => {
+                        // 기존 차트의 dataset이 있다면 사용, 없으면 기본값(initChart에서 가져옴) 적용
+                        const baseDataset = prevChart.data.datasets[index] || options.data.datasets[0] || {};
+
                         const newDataset = {
-                            ...dataset,
+                            ...baseDataset,
+                            label: dataset.label,
+                            // data -> [1,3,5] 이면 bar차트의 경우 [[0,1],[0,3],[0,5]]로 바꿔줌
                             data: chartType === 'bar'
-                                ? uploadedData.datasets[index].data.map(value =>
+                                ? dataset.data.map(value =>
                                     Array.isArray(value) ? value : [0, value]
                                 )
-                                : uploadedData.datasets[index].data,
-                            backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                                dataset.backgroundColor[i] || 'rgba(255, 99, 132, 0.2)'
-                            ),
+                                : dataset.data,
+                                backgroundColor: Array.from({ length: uploadedData.labels.length }, (_, i) =>
+                                    baseDataset.backgroundColor?.[i] ||
+                                    dataset.backgroundColor?.[i] ||
+                                    `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`
+                                ),
                         };
 
                         if (chartType === 'bar') {
-                            newDataset.label = uploadedData.datasets[index].label;
                             newDataset.borderColor = Array.from({ length: uploadedData.labels.length }, (_, i) =>
-                                dataset.borderColor[i] || 'rgba(255, 99, 132, 0.2)'
-                            );
-                            newDataset.borderWidth = dataset.borderWidth;
-                            newDataset.borderRadius = dataset.borderRadius;
-                            newDataset.order = dataset.order;
-                            newDataset.borderSkipped = dataset.borderSkipped;
+                                baseDataset.borderColor?.[i] ||
+                                dataset.borderColor?.[i] ||
+                                `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`
+                            );                        
+                            newDataset.borderWidth = dataset.borderWidth ?? baseDataset.borderWidth ?? 1;
+                            newDataset.borderRadius = dataset.borderRadius ?? baseDataset.borderRadius ?? 0;
+                            newDataset.order = dataset.order ?? baseDataset.order ?? 0;
+                            newDataset.borderSkipped = dataset.borderSkipped ?? baseDataset.borderSkipped ?? false;
                             // options.scales.x.stacked 및 options.scales.y.stacked가 true일 경우만 stack 적용
                             if (isStacked) {
-                                newDataset.stack = dataset.stack || 'Stack 0';
+                                newDataset.stack = baseDataset.stack || 'Stack 0';
                             } else {
                                 delete newDataset.stack; // 스택이 비활성화되면 stack 속성 제거
                             }
                         }
 
                         if (chartType === 'line') {
-                            newDataset.label = uploadedData.datasets[index].label;
-                            newDataset.borderColor = dataset.borderColor;
-                            newDataset.tension = dataset.tension;
-                            newDataset.backgroundColor = dataset.backgroundColor;
-                            newDataset.fill = dataset.fill;
-                            newDataset.stepped = dataset.stepped;
-                            newDataset.order = dataset.order;
+                            newDataset.backgroundColor = dataset.backgroundColor ?? baseDataset.backgroundColor ?? `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`;
+                            newDataset.borderColor = dataset.borderColor ?? baseDataset.borderColor ?? `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`;
+                            newDataset.tension = dataset.tension ?? baseDataset.tension ?? 0;
+                            newDataset.fill = dataset.fill ?? baseDataset.fill ?? false;
+                            newDataset.stepped = dataset.stepped ?? baseDataset.stepped ?? false;
+                            newDataset.order = dataset.order ?? baseDataset.order ?? 0;
+
                             // newDataset.pointStyle = Array.from({ length: uploadedData.labels.length }, (_, i) =>
                             //     dataset.pointStyle[i] || 'circle'
                             // );
@@ -573,11 +581,12 @@ export const handleChartType = (chartType, setChartInstance, uploadedData) => {
                         }
 
                         if (chartType === 'radar') {
-                            newDataset.label = uploadedData.datasets[index].label;
-                            newDataset.borderColor = dataset.borderColor;
-                            newDataset.backgroundColor = dataset.backgroundColor;
-                            newDataset.order = dataset.order;
+                            newDataset.backgroundColor = dataset.backgroundColor ?? baseDataset.backgroundColor ?? `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`;
+                            newDataset.borderColor = dataset.borderColor ?? baseDataset.borderColor ?? `rgba(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255}, 0.2)`;
+                            newDataset.order = dataset.order ?? baseDataset.order ?? 0;
                         }
+
+                        console.log("적용될 데이터셋: ", newDataset);
 
                         return newDataset;
                     }),

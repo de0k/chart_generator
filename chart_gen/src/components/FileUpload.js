@@ -14,12 +14,14 @@ function FileUpload() {
     
         try {
             const parsedData = await processFileUpload(file);
+            console.log("업로드된 데이터:", parsedData); // 디버깅용 로그
             setUploadedData(parsedData);
             setScreen('directInput');
         } catch (error) {
             setFileError(error.message); // 오류 메시지 설정
         }
     };
+    
 
     return (
         <div className='main'>

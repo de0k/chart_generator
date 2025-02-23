@@ -40,6 +40,11 @@ function DirectInput() {
         setKey(prevKey => prevKey + 1);
     }, [isSidebarOpen]);
 
+    useEffect(() => {
+        console.log("업로드된 데이터 상태:", uploadedData);
+    }, [uploadedData]);
+    
+
     // HTML 코드 생성 및 저장
     const handleSaveChartCode = () => {
         try {
