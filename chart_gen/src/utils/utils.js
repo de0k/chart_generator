@@ -74,7 +74,12 @@ function formatXlsxData(data) {
     const labels = data.slice(1).map(row => row[0]);
     const datasets = data[0].slice(1).map((datasetLabel, colIndex) => ({
         label: datasetLabel || `데이터셋 ${colIndex + 1}`,
-        data: data.slice(1).map(row => row[colIndex + 1] || 0),
+        // data: data.slice(1).map(row => row[colIndex + 1] || 0),
+        data: data.slice(1).map(row => {
+            let value = row[colIndex + 1] || 0;
+            return (data.length > 1 && Array.isArray(data[1]) && data[1].length > 1) ? [0, value] : value; 
+            // Bar 차트의 경우 [x, y] 형태로 변환
+        }),
     }));
 
     return { labels, datasets };
@@ -220,7 +225,11 @@ export const prepareCsvData = (chartInstance) => {
         ["Label", ...datasetLabels], // 헤더 생성
         ...labels.map((label, index) => [
             label,
-            ...innerdata.map((dataset) => dataset[index] || 0),
+            // ...innerdata.map((dataset) => dataset[index] || 0),
+            ...innerdata.map((dataset) => {
+                let value = dataset[index] || 0;
+                return (chartInstance.type === 'bar' && Array.isArray(value)) ? value[1] : value; // Bar 차트의 경우 Y값만 저장
+            }),
         ]),
     ];
 
@@ -250,7 +259,11 @@ export const prepareXlsxData = (chartInstance) => {
         ["Label", ...datasetLabels], // 헤더 생성
         ...labels.map((label, index) => [
             label,
-            ...innerdata.map((dataset) => dataset[index] || 0),
+            // ...innerdata.map((dataset) => dataset[index] || 0),
+            ...innerdata.map((dataset) => {
+                let value = dataset[index] || 0;
+                return (chartInstance.type === 'bar' && Array.isArray(value)) ? value[1] : value; // Bar 차트의 경우 Y값만 저장
+            }),
         ]),
     ];
 

@@ -37,8 +37,12 @@ function FileConvertModal() {
                         <p>원하는 형식으로 차트 데이터를 다운로드하세요:</p>
                         <div className="btn_group">
                             <button className="btn btn-primary" onClick={downloadAsJson}>JSON 다운로드</button>
-                            <button className="btn btn-secondary" onClick={downloadAsCsv}>CSV 다운로드</button>
-                            <button className="btn btn-success" onClick={downloadAsXlsx}>XLSX 다운로드</button>
+                            {chartInstance.type !== 'bar' && (
+                                <>
+                                    <button className="btn btn-secondary" onClick={downloadAsCsv}>CSV 다운로드</button>
+                                    <button className="btn btn-success" onClick={downloadAsXlsx}>XLSX 다운로드</button>
+                                </>
+                            )}
                         </div>
                     </div>
                     <div className="modal-footer">
