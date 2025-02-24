@@ -6,6 +6,9 @@
 
 현재 나의 경로를 `chart_gen` 폴더로 맞추기.
 
+### `git checkout main`
+메인 브랜치 이동
+
 ### `git pull origin main` or `git fetch`
 최신 코드 가져오기
 
