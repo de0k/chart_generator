@@ -155,7 +155,7 @@ function DirectInput() {
                                             handleChartType('polarArea', setChartInstance, uploadedData);
                                             setActiveSetTypeBtn('polarArea');
                                         }}>
-                                            <img src={`${process.env.PUBLIC_URL}/img/polarArea_btn_img.png`} alt="polarArea_btn_img"/>
+                                            <img src={`${process.env.PUBLIC_URL}/img/polararea_btn_img.png`} alt="polararea_btn_img"/>
                                             polarArea Chart
                                         </button>
                                         <button className={`btn ${activeSetTypeBtn === 'radar' ? 'active' : ''}`} onClick={() => {
