@@ -35,7 +35,7 @@ function OptionsBarChart() {
                                     />
                                 </div>
                             </div>
-                            <div className='input-group custom_switch_box'>
+                            {/* <div className='input-group custom_switch_box'>
                                 <label className='input-group-text' htmlFor="scales_stacked">스택모드 <small>(데이터셋 2개 이상)</small></label>
                                 <div className="form-control form-check form-switch">
                                     <input
@@ -46,7 +46,7 @@ function OptionsBarChart() {
                                         onChange={(event) => handleOptionsChange(setChartInstance, 'scales_stacked', event.target.checked)}
                                     />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     )}
                 </div>

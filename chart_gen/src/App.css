@@ -22,7 +22,10 @@
 .chart_wrap .input_wrap .title {font-size: 20px;color: #444;display: block;width: 100%;border: none;background: none;text-align: left; padding: var(--bs-card-cap-padding-y) var(--bs-card-cap-padding-x);font-weight: bold;}
 .chart_wrap .input_item {margin-bottom: 15px;}
 .chart_wrap .input_item:last-child {margin-bottom: 0;}
-.chart_wrap .select_type .set_box * {margin: 2px;}
+.chart_wrap .select_type .set_box {display: grid;grid-template-columns: repeat(4,1fr); gap:4px;}
+.chart_wrap .select_type .set_box .btn {display: grid;grid-template-rows: 1fr auto;border: 1px solid #ddd;gap:8px;}
+.chart_wrap .select_type .set_box .btn.active {border-color: #0d6efd;color: #0d6efd;font-weight: bold;}
+.chart_wrap .select_type .set_box img {width: 100%;align-self: center;}
 .chart_wrap .set_dataset .set_box {display: flex;gap:15px;}
 .chart_wrap .set_dataset .set_box .btn_add {margin-bottom: 15px;width: 100%;}
 .chart_wrap .set_dataset .label_box {width: 40%;}

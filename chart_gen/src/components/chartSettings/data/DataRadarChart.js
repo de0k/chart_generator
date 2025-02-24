@@ -78,7 +78,7 @@ function DataRadarChart() {
                                         <div className='option_inner'>
                                             <div className='custom_item'>
                                                 <div className='input-group'>
-                                                    <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>Background Color</label>
+                                                    <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>데이터 배경색</label>
                                                     <input
                                                         type="color"
                                                         className="form-control form-control-color"
@@ -92,7 +92,7 @@ function DataRadarChart() {
                                                     />
                                                 </div>
                                                 <div className="input-group mt-1">
-                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>불투명도</label>
                                                     <input
                                                         type="range"
                                                         className="form-control form-range"
@@ -110,7 +110,7 @@ function DataRadarChart() {
                                             </div>
                                             <div className='custom_item mt-2'>
                                                 <div className='input-group'>
-                                                    <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
+                                                    <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>데이터 테두리색</label>
                                                     <input
                                                         type="color"
                                                         className="form-control form-control-color"
@@ -124,7 +124,7 @@ function DataRadarChart() {
                                                     />
                                                 </div>
                                                 <div className="input-group mt-1">
-                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>불투명도</label>
                                                     <input
                                                         type="range"
                                                         className="form-control form-range"
@@ -148,7 +148,7 @@ function DataRadarChart() {
                                                     className='form-control'
                                                     onChange={(e) => handleDataChange(setChartInstance, 'order', datasetIndex, 0, e.target.value)}
                                                 />
-                                                <label htmlFor={`order-${datasetIndex}`}>order: </label>
+                                                <label htmlFor={`order-${datasetIndex}`}>순서(데이터가 겹쳐 있을 때): </label>
                                             </div>
                                         </div>
                                     </div>

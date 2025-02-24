@@ -36,6 +36,7 @@ function DirectInput() {
     const [showFileConvertModal, setShowFileConvertModal] = useRecoilState(showFileConvertModalState);
     const [key, setKey] = useState(0);
     const removeTooltip = useBootstrapTooltip();
+    const [activeSetTypeBtn, setActiveSetTypeBtn] = useState('');
 
     // Re-render chart when sidebar state changes
     useEffect(() => {
@@ -120,12 +121,48 @@ function DirectInput() {
                                 <div className="input_item select_type input-group">
                                     <div className="label_text input-group-text col-lg-2">종류</div>
                                     <div className='set_box form-control col-lg-10'>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('bar', setChartInstance, uploadedData)}>Bar Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('line', setChartInstance, uploadedData)}>Line Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('pie', setChartInstance, uploadedData)}>Pie Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('doughnut', setChartInstance, uploadedData)}>Doughnut Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('polarArea', setChartInstance, uploadedData)}>polarArea Chart</button>
-                                        <button className='btn btn-secondary' onClick={() => handleChartType('radar', setChartInstance, uploadedData)}>radar Chart</button>
+                                        <button className={`btn ${activeSetTypeBtn === 'bar' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('bar', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('bar');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/bar_btn_img.png`} alt="bar_btn_img"/>
+                                            Bar Chart
+                                        </button>
+                                        <button className={`btn ${activeSetTypeBtn === 'line' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('line', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('line');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/line_btn_img.png`} alt="line_btn_img"/>
+                                            Line Chart
+                                        </button>
+                                        <button className={`btn ${activeSetTypeBtn === 'pie' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('pie', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('pie');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/pie_btn_img.png`} alt="pie_btn_img"/>
+                                            Pie Chart
+                                        </button>
+                                        <button className={`btn ${activeSetTypeBtn === 'doughnut' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('doughnut', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('doughnut');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/doughnut_btn_img.png`} alt="doughnut_btn_img"/>
+                                            Doughnut Chart
+                                        </button>
+                                        <button className={`btn ${activeSetTypeBtn === 'polarArea' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('polarArea', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('polarArea');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/polarArea_btn_img.png`} alt="polarArea_btn_img"/>
+                                            polarArea Chart
+                                        </button>
+                                        <button className={`btn ${activeSetTypeBtn === 'radar' ? 'active' : ''}`} onClick={() => {
+                                            handleChartType('radar', setChartInstance, uploadedData);
+                                            setActiveSetTypeBtn('radar');
+                                        }}>
+                                            <img src={`${process.env.PUBLIC_URL}/img/radar_btn_img.png`} alt="radar_btn_img"/>
+                                            radar Chart
+                                        </button>
                                     </div>
                                 </div>
                                 <div className='input_item set_dataset input-group'>
@@ -150,7 +187,7 @@ function DirectInput() {
                                                     </div>
                                                 </>
                                             ) : (
-                                                <p>차트 타입을 선택해주세요.</p>
+                                                <p>차트 종류를 선택해주세요.</p>
                                             )}
                                         </div>
                                         {chartInstance && chartInstance.type === 'bar' && <DataBarChart />}
@@ -215,7 +252,7 @@ function DirectInput() {
                         </div>
                     ) : (
                         <div className='chart_option_none'>
-                            <p>차트 옵션을 설정 후 저장을 클릭하세요</p>
+                            <p>차트 설정 -&gt; 종류를 선택하세요.</p>
                         </div>
                     )}
 

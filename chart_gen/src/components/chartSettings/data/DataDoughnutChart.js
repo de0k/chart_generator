@@ -74,7 +74,7 @@ function DataDoughnutChart() {
                                                     <div className='custom_item'>
                                                         <div className='custom_label'>{chartInstance.data.labels[index]}</div>
                                                         <div className='input-group'>
-                                                            <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
+                                                            <label htmlFor={`bgc-${index}`} className='input-group-text'>데이터 배경색</label>
                                                             <input
                                                                 type="color"
                                                                 className="form-control form-control-color"
@@ -85,7 +85,7 @@ function DataDoughnutChart() {
                                                         </div>
                                                         {/* 추가된 투명도 조절 슬라이더 */}
                                                         <div className="input-group mt-2">
-                                                            <label htmlFor={`alpha-${index}`} className='input-group-text'>Opacity</label>
+                                                            <label htmlFor={`alpha-${index}`} className='input-group-text'>불투명도</label>
                                                             <input
                                                                 type="range"
                                                                 className="form-control form-range"

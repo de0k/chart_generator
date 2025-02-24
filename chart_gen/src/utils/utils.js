@@ -287,7 +287,7 @@ export const initChart = (chartType) => {
             },
             subtitle: {
                 display: true,
-                text: 'Chart Subtitle',
+                text: '차트 부제목입니다.',
                 position: "top",
                 color: '#000',
                 font: {
@@ -309,7 +309,7 @@ export const initChart = (chartType) => {
                 },
                 title: {
                     display: true,
-                    text: 'Legend Title',
+                    text: '범례 제목 입니다.',
                     position: 'center',
                     padding: 5,
                     color: "#000",
@@ -326,7 +326,7 @@ export const initChart = (chartType) => {
     const isStacked = false;
 
     const bar_dataset = {
-        label: 'Dataset 1',
+        label: '데이터셋 1',
         data: [[0, 10], [0, 20], [0, 30]],
         backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
@@ -352,7 +352,7 @@ export const initChart = (chartType) => {
         bar: {
             type: 'bar',
             data: {
-                labels: ['Category 1', 'Category 2', 'Category 3'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [bar_dataset],
             },
             options: {
@@ -367,9 +367,9 @@ export const initChart = (chartType) => {
         line: {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [{
-                    label: 'Dataset 1',
+                    label: '데이터셋 1',
                     data: [15, 25, 35],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
@@ -395,7 +395,7 @@ export const initChart = (chartType) => {
                         display: true,
                         title: {
                             display: true,
-                            text: "Category", // X축 제목 추가
+                            text: "x축 제목", // X축 제목 추가
                             color: "#000",
                             font: {
                                 size: 16,
@@ -406,7 +406,7 @@ export const initChart = (chartType) => {
                         display: true,
                         title: {
                             display: true,
-                            text: 'Value',
+                            text: 'y축 제목',
                             color: "#000",
                             font: {
                                 size: 16,
@@ -419,7 +419,7 @@ export const initChart = (chartType) => {
         pie: {
             type: 'pie',
             data: {
-                labels: ['Red', 'Blue', 'Yellow'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [{
                     data: [30, 50, 20],
                     backgroundColor: [
@@ -436,7 +436,7 @@ export const initChart = (chartType) => {
         doughnut: {
             type: 'doughnut',
             data: {
-                labels: ['Red', 'Blue', 'Yellow'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [{
                     data: [40, 30, 30],
                     backgroundColor: [
@@ -453,7 +453,7 @@ export const initChart = (chartType) => {
         polarArea: {
             type: 'polarArea',
             data: {
-                labels: ['Red', 'Blue', 'Yellow'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [{
                     data: [40, 30, 30],
                     backgroundColor: [
@@ -482,9 +482,9 @@ export const initChart = (chartType) => {
         radar: {
             type: 'radar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow'],
+                labels: ['라벨 1', '라벨 2', '라벨 3'],
                 datasets: [{
-                    label: 'Dataset 1',
+                    label: '데이터셋 1',
                     data: [15, 25, 35],
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 0.2)',
@@ -699,8 +699,11 @@ export const handleDataChange = (setChartInstance, property, datasetIndex, value
                 tension: newValue
             };
         } else if (property === 'fill') {
-            if (newValue === 'false') newValue = false;
-            updatedData.datasets = [...updatedData.datasets];
+            // if (newValue === '없음') {newValue = false;}
+            // else if (newValue === '기준선부터') {newValue = 'origin';}
+            // else if (newValue === '최소값부터') {newValue = 'start';}
+            // else if (newValue === '최대값까지') {newValue = 'end';}
+            // updatedData.datasets = [...updatedData.datasets];
             updatedData.datasets[datasetIndex] = {
                 ...updatedData.datasets[datasetIndex],
                 fill: newValue

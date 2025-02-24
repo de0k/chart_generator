@@ -78,7 +78,7 @@ function DataLineChart() {
                                         <div className='option_inner'>
                                             <div className='custom_item'>
                                                 <div className='input-group'>
-                                                    <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>Background Color</label>
+                                                    <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>데이터 배경색</label>
                                                     <input
                                                         type="color"
                                                         className="form-control form-control-color"
@@ -92,7 +92,7 @@ function DataLineChart() {
                                                     />
                                                 </div>
                                                 <div className="input-group mt-1">
-                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>불투명도</label>
                                                     <input
                                                         type="range"
                                                         className="form-control form-range"
@@ -110,7 +110,7 @@ function DataLineChart() {
                                             </div>
                                             <div className='custom_item mt-2'>
                                                 <div className='input-group'>
-                                                    <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
+                                                    <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>데이터 테두리색</label>
                                                     <input
                                                         type="color"
                                                         className="form-control form-control-color"
@@ -124,7 +124,7 @@ function DataLineChart() {
                                                     />
                                                 </div>
                                                 <div className="input-group mt-1">
-                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>불투명도</label>
                                                     <input
                                                         type="range"
                                                         className="form-control form-range"
@@ -141,7 +141,7 @@ function DataLineChart() {
                                                 </div>
                                             </div>
                                             <div className='input-group mt-2'>
-                                                <label htmlFor={`ten-${datasetIndex}`} className='input-group-text'>tension</label>
+                                                <label htmlFor={`ten-${datasetIndex}`} className='input-group-text'>곡선 부드러움</label>
                                                 <input
                                                     type="text"
                                                     className="form-control form-control-color"
@@ -151,7 +151,7 @@ function DataLineChart() {
                                                 />
                                             </div>
                                             <div className='input-group custom_switch_box'>
-                                                <label htmlFor={`steppedSwitch-${datasetIndex}`} className='input-group-text'>stepped</label>
+                                                <label htmlFor={`steppedSwitch-${datasetIndex}`} className='input-group-text'>계단형 선</label>
                                                 <div className="form-control form-check form-switch">
                                                     <input
                                                         className="form-check-input"
@@ -166,15 +166,45 @@ function DataLineChart() {
                                                 <select
                                                     id={`fillSwitch-${datasetIndex}`}
                                                     className='form-select'
-                                                    value={dataset.fill}
-                                                    onChange={(e) => handleDataChange(setChartInstance, 'fill', datasetIndex, 0, e.target.value)}
+                                                    value={
+                                                        dataset.fill === false ? '없음' :
+                                                            dataset.fill === 'origin' ? '기준선부터' :
+                                                                dataset.fill === 'start' ? '최소값부터' :
+                                                                    dataset.fill === 'end' ? '최대값까지' :
+                                                                        ''
+                                                    }
+                                                    onChange={(e) => {
+                                                        const selectedValue = e.target.value;
+
+                                                        // ✅ UI 값 → Chart.js fill 값 변환
+                                                        const fillValue = {
+                                                            '없음': false,
+                                                            '기준선부터': 'origin',
+                                                            '최소값부터': 'start',
+                                                            '최대값까지': 'end'
+                                                        }[selectedValue] ?? false;
+
+                                                        // ✅ 깊은 복사를 수행하여 상태를 안전하게 업데이트
+                                                        setChartInstance(prevState => {
+                                                            const updatedData = JSON.parse(JSON.stringify(prevState.data)); // 🔥 깊은 복사 (불변성 유지)
+                                                            updatedData.datasets[datasetIndex].fill = fillValue;
+
+                                                            return {
+                                                                ...prevState,
+                                                                data: updatedData
+                                                            };
+                                                        });
+                                                    }}
                                                 >
-                                                    {['false', 'origin', 'start', 'end'].map((option) => (
-                                                        <option key={option} value={option}>{option}</option>
-                                                    ))}
+                                                    <option value="없음">없음</option>
+                                                    <option value="기준선부터">기준선부터</option>
+                                                    <option value="최소값부터">최소값부터</option>
+                                                    <option value="최대값까지">최대값까지</option>
                                                 </select>
-                                                <label htmlFor={`fillSwitch-${datasetIndex}`}>fill: </label>
+                                                <label htmlFor={`fillSwitch-${datasetIndex}`}>채우기: </label>
                                             </div>
+
+
                                             <div className='form-floating'>
                                                 <input
                                                     id={`order-${datasetIndex}`}
@@ -183,7 +213,7 @@ function DataLineChart() {
                                                     className='form-control'
                                                     onChange={(e) => handleDataChange(setChartInstance, 'order', datasetIndex, 0, e.target.value)}
                                                 />
-                                                <label htmlFor={`order-${datasetIndex}`}>order: </label>
+                                                <label htmlFor={`order-${datasetIndex}`}>순서(데이터가 겹쳐 있을 때): </label>
                                             </div>
                                             {/* {dataset.pointStyle.map((ps, index) => (
                                                 <div>
