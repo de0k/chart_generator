@@ -7,7 +7,11 @@
 .top_title_box.n2{justify-content: space-between;}
 .top_title_box .title {font-size: 32px;}
 
-.item_box_v1 {background-color: #f1f1f1;min-height: 400px;display: flex; justify-content: center; align-items: center;gap:10px;}
+.item_box_v1 {background-color: #f1f1f1;min-height: 400px;display: flex; justify-content: center; align-items: center;gap:10px;flex-direction: column;}
+.item_box_v1 .inner {
+    display: flex; justify-content: center; align-items: center;gap:10px;
+}
+.file_upload_box {cursor: pointer;}
 
 .modal-title{font-weight: bold;}
 

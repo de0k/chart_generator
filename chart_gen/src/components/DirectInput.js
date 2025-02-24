@@ -20,6 +20,7 @@ import OptionsRadarChart from './chartSettings/options/OptionsRadarChart';
 import OptionsCommon from './chartSettings/options/OptionsCommon';
 import CodeModal from './modals/CodeModal';
 import FileConvertModal from './modals/FileConvertModal';
+import useBootstrapTooltip from '../hooks/useBootstrapTooltip';
 
 // Chart.js 구성 요소 등록
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale);
@@ -34,7 +35,8 @@ function DirectInput() {
     const [showCodeModal, setShowCodeModal] = useRecoilState(showCodeModalState);
     const [showFileConvertModal, setShowFileConvertModal] = useRecoilState(showFileConvertModalState);
     const [key, setKey] = useState(0);
-    
+    const removeTooltip = useBootstrapTooltip();
+
     // Re-render chart when sidebar state changes
     useEffect(() => {
         setKey(prevKey => prevKey + 1);
@@ -43,7 +45,7 @@ function DirectInput() {
     useEffect(() => {
         console.log("업로드된 데이터 상태:", uploadedData);
     }, [uploadedData]);
-    
+
 
     // HTML 코드 생성 및 저장
     const handleSaveChartCode = () => {
@@ -53,7 +55,7 @@ function DirectInput() {
             setShowCodeModal(true); // 모달 열기
         } catch (error) {
             alert(error.message);
-        }
+        } 
     };
 
     // 차트 이미지 저장
@@ -77,12 +79,15 @@ function DirectInput() {
     return (
         <div className='main'>
             <div className="top_title_box n2">
-                <button className='custom-btn custom-back btn btn-secondary' onClick={() => setScreen('main')}>뒤로가기</button>
+                <button className='custom-btn custom-back btn btn-secondary' data-bs-toggle="tooltip" data-bs-placement="bottom" title="메인 화면으로 이동" onClick={() => {
+                    removeTooltip();
+                    setScreen('main');
+                }}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
                 <div className='right_item d-flex gap-1'>
-                    <button className='btn btn-success' onClick={handleSaveChartCode}>코드 확인</button>
-                    <button className='btn btn-success' onClick={() => setShowFileConvertModal(true)}>파일 변환</button>
-                    <button className='btn btn-success' onClick={handleChartImgDownload}>이미지 변환</button>
+                    <button className='btn btn-success' data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성된 차트 코드 확인" onClick={handleSaveChartCode}>코드 확인</button>
+                    <button className='btn btn-success' data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성된 차트 데이터 다운로드" onClick={() => setShowFileConvertModal(true)}>파일 변환</button>
+                    <button className='btn btn-success' data-bs-toggle="tooltip" data-bs-placement="bottom" title="생성된 차트 이미지 다운로드" onClick={handleChartImgDownload}>이미지 변환</button>
                 </div>
             </div>
             <div className="chart_wrap">
@@ -216,8 +221,8 @@ function DirectInput() {
 
                 </div>
             </div>
-            {showCodeModal && (<CodeModal/>)}
-            {showFileConvertModal && (<FileConvertModal/>)}
+            {showCodeModal && (<CodeModal />)}
+            {showFileConvertModal && (<FileConvertModal />)}
         </div>
     );
 };

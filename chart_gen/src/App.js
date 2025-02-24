@@ -1,6 +1,7 @@
 import React from 'react';
 import { RecoilRoot, useRecoilState } from 'recoil';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
 import FileUpload from './components/FileUpload';
 import DirectInput from './components/DirectInput';
@@ -22,10 +23,17 @@ function AppContent() {
                             <strong className='title'>차트 생성기</strong>
                         </div>
                         <div className='item_box_v1'>
-                            <a href={`${process.env.PUBLIC_URL}/file/sample_data.zip`} download="sample_data.zip" className="btn btn-primary btn-lg btn_download">샘플 다운로드</a>
-                            <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
-                            <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
+                            <div className='inner'>
+                                <a href={`${process.env.PUBLIC_URL}/file/sample_data.zip`} download="sample_data.zip" className="btn btn-primary btn-lg btn_download">샘플 다운로드</a>
+                                <button className='btn btn-secondary btn-lg' onClick={() => setScreen('fileUpload')}>파일 첨부</button>
+                                <button className='btn btn-success btn-lg' onClick={() => setScreen('directInput')}>직접 입력</button>
+                            </div>
+                            <div className='guide_box'>
+                                <p>※ 파일 첨부시 샘플 다운로드 양식에 맞춰서 첨부해주세요.</p>
+                                <p>※ 직접 입력을 클릭하면 차트 생성이 가능합니다.</p>
+                            </div>
                         </div>
+                        
                     </div>
                 );
         }
