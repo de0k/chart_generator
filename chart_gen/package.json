@@ -2,7 +2,7 @@
   "name": "chart_gen",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/lsg2023/html/chartjs_v1",
+  "homepage": "/lsg2023/html/chartjs",
   "dependencies": {
     "bootstrap": "^5.3.3",
     "chart.js": "^3.9.0",
