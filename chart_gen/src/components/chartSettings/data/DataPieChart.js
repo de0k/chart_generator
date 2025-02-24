@@ -66,21 +66,43 @@ function DataPieChart() {
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
-                                            {dataset.backgroundColor.map((bg, index) => (
-                                                <div className='custom_item'>
-                                                    <div className='custom_label'>{chartInstance.data.labels[index]}</div>
-                                                    <div className='input-group'>
-                                                        <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
-                                                        <input
-                                                            type="color"
-                                                            className="form-control form-control-color"
-                                                            id={`bgc-${index}`}
-                                                            value={rgbaToHex(bg)}
-                                                            onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value))}
-                                                        />
+                                            {dataset.backgroundColor.map((bg, index) => {
+                                                const rgbaColor = bg.match(/[\d.]+/g);
+                                                const alpha = rgbaColor ? parseFloat(rgbaColor[3] || 1) : 1;
+
+                                                return (
+                                                    <div className='custom_item'>
+                                                        <div className='custom_label'>{chartInstance.data.labels[index]}</div>
+                                                        <div className='input-group'>
+                                                            <label htmlFor={`bgc-${index}`} className='input-group-text'>Background Color</label>
+                                                            <input
+                                                                type="color"
+                                                                className="form-control form-control-color"
+                                                                id={`bgc-${index}`}
+                                                                value={rgbaToHex(bg)}
+                                                                onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(e.target.value, alpha))}
+                                                            />
+                                                        </div>
+                                                        {/* 추가된 투명도 조절 슬라이더 */}
+                                                        <div className="input-group mt-2">
+                                                            <label htmlFor={`alpha-${index}`} className='input-group-text'>Opacity</label>
+                                                            <input
+                                                                type="range"
+                                                                className="form-control form-range"
+                                                                id={`alpha-${index}`}
+                                                                min="0"
+                                                                max="1"
+                                                                step="0.01"
+                                                                value={alpha}
+                                                                onChange={(e) => {
+                                                                    const newAlpha = parseFloat(e.target.value);
+                                                                    handleDataChange(setChartInstance, 'backgroundColor', datasetIndex, index, hexToRgba(rgbaToHex(bg), newAlpha));
+                                                                }}
+                                                            />
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                );
+                                            })}
                                         </div>
                                     </div>
                                 ))}

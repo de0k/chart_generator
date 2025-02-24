@@ -7,12 +7,16 @@ import * as XLSX from 'xlsx';
     hex 형태로 반환
 */
 export const rgbaToHex = (rgba) => {
-    const parts = rgba.match(/\d+/g);
+    const parts = rgba.match(/\d+(\.\d+)?/g);
+    if (!parts || parts.length < 3) return rgba; // 유효하지 않은 값 처리
+
     const r = parseInt(parts[0]).toString(16).padStart(2, '0');
     const g = parseInt(parts[1]).toString(16).padStart(2, '0');
     const b = parseInt(parts[2]).toString(16).padStart(2, '0');
-    return `#${r}${g}${b}`;
+
+    return `#${r}${g}${b}`; // 6자리 HEX 반환
 };
+
 
 
 /* 
@@ -22,11 +26,22 @@ export const rgbaToHex = (rgba) => {
     rgba 형태로 반환
 */
 export const hexToRgba = (hex, alpha = 1) => {
-    const r = parseInt(hex.slice(1, 3), 16);
-    const g = parseInt(hex.slice(3, 5), 16);
-    const b = parseInt(hex.slice(5, 7), 16);
+    if (!hex.startsWith("#")) return hex; // 유효하지 않은 HEX 값 처리
+
+    let r, g, b;
+    
+    if (hex.length === 7) { // #RRGGBB 포맷
+        r = parseInt(hex.slice(1, 3), 16);
+        g = parseInt(hex.slice(3, 5), 16);
+        b = parseInt(hex.slice(5, 7), 16);
+    } else {
+        return hex; // 유효하지 않은 경우 원본 반환
+    }
+
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
+
+
 
 // JSON 데이터를 labels와 datasets 형식으로 변환
 function formatJsonData(data) {

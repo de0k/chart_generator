@@ -76,27 +76,71 @@ function DataRadarChart() {
                                             <button className="btn btn-success" type="button" onClick={() => handleRemoveDataset(setChartInstance, chartInstance, datasetIndex)}>X</button>
                                         </div>
                                         <div className='option_inner'>
-                                            <div className='input-group'>
-                                                <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>Background Color</label>
-                                                <input
-                                                    type="color"
-                                                    className="form-control form-control-color"
-                                                    id={`bgc-${datasetIndex}`}
-                                                    value={rgbaToHex(dataset.backgroundColor)}
-                                                    onChange={(e) => handleDataChange(setChartInstance, 'backgroundColor_1', datasetIndex, 0, hexToRgba(e.target.value))}
-                                                />
+                                            <div className='custom_item'>
+                                                <div className='input-group'>
+                                                    <label htmlFor={`bgc-${datasetIndex}`} className='input-group-text'>Background Color</label>
+                                                    <input
+                                                        type="color"
+                                                        className="form-control form-control-color"
+                                                        id={`bgc-${datasetIndex}`}
+                                                        value={rgbaToHex(dataset.backgroundColor)}
+                                                        onChange={(e) => {
+                                                            const rgbaColor = dataset.backgroundColor.match(/[\d.]+/g);
+                                                            const alpha = rgbaColor ? parseFloat(rgbaColor[3] || 1) : 1;
+                                                            handleDataChange(setChartInstance, 'backgroundColor_1', datasetIndex, 0, hexToRgba(e.target.value, alpha));
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="input-group mt-1">
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <input
+                                                        type="range"
+                                                        className="form-control form-range"
+                                                        id={`alpha-${datasetIndex}`}
+                                                        min="0"
+                                                        max="1"
+                                                        step="0.01"
+                                                        value={parseFloat(dataset.backgroundColor.match(/[\d.]+/g)[3] || 1)}
+                                                        onChange={(e) => {
+                                                            const newAlpha = parseFloat(e.target.value);
+                                                            handleDataChange(setChartInstance, 'backgroundColor_1', datasetIndex, 0, hexToRgba(rgbaToHex(dataset.backgroundColor), newAlpha));
+                                                        }}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className='input-group'>
-                                                <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
-                                                <input
-                                                    type="color"
-                                                    className="form-control form-control-color"
-                                                    id={`bdc-${datasetIndex}`}
-                                                    value={rgbaToHex(dataset.borderColor)}
-                                                    onChange={(e) => handleDataChange(setChartInstance, 'borderColor_1', datasetIndex, 0, hexToRgba(e.target.value))}
-                                                />
+                                            <div className='custom_item mt-2'>
+                                                <div className='input-group'>
+                                                    <label htmlFor={`bdc-${datasetIndex}`} className='input-group-text'>Border Color</label>
+                                                    <input
+                                                        type="color"
+                                                        className="form-control form-control-color"
+                                                        id={`bdc-${datasetIndex}`}
+                                                        value={rgbaToHex(dataset.borderColor)}
+                                                        onChange={(e) => {
+                                                            const rgbaColor = dataset.borderColor.match(/[\d.]+/g);
+                                                            const alpha = rgbaColor ? parseFloat(rgbaColor[3] || 1) : 1;
+                                                            handleDataChange(setChartInstance, 'borderColor_1', datasetIndex, 0, hexToRgba(e.target.value, alpha));
+                                                        }}
+                                                    />
+                                                </div>
+                                                <div className="input-group mt-1">
+                                                    <label htmlFor={`alpha-${datasetIndex}`} className='input-group-text'>Opacity</label>
+                                                    <input
+                                                        type="range"
+                                                        className="form-control form-range"
+                                                        id={`alpha-${datasetIndex}`}
+                                                        min="0"
+                                                        max="1"
+                                                        step="0.01"
+                                                        value={parseFloat(dataset.borderColor.match(/[\d.]+/g)[3] || 1)}
+                                                        onChange={(e) => {
+                                                            const newAlpha = parseFloat(e.target.value);
+                                                            handleDataChange(setChartInstance, 'borderColor_1', datasetIndex, 0, hexToRgba(rgbaToHex(dataset.borderColor), newAlpha));
+                                                        }}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className='form-floating'>
+                                            <div className='form-floating mt-2'>
                                                 <input
                                                     id={`order-${datasetIndex}`}
                                                     type="number"
