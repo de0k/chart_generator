@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useSetRecoilState, useRecoilState } from 'recoil';
 import { screenState, chartInstanceState, uploadedDataState, savedCodeState, showCodeModalState, showFileConvertModalState } from '../recoil/atoms';
 import { handleChartType, handleDataChange, handleAddLabel, handleRemoveLabel, generateChartCode } from '../utils/utils';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale, BarController, LineController, DoughnutController, PieController,RadarController, PolarAreaController } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import { Collapse } from 'react-bootstrap';
 import html2canvas from "html2canvas";
@@ -23,7 +23,7 @@ import FileConvertModal from './modals/FileConvertModal';
 import useBootstrapTooltip from '../hooks/useBootstrapTooltip';
 
 // Chart.js 구성 요소 등록
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement, PointElement, LineElement, Filler, Decimation, SubTitle, RadialLinearScale, BarController, LineController, DoughnutController, PieController, RadarController, PolarAreaController );
 
 function DirectInput() {
     const setScreen = useSetRecoilState(screenState);
