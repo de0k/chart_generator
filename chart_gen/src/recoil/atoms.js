@@ -28,6 +28,22 @@ export const optionActiveTabState = atom({
     key: 'optionActiveTabState',
     default: 'title',
 });
+export const optionBarActiveTabState = atom({
+    key: 'optionBarActiveTabState',
+    default: 'bar',
+});
+export const optionLineActiveTabState = atom({
+    key: 'optionLineActiveTabState',
+    default: 'scales_x',
+});
+export const optionPolarAreaActiveTabState = atom({
+    key: 'optionPolarAreaActiveTabState',
+    default: 'pointLabels',
+});
+export const optionRadarActiveTabState = atom({
+    key: 'optionRadarActiveTabState',
+    default: 'pointLabels',
+});
 
 // HTML 코드 상태 관리
 export const savedCodeState = atom({

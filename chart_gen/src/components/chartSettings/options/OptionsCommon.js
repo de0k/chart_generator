@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { chartInstanceState, optionActiveTabState } from '../../../recoil/atoms';
-import { handleOptionsChange, hexToRgba } from '../../../utils/utils';
+import { handleOptionsChange, rgbaToHex, hexToRgba } from '../../../utils/utils';
 
 function OptionsCommon() {
     const [chartInstance, setChartInstance] = useRecoilState(chartInstanceState);
@@ -77,7 +77,7 @@ function OptionsCommon() {
                                     type="color"
                                     className="form-control form-control-color"
                                     id={`title_color`}
-                                    value={chartInstance?.options?.plugins?.title?.color}
+                                    value={rgbaToHex(chartInstance?.options?.plugins?.title?.color)}
                                     onChange={(e) => handleOptionsChange(setChartInstance, 'titleColor', hexToRgba(e.target.value))}
                                 />
                             </div>
@@ -156,7 +156,7 @@ function OptionsCommon() {
                                     type="color"
                                     className="form-control form-control-color"
                                     id={`subtitle_color`}
-                                    value={chartInstance?.options?.plugins?.subtitle?.color}
+                                    value={rgbaToHex(chartInstance?.options?.plugins?.subtitle?.color)}
                                     onChange={(e) => handleOptionsChange(setChartInstance, 'subtitleColor', hexToRgba(e.target.value))}
                                 />
                             </div>
@@ -247,7 +247,7 @@ function OptionsCommon() {
                                     type="color"
                                     className="form-control form-control-color"
                                     id={`legend_color`}
-                                    value={chartInstance?.options?.plugins?.legend?.labels?.color}
+                                    value={rgbaToHex(chartInstance?.options?.plugins?.legend?.labels?.color)}
                                     onChange={(e) => handleOptionsChange(setChartInstance, 'legendColor', hexToRgba(e.target.value))}
                                 />
                             </div>
@@ -298,7 +298,7 @@ function OptionsCommon() {
                                 <label htmlFor={`legend_labels_padding`}>간격: </label>
                             </div> */}
                             <div className='input-group custom_switch_box mt-3'>
-                                <label className='input-group-text' htmlFor={`legend_title_display`}>타이틀 표시 여부</label>
+                                <label className='input-group-text' htmlFor={`legend_title_display`}>제목 표시 여부</label>
                                 <div className="form-control form-check form-switch">
                                     <input
                                         className="form-check-input"
@@ -308,6 +308,16 @@ function OptionsCommon() {
                                         onChange={(event) => handleOptionsChange(setChartInstance, 'legend_title_display', event.target.checked)}
                                     />
                                 </div>
+                            </div>
+                            <div className='input-group custom_input_box'>
+                                <label htmlFor={`legend_title_color`} className='input-group-text'>제목 색 설정: </label>
+                                <input
+                                    type="color"
+                                    className="form-control form-control-color"
+                                    id={`legend_title_color`}
+                                    value={rgbaToHex(chartInstance?.options?.plugins?.legend?.title?.color)}
+                                    onChange={(e) => handleOptionsChange(setChartInstance, 'legend_title_color', hexToRgba(e.target.value))}
+                                />
                             </div>
                             <div className='form-floating'>
                                 <input
@@ -330,7 +340,7 @@ function OptionsCommon() {
                                         <option key={position} value={position}>{position}</option>
                                     ))}
                                 </select>
-                                <label htmlFor={`legend_title_position`}>타이틀 위치 설정: </label>
+                                <label htmlFor={`legend_title_position`}>제목 위치 설정: </label>
                             </div>
                             <div className='form-floating'>
                                 <input

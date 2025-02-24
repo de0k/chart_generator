@@ -312,6 +312,7 @@ export const initChart = (chartType) => {
                     text: 'Legend Title',
                     position: 'center',
                     padding: 5,
+                    color: "#000",
                 },
                 align: 'center',
             },
@@ -471,7 +472,8 @@ export const initChart = (chartType) => {
                             centerPointLabels: true,
                             font: {
                                 size: 15
-                            }
+                            },
+                            color: "#000",
                         }
                     }
                 },
@@ -498,7 +500,8 @@ export const initChart = (chartType) => {
                             centerPointLabels: true,
                             font: {
                                 size: 15
-                            }
+                            },
+                            color: "#000",
                         }
                     }
                 },
@@ -812,6 +815,8 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.plugins.legend.title.text = newValue;
         } else if (property === 'legend_title_position') {
             updatedOptions.plugins.legend.title.position = newValue;
+        } else if (property === 'legend_title_color') {
+            updatedOptions.plugins.legend.title.color = newValue;
         } else if (property === 'legend_labels_padding') {
             updatedOptions.plugins.legend.labels.padding = newValue;
         } else if (property === 'legend_title_padding') {
@@ -831,10 +836,22 @@ export const handleOptionsChange = (setChartInstance, property, newValue) => {
             updatedOptions.scales.x.title.color = newValue;
         } else if (property === 'scales_x_title_font_size') {
             updatedOptions.scales.x.title.font.size = newValue;
+        } else if (property === 'scales_y_display') {
+            updatedOptions.scales.y.display = newValue;
+        } else if (property === 'scales_y_title_display') {
+            updatedOptions.scales.y.title.display = newValue;
+        } else if (property === 'scales_y_title_text') {
+            updatedOptions.scales.y.title.text = newValue;
+        } else if (property === 'scales_y_title_color') {
+            updatedOptions.scales.y.title.color = newValue;
+        } else if (property === 'scales_y_title_font_size') {
+            updatedOptions.scales.y.title.font.size = newValue;
         } else if (property === 'scales_r_pointLabels_display') {
             updatedOptions.scales.r.pointLabels.display = newValue;
         } else if (property === 'scales_r_pointLabels_title_font_size') {
             updatedOptions.scales.r.pointLabels.font.size = newValue;
+        } else if (property === 'scales_r_pointLabels_color') {
+            updatedOptions.scales.r.pointLabels.color = newValue;
         } else if (property === 'scales_stacked') {
             updatedOptions.scales.x.stacked = newValue;
             updatedOptions.scales.y.stacked = newValue;
