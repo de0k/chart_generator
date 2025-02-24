@@ -65,6 +65,7 @@
 .chart_option_none{font-size: 18px; font-weight: bold;width: 100%;height: 100%;display: flex;align-items: center;justify-content: center;}
 .options_common_wrap {margin-bottom: 15px;}
 .custom_item .form-range { height: inherit; padding: 0 5px; }
+.custom_item_wrap { padding-bottom: 15px; border-bottom: 1px dashed #a1a1a1; }
 /* DirectInput : e */
 
 
