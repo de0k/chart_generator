@@ -30,6 +30,7 @@ function FileUpload() {
             <div className="top_title_box n2">
                 <button className='custom-btn custom-back btn btn-secondary' data-bs-toggle="tooltip" data-bs-placement="bottom" title="메인 화면으로 이동" onClick={() => {
                     removeTooltip();
+                    setUploadedData(null);
                     setScreen('main');
                 }}>뒤로가기</button>
                 <strong className='title'>파일 첨부</strong>

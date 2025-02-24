@@ -82,6 +82,8 @@ function DirectInput() {
             <div className="top_title_box n2">
                 <button className='custom-btn custom-back btn btn-secondary' data-bs-toggle="tooltip" data-bs-placement="bottom" title="메인 화면으로 이동" onClick={() => {
                     removeTooltip();
+                    setChartInstance(null);
+                    setUploadedData(null);
                     setScreen('main');
                 }}>뒤로가기</button>
                 <strong className='title'>직접 입력</strong>
